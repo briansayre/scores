@@ -1,0 +1,297 @@
+<html>
+
+<head>
+    <!-- 
+        TODO:
+        - Verify TOs, possession , and last play  
+        - live status
+     -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Scores">
+    <meta name="author" content="Brian Sayre">
+    <title>Scores</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+
+        function numToQuart(num) {
+            if (num === 4) return "4th"
+            if (num === 3) return "3rd"
+            if (num === 2) return "2nd"
+            if (num === 1) return "1st"
+            return " "
+        }
+
+        function renderDate(date) {
+            var htmlObject = document.createElement('div');
+            htmlObject.classList.add("date")
+            htmlObject.innerHTML = date;
+            document.getElementById("container").appendChild(htmlObject)
+        }
+
+        function renderGame(game) {
+            var htmlObject = document.createElement('div');
+            htmlObject.classList.add("game")
+            htmlObject.onclick = function () { window.open(game.link) }
+            var string = (`
+                <div class="network">
+                    ${game.topHeader} 
+                </div>
+                <div class="scores">
+                    <div class="teams">
+                        <div class="team away">
+                            <div class="team-logo">
+                                <svg width="31" height="31">
+                                    <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="31" height="31" fill="#${game.away.primary}"/>
+                                    <rect class="stripe" x="0" y="22" width="31" height="4" fill="#${game.away.alternate}" />
+                                    <rect class="stripe" x="0" y="14" width="31" height="4" fill="#${game.away.alternate}"/>
+                                    <rect class="stripe" x="0" y="6" width="31" height="4" fill="#${game.away.alternate}"/>
+                                </svg>
+                            </div>
+                            <div class="team-name">
+                                ${game.away.name} <span class="rank">${game.away.rank}</span>
+                                <div class="team-info">
+                                    ${game.away.record} ${game.away.info}
+                                </div>
+                            </div>
+                            <div class="score-icons">
+                                <div class="timeouts">
+                                    <svg class="${game.away.timeouts[2]}" width="6" height="6">
+                                        <circle cx="3" cy="3" r="3" />
+                                    </svg>
+                                    <svg class="${game.away.timeouts[1]}" width="6" height="6">
+                                        <circle cx="3" cy="3" r="3" />
+                                    </svg>
+                                    <svg class="${game.away.timeouts[0]}" width="6" height="6">
+                                        <circle cx="3" cy="3" r="3" />
+                                    </svg>
+                                </div>
+                                <div class="possession">
+                                    <svg class="${game.away.possession}" width="10" height="6">
+                                        <ellipse cx="5" cy="3" rx="5" ry="3" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="score">
+                                ${game.away.score}
+                            </div>
+                        </div>
+                        <div class="team home">
+                            <div class="team-logo">
+                                <svg width="31" height="31">
+                                    <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="31" height="31" fill="#${game.home.primary}"/>
+                                    <rect class="stripe" x="0" y="22" width="31" height="4" fill="#${game.home.alternate}" />
+                                    <rect class="stripe" x="0" y="14" width="31" height="4" fill="#${game.home.alternate}"/>
+                                    <rect class="stripe" x="0" y="6" width="31" height="4" fill="#${game.home.alternate}"/>
+                                </svg>
+                            </div>
+                            <div class="team-name">
+                                ${game.home.name} <span class="rank">${game.home.rank}</span>
+                                <div class="team-info">
+                                    ${game.home.record} ${game.home.info}
+                                </div>
+                            </div>
+                            <div class="score-icons">
+                                <div class="timeouts">
+                                    <svg class="${game.home.timeouts[2]}" width="6" height="6">
+                                        <circle cx="3" cy="3" r="3" />
+                                    </svg>
+                                    <svg class="${game.home.timeouts[1]}" width="6" height="6">
+                                        <circle cx="3" cy="3" r="3" />
+                                    </svg>
+                                    <svg class="${game.home.timeouts[0]}" width="6" height="6">
+                                        <circle cx="3" cy="3" r="3" />
+                                    </svg>
+                                </div>
+                                <div class="possession">
+                                    <svg class="${game.home.possession}" width="10" height="6">
+                                        <ellipse cx="5" cy="3" rx="5" ry="3" />
+                                    </svg>
+                                </div>
+                            </div>
+                            <div class="score">
+                                ${game.home.score}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="progress">
+                        <div class="time">
+                            ${game.time}
+                        </div>
+                        <div class="quarter">
+                            ${game.quarter}
+                        </div>
+                    </div>
+                </div>
+                <div class="last-play">
+                    ${game.lastPlay}
+                </div>
+            `);
+            htmlObject.innerHTML = string;
+            document.getElementById("container").appendChild(htmlObject)
+        }
+
+        function getTeam(isAway, game, gameFormatted) {
+            let team = {}
+            let state = gameFormatted.state
+            team.id = game.competitions[0].competitors[isAway].id
+            team.name = game.competitions[0].competitors[isAway].team.shortDisplayName
+            team.record = game.competitions[0].competitors[isAway].records[0].summary
+            team.possession = "hide"
+            team.timeouts = ["hide", "hide", "hide"]
+            team.score = game.competitions[0].competitors[isAway].score
+            team.downAndDist = "1st & 10"
+            team.info = ""
+            team.primary = game.competitions[0].competitors[isAway].team.color
+            team.alternate = game.competitions[0].competitors[isAway].team.alternateColor
+
+            if (game.competitions[0].competitors[isAway].curatedRank === undefined) {
+                team.rank = ""
+            } else {
+                team.rank = game.competitions[0].competitors[isAway].curatedRank.current
+                if (team.rank == 99) { team.rank = "" }
+            }
+            if (team.primary === undefined) { team.primary = "777777" }
+            if (team.alternate === undefined) { team.alternate = "777777" }
+
+            if (state == "pre") {
+                game.time = ""
+                team.score = "-"
+                game.quarter = ""
+            } else if (state == "post") {
+            } else {
+                if (team.id == gameFormatted.possession) {
+                    team.info = gameFormatted.downAndDist
+                    team.possession = "show"
+                }
+                for (let i = 0; i < 2; i++) {
+                    team.timeouts[i] = "show"
+                }
+            }
+
+            return team
+        }
+
+        function getGame(g) {
+
+            let game = {}
+            game.completed = g.competitions[0].status.type.completed
+            game.venue = g.competitions[0].venue.fullName
+            game.state = g.competitions[0].status.type.state
+            game.date = new Date(g.competitions[0].startDate)
+            game.startDate = game.date.toLocaleDateString([], { weekday: 'long' }) + " " + game.date.toLocaleTimeString([], { timeStyle: 'short' })
+            game.possession = 0
+            game.link = g.links[0].href
+
+            game.lastPlay = ((game.lastPlay === 0) ? "" : game.lastPlay)
+
+            if (g.competitions[0].situation !== undefined) {
+                console.log(g.competitions[0].situation)
+                if (g.competitions[0].situation.lastPlay !== undefined) {
+                    game.lastPlay = g.competitions[0].situation.lastPlay.text
+                }
+                if (g.competitions[0].situation.downDistanceText !== undefined) {
+                    game.downAndDist = g.competitions[0].situation.downDistanceText
+                }
+                if (g.competitions[0].situation.possession !== undefined) {
+                    game.possession = g.competitions[0].situation.possession
+                }
+            } else {
+                game.lastPlay = " "
+                game.downAndDist = " "
+                game.possession = " "
+            }
+
+            if (g.competitions[0].broadcasts.length > 0) {
+                game.channel = g.competitions[0].broadcasts[0].names[0]
+            } else {
+                game.channel = ""
+            }
+
+            if (g.competitions[0].odds !== undefined) {
+                game.odds = " (" + g.competitions[0].odds[0].details + " O/U " + g.competitions[0].odds[0].overUnder + ")"
+            } else {
+                game.odds = ""
+            }
+
+            game.topHeader = [game.channel, game.venue, game.odds].filter(Boolean).join(" - ");
+
+            if (game.state == "pre") {
+                game.time = ""
+                game.quarter = ""
+            } else if (game.state == "post") {
+                game.time = ""
+                game.quarter = "Final"
+            } else {
+                game.time = g.competitions[0].status.displayClock
+                game.quarter = numToQuart(g.competitions[0].status.period)
+                console.log(g)
+            }
+
+            game.away = getTeam(1, g, game)
+            game.home = getTeam(0, g, game)
+
+            return game
+
+        }
+
+        $.ajax({
+            url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard",
+            type: 'GET',
+            dataType: 'json',
+            success: function (res) {
+                console.log(res);
+
+                var games = []
+
+                for (let i = 0; i < res.events.length; i++) {
+                    game = getGame(res.events[i])
+                    games.push(game)
+                }
+
+                $.ajax({
+                    url: "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (res) {
+                        console.log(res);
+
+                        for (let i = 0; i < res.events.length; i++) {
+                            game = getGame(res.events[i])
+                            games.push(game)
+                        }
+
+                        // sort maybe
+                        games.sort(function (a, b) {
+                            return a.date - b.date;
+                        });
+
+                        let prevDate = ""
+
+                        for (let i = 0; i < games.length; i++) {
+                            if (games[i].startDate !== prevDate) {
+                                renderDate(games[i].startDate)
+                                prevDate = games[i].startDate
+                            }
+                            renderGame(games[i])
+                        }
+
+                        $(document).ready(function () {
+                            document.getElementsByTagName("html")[0].style.visibility = "visible";
+                        });
+                    }
+                });
+            }
+        });
+
+    </script>
+</head>
+
+<body>
+    <div id="container">
+    </div>
+</body>
+
+</html>
