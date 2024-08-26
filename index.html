@@ -181,7 +181,7 @@
             game.venue = g.competitions[0].venue.fullName
             game.state = g.competitions[0].status.type.state
             game.date = new Date(g.competitions[0].startDate)
-            game.startDate = game.date.toLocaleDateString([], { weekday: 'long' }) + " " + game.date.toLocaleTimeString([], { timeStyle: 'short' })
+            game.startDate = game.date.toLocaleDateString([], { weekday: 'long' }) + " - " + game.date.toLocaleDateString([], { month: 'numeric', day: 'numeric' }) + " - " + game.date.toLocaleTimeString([], { timeStyle: 'short' })
             game.possession = 0
             game.link = g.links[0].href
 
@@ -237,53 +237,53 @@
 
         }
 
-        $.ajax({
+        var games = []
+
+        var ncaa = $.ajax({
             url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard",
             type: 'GET',
             dataType: 'json',
             success: function (res) {
                 console.log(res);
-
-                var games = []
-
                 for (let i = 0; i < res.events.length; i++) {
                     game = getGame(res.events[i])
                     games.push(game)
                 }
-
-                $.ajax({
-                    url: "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function (res) {
-                        console.log(res);
-
-                        for (let i = 0; i < res.events.length; i++) {
-                            game = getGame(res.events[i])
-                            games.push(game)
-                        }
-
-                        // sort maybe
-                        games.sort(function (a, b) {
-                            return a.date - b.date;
-                        });
-
-                        let prevDate = ""
-
-                        for (let i = 0; i < games.length; i++) {
-                            if (games[i].startDate !== prevDate) {
-                                renderDate(games[i].startDate)
-                                prevDate = games[i].startDate
-                            }
-                            renderGame(games[i])
-                        }
-
-                        $(document).ready(function () {
-                            document.getElementsByTagName("html")[0].style.visibility = "visible";
-                        });
-                    }
-                });
             }
+        });
+
+        var nfl = $.ajax({
+            url: "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
+            type: 'GET',
+            dataType: 'json',
+            success: function (res) {
+                console.log(res);
+                for (let i = 0; i < res.events.length; i++) {
+                    game = getGame(res.events[i])
+                    games.push(game)
+                }
+            }
+        });
+
+        $.when(ncaa, nfl).done(function (res1, res2) {
+
+            games.sort(function (a, b) {
+                return a.date - b.date;
+            });
+
+            let prevDate = ""
+
+            for (let i = 0; i < games.length; i++) {
+                if (games[i].startDate !== prevDate) {
+                    renderDate(games[i].startDate)
+                    prevDate = games[i].startDate
+                }
+                renderGame(games[i])
+            }
+
+            $(document).ready(function () {
+                document.getElementsByTagName("html")[0].style.visibility = "visible";
+            });
         });
 
     </script>
