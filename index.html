@@ -1,44 +1,58 @@
 <html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Scores" />
+        <meta name="author" content="Brian Sayre" />
+        <title>Scores</title>
+        <link rel="stylesheet" href="styles/main.css" />
+        <link
+            href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"
+            rel="stylesheet"
+            type="text/css"
+        />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Scores">
-    <meta name="author" content="Brian Sayre">
-    <title>Scores</title>
-    <link rel="stylesheet" href="styles/main.css">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet"
-        type="text/css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400&display=swap"
-        rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+            window.onbeforeunload = function (e) {
+                localStorage.setItem("scrollpos", window.scrollY);
+            };
 
-    <script>
+            // setInterval(function () {
+            //     location.reload();
+            // }, 60000);
 
-        function numToQuart(num) {
-            if (num === 4) return "4th"
-            if (num === 3) return "3rd"
-            if (num === 2) return "2nd"
-            if (num === 1) return "1st"
-            return " "
-        }
+            function numToQuart(num) {
+                if (num === 4) return "4th";
+                if (num === 3) return "3rd";
+                if (num === 2) return "2nd";
+                if (num === 1) return "1st";
+                if (num === 0) return "";
+                return "OT";
+            }
 
-        function renderDate(value, className) {
-            var htmlObject = document.createElement('div')
-            htmlObject.classList.add(className)
-            htmlObject.innerHTML = value
-            document.getElementById("container").appendChild(htmlObject)
-        }
+            function renderDate(value, className) {
+                var htmlObject = document.createElement("div");
+                htmlObject.classList.add(className);
+                htmlObject.innerHTML = value;
+                document.getElementById("container").appendChild(htmlObject);
+            }
 
-        function renderGame(game) {
-            var htmlObject = document.createElement('div')
-            htmlObject.classList.add("game")
-            htmlObject.onclick = function () { window.open(game.link) }
-            var string = (`
+            function renderGame(game) {
+                var htmlObject = document.createElement("div");
+                htmlObject.classList.add("game");
+                htmlObject.onclick = function () {
+                    window.open(game.link);
+                };
+                var string = `
                 <div class="network">
-                    <i class="${game.live}"></i>${game.topHeader} 
+                    <i class="${game.live}"></i>${game.topHeader}
                 </div>
                 <div class="scores">
                     <div class="teams">
@@ -137,171 +151,223 @@
                 <div class="last-play">
                     ${game.lastPlay}
                 </div>
-            `)
-            htmlObject.innerHTML = string
-            document.getElementById("container").appendChild(htmlObject)
-        }
-
-        function getTeam(isAway, game, gameFormatted) {
-
-            var t = game.competitors[isAway]
-            var team = {}
-            var state = gameFormatted.state
-
-            team.id = t.id
-            team.name = t.team.shortDisplayName
-            team.record = ((t.records !== undefined) ? t.records[0].summary : "")
-            team.possession = "hide"
-            team.timeouts = ["hide", "hide", "hide"]
-            team.score = t.score
-            team.primary = t.team.color
-            team.alternate = t.team.alternateColor
-            team.rank = ((t.curatedRank !== undefined) ? t.curatedRank.current : "")
-            team.rank = ((team.rank !== 99) ? team.rank : "")
-            team.primary = ((team.primary !== undefined) ? team.primary : "777777")
-            team.alternate = ((team.alternate !== undefined) ? team.alternate : "777777")
-            team.downAndDist = ""
-
-            if (state == "pre") {
-                team.score = "-"
-            } else if (state == "post") {
-
-            } else {
-                if (team.id == gameFormatted.possession) {
-                    team.downAndDist = gameFormatted.downAndDist
-                    team.possession = "show"
-                }
-                for (let i = 0; i < 3; i++) {
-                    team.timeouts[i] = "show"
-                }
+            `;
+                htmlObject.innerHTML = string;
+                document.getElementById("container").appendChild(htmlObject);
             }
 
-            return team
-        }
+            function getTeam(isAway, game, gameFormatted) {
+                var t = game.competitors[isAway];
+                var team = {};
+                var state = gameFormatted.state;
 
-        function getGame(g, isNfl) {
-            var game = {}
-            try {
+                team.id = t.id;
+                team.name = t.team.shortDisplayName;
+                team.record = t.records !== undefined ? t.records[0].summary : "";
+                team.possession = "hide";
+                team.timeouts = ["hide", "hide", "hide"];
+                team.score = t.score;
+                team.rank = t.curatedRank !== undefined ? t.curatedRank.current : "";
+                team.rank = team.rank !== 99 ? team.rank : "";
+                team.primary = t.team.color;
+                team.primary = team.primary !== undefined ? team.primary : "777777";
+                team.alternate = t.team.alternateColor;
+                team.alternate = team.alternate !== undefined ? team.alternate : "777777";
+                team.downAndDist = "";
 
-                var comp = ((g.competitions !== undefined) ? g.competitions[0] : {})
-                if (comp == {}) { return }
-
-                game.completed = g.status.type.completed
-                game.state = g.status.type.state
-                game.link = ((g.links !== undefined) ? g.links[0].href : "")
-                game.venue = comp.venue.fullName
-                game.date = new Date(comp.startDate)
-                game.dateString = game.date.toLocaleDateString([], { weekday: 'long' }) + " " + game.date.toLocaleDateString([], { month: 'numeric', day: 'numeric' })
-                game.timeString = game.date.toLocaleTimeString([], { timeStyle: 'short' })
-                game.startDate = game.dateString + " - " + game.timeString
-                game.channel = ((comp.broadcasts.length > 0) ? comp.broadcasts[0].names.join("/") : "")
-                game.odds = ((comp.odds !== undefined) ? " (" + comp.odds[0].details + " O/U " + comp.odds[0].overUnder + ")" : "")
-                game.topHeader = [game.channel, game.venue, game.odds].filter(Boolean).join(" - ")
-                game.lastPlay = " "
-                game.downAndDist = " "
-                game.possession = " "
-                game.live = ""
-                game.ncaaIcon = ((isNfl) ? "remove" : "")
-                game.nflIcon = ((isNfl) ? "" : "remove")
-
-                if (comp.situation !== undefined) {
-                    console.log(comp.situation)
-                    game.lastPlay = ((comp.situation.lastPlay !== undefined) ? comp.situation.lastPlay.text : " ")
-                    game.downAndDist = ((comp.situation.downDistanceText !== undefined) ? comp.situation.downDistanceText : " ")
-                    game.possession = ((comp.situation.possession !== undefined) ? comp.situation.possession : " ")
-                }
-
-                if (game.state == "pre") {
-                    game.time = ""
-                    game.quarter = ""
-                } else if (game.state == "post") {
-                    game.time = ""
-                    game.quarter = "Final"
+                if (state == "pre") {
+                    team.score = "-";
+                } else if (state == "post") {
                 } else {
-                    game.time = g.status.displayClock
-                    game.quarter = numToQuart(g.status.period)
-                    game.live = "fa fa-circle text-danger-glow blink"
-                    console.log(g)
-                }
-
-                game.away = getTeam(1, comp, game)
-                game.home = getTeam(0, comp, game)
-
-            } catch (err) {
-                alert(err)
-            }
-
-            return game
-        }
-
-        var games = []
-
-        var ncaa = $.ajax({
-            url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard",
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                console.log(res)
-                for (let i = 0; i < res.events.length; i++) {
-                    game = getGame(res.events[i], 0)
-                    if (game !== undefined) {
-                        games.push(game)
+                    if (team.id == gameFormatted.possession) {
+                        team.downAndDist = gameFormatted.downAndDist;
+                        team.possession = "show";
+                    }
+                    for (let i = 0; i < 3; i++) {
+                        team.timeouts[i] = "show";
                     }
                 }
-            }
-        })
 
-        var nfl = $.ajax({
-            url: "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
-            type: 'GET',
-            dataType: 'json',
-            success: function (res) {
-                console.log(res)
-                for (let i = 0; i < res.events.length; i++) {
-                    game = getGame(res.events[i], 1)
-                    games.push(game)
-                }
-            }
-        })
-
-        $.when(ncaa, nfl).done(function (res1, res2) {
-
-            games.sort(function (a, b) {
-                return a.date - b.date
-            })
-
-            var prevDate = ""
-            var prevTime = ""
-
-            for (let i = 0; i < games.length; i++) {
-                if (games[i].dateString !== prevDate) {
-                    renderDate(games[i].dateString, "game-date")
-                    prevDate = games[i].dateString
-                }
-                if (games[i].timeString !== prevTime) {
-                    renderDate(games[i].timeString, "game-time")
-                    prevTime = games[i].timeString
-                }
-                renderGame(games[i])
+                return team;
             }
 
-            $(document).ready(function () {
-                document.getElementById("container").style.visibility = "visible"
-                document.getElementById("loading").style.display = "none"
-            })
-        })
+            function getGame(g, isNfl) {
+                var game = {};
+                try {
+                    var comp = g.competitions !== undefined ? g.competitions[0] : {};
+                    if (comp == {}) {
+                        return;
+                    }
 
-    </script>
-</head>
+                    game.state = g.status !== undefined ? g.status.type.state : "pre";
+                    game.link = g.links !== undefined ? g.links[0].href : "";
+                    game.venue = comp.venue.fullName;
+                    game.date = new Date(comp.startDate !== undefined ? comp.startDate : g.date);
 
-<body>
-    <div id="loading">
-        <img width="200px" src="./images/loading.webp" />
-        <h3>loading...</h3>
-    </div>
-    <div id="container">
+                    game.dateString =
+                        game.date.toLocaleDateString([], { weekday: "long" }) +
+                        " " +
+                        game.date.toLocaleDateString([], { month: "numeric", day: "numeric" });
+                    game.timeString = game.date.toLocaleTimeString([], { timeStyle: "short" });
+                    game.startDate = game.dateString + " - " + game.timeString;
+                    game.channel = comp.broadcasts[0].names !== undefined ? comp.broadcasts[0].names.join("/") : "";
+                    game.odds =
+                        comp.odds !== undefined
+                            ? " (" + comp.odds[0].details + " O/U " + comp.odds[0].overUnder + ")"
+                            : "";
+                    game.topHeader = [game.channel, game.venue, game.odds].filter(Boolean).join(" - ");
+                    game.lastPlay = " ";
+                    game.downAndDist = " ";
+                    game.possession = " ";
+                    game.live = " ";
+                    game.ncaaIcon = isNfl ? "remove" : "";
+                    game.nflIcon = isNfl ? "" : "remove";
 
-    </div>
-</body>
+                    if (comp.situation !== undefined) {
+                        console.log(comp.situation);
+                        game.lastPlay = comp.situation.lastPlay !== undefined ? comp.situation.lastPlay.text : " ";
+                        game.downAndDist =
+                            comp.situation.downDistanceText !== undefined ? comp.situation.downDistanceText : " ";
+                        game.possession = comp.situation.possession !== undefined ? comp.situation.possession : " ";
+                    }
 
+                    if (game.state == "pre") {
+                        game.time = " ";
+                        game.quarter = " ";
+                    } else if (game.state == "post") {
+                        game.time = " ";
+                        game.quarter = "Final";
+                    } else {
+                        game.time = g.status.displayClock;
+                        game.quarter = numToQuart(g.status.period);
+                        game.live = "fa fa-circle text-danger-glow blink";
+                        console.log(g);
+                    }
+
+                    game.away = getTeam(1, comp, game);
+                    game.home = getTeam(0, comp, game);
+                } catch (err) {
+                    throw err;
+                }
+
+                return game;
+            }
+
+            var games = [];
+            var requests = [];
+            var teamRequests = [];
+            var extraGameRequests = [];
+            var extraTeams = [66, 38, 2460, 2294];
+            var extraGames = [];
+
+            // ncaa
+            requests.push(
+                $.ajax({
+                    url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (res) {
+                        for (let i = 0; i < res.events.length; i++) {
+                            game = getGame(res.events[i], 0);
+                            if (game !== undefined) {
+                                games.push(game);
+                            }
+                        }
+                    },
+                })
+            );
+
+            // nfl
+            requests.push(
+                $.ajax({
+                    url: "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
+                    type: "GET",
+                    dataType: "json",
+                    success: function (res) {
+                        for (let i = 0; i < res.events.length; i++) {
+                            game = getGame(res.events[i], 1);
+                            games.push(game);
+                        }
+                    },
+                })
+            );
+
+            // extra teams
+            for (let i = 0; i < extraTeams.length; i++) {
+                requests.push(
+                    $.ajax({
+                        url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/".concat(
+                            extraTeams[i]
+                        ),
+                        type: "GET",
+                        dataType: "json",
+                        success: function (res) {
+                            var rank = res.team.rank !== undefined ? res.team.rank : 99;
+                            if (rank > 25 && res.team.nextEvent !== undefined) {
+                                id = res.team.nextEvent[0].id;
+                                extraGames.push(id);
+                            }
+                        },
+                    })
+                );
+            }
+
+            // when ncaa, nfl, and ectra teams are done, do extra games
+            $.when.apply($, requests).done(function () {
+                for (let i = 0; i < extraGames.length; i++) {
+                    extraGameRequests.push(
+                        $.ajax({
+                            url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard/".concat(
+                                extraGames[i]
+                            ),
+                            type: "GET",
+                            dataType: "json",
+                            success: function (res) {
+                                game = getGame(res, 0);
+                                if (game !== undefined) {
+                                    games.push(game);
+                                }
+                            },
+                        })
+                    );
+                }
+                $.when.apply($, extraGameRequests).done(function () {
+                    games.sort(function (a, b) {
+                        return a.date - b.date;
+                    });
+
+                    var prevDate = "";
+                    var prevTime = "";
+
+                    for (let i = 0; i < games.length; i++) {
+                        if (games[i].dateString !== prevDate) {
+                            renderDate(games[i].dateString, "game-date");
+                            prevDate = games[i].dateString;
+                        }
+                        if (games[i].timeString !== prevTime) {
+                            renderDate(games[i].timeString, "game-time");
+                            prevTime = games[i].timeString;
+                        }
+                        renderGame(games[i]);
+                    }
+
+                    $(document).ready(function () {
+                        document.getElementById("container").style.visibility = "visible";
+                        document.getElementById("loading").style.display = "none";
+
+                        var scrollpos = localStorage.getItem("scrollpos");
+                        if (scrollpos) window.scrollTo(0, scrollpos);
+                    });
+                });
+            });
+        </script>
+    </head>
+
+    <body>
+        <div id="loading">
+            <img width="200px" src="./images/loading.webp" />
+            <h3>loading...</h3>
+        </div>
+        <div id="container"></div>
+    </body>
 </html>

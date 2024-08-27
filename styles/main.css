@@ -1,9 +1,13 @@
 html {
-    background-color: #1E1E1E;
+    background-color: #1e1e1e;
     font-family: "Poppins", sans-serif;
-    color: #D9D9D9;
+    color: #d9d9d9;
     display: flex;
     justify-content: space-around;
+}
+
+#loading {
+    text-align: center;
 }
 
 #container {
@@ -15,6 +19,21 @@ html {
     max-width: 700px;
     min-width: 300px;
     flex-grow: 1;
+}
+
+.game-date {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0;
+}
+
+.game-time {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    margin: 0;
 }
 
 .game {
@@ -32,9 +51,8 @@ html {
     align-items: center;
 }
 
-.score {
-    font-size: 24px;
-    margin: 10px;
+.teams {
+    flex-grow: 1;
 }
 
 .team {
@@ -42,10 +60,6 @@ html {
     justify-content: space-between;
     margin: 2px 0px;
     align-items: center;
-}
-
-.teams {
-    flex-grow: 1;
 }
 
 .team-logo {
@@ -56,6 +70,11 @@ html {
 .team-name {
     font-size: 14px;
     flex-grow: 1;
+}
+
+.rank {
+    font-style: italic;
+    color: #999999;
 }
 
 .score-icons {
@@ -74,6 +93,11 @@ html {
     width: 10px;
 }
 
+.score {
+    font-size: 24px;
+    margin: 10px;
+}
+
 .progress {
     text-align: center;
     margin: 10px;
@@ -86,32 +110,12 @@ html {
     font-style: italic;
 }
 
-.rank {
-    font-style: italic;
-    color: #999999;
-}
-
 .hide {
     visibility: hidden;
 }
 
 .remove {
     display: none;
-}
-
-.game-date {
-    width: 100%;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: 600;
-    margin: 0;
-}
-
-.game-time {
-    width: 100%;
-    padding: 10px;
-    font-size: 14px;
-    margin: 0;
 }
 
 .text-danger-glow {
@@ -124,7 +128,7 @@ html {
     margin-right: 5px;
     width: 10px;
     height: 10px;
-    animation: blinker 1s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+    animation: blinker 1s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
 }
 
 @keyframes blinker {
@@ -132,10 +136,6 @@ html {
         opacity: 1;
     }
     to {
-        opacity: 0;
+        opacity: 0.2;
     }
-}
-
-#loading {
-    text-align: center;
 }
