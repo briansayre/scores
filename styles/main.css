@@ -56,6 +56,18 @@ html {
     cursor: pointer;
 }
 
+.good-game {
+    border: 2px solid rgb(0, 115, 26, 0.37);
+}
+
+.close-game {
+    border: 2px solid rgba(115, 0, 0, 0.37);
+}
+
+.favorite-game {
+    border: 2px solid rgba(0, 46, 115, 0.37);
+}
+
 .scores {
     display: flex;
     justify-content: space-between;

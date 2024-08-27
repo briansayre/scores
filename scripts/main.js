@@ -29,6 +29,41 @@ function numToQuart(num) {
     return "OT";
 }
 
+function bothRanked(game) {
+    return game.home.rank !== "" && game.away.rank !== "";
+}
+
+function bothHighWinPerc(game) {
+    var homeIndexOf = game.home.record.indexOf("-");
+    if (homeIndexOf === -1) return false;
+    var homeWins = Number(game.home.record.substring(0, homeIndexOf));
+    var homeLosses = Number(game.home.record.substring(homeIndexOf + 1));
+    if (homeWins + homeLosses === 0) return false;
+    if (homeWins / (homeWins + homeLosses) < 0.666) return false;
+
+    var awayIndexOf = game.away.record.indexOf("-");
+    if (awayIndexOf === -1) return false;
+    var awayWins = Number(game.away.record.substring(0, awayIndexOf));
+    var awayLosses = Number(game.home.record.substring(awayIndexOf + 1));
+    if (awayWins + awayLosses === 0) return false;
+    if (awayWins / (awayWins + awayLosses) < 0.666) return false;
+
+    return true;
+}
+
+function isCloseGame(game) {
+    return (
+        Math.abs(Number(game.home.score) - Number(game.away.score)) < 9 &&
+        (game.quarter == "3rd" || game.quarter == "4th" || game.quarter == "OT")
+    );
+}
+
+function containsFavorite(game) {
+    if (!game.isNfl && (game.home.id === "66" || game.away.id === "66")) return true;
+    if (game.isNfl && (game.home.id === "6" || game.away.id === "6")) return true;
+    return false;
+}
+
 function renderDate(value, className) {
     var htmlObject = document.createElement("div");
     htmlObject.classList.add(className);
@@ -39,9 +74,19 @@ function renderDate(value, className) {
 function renderGame(game) {
     var htmlObject = document.createElement("div");
     htmlObject.classList.add("game");
+
+    if (game.isClose) {
+        htmlObject.classList.add("close-game");
+    } else if (game.isGood) {
+        htmlObject.classList.add("good-game");
+    } else if (game.isFavorite) {
+        htmlObject.classList.add("favorite-game");
+    }
+
     htmlObject.onclick = function () {
         window.open(game.link);
     };
+
     var string = `
 	<div class="network">
 		<i class="${game.live}"></i>${game.topHeader}
@@ -209,6 +254,7 @@ function getGame(g, isNfl) {
         game.downAndDist = " ";
         game.possession = " ";
         game.live = " ";
+        game.isNfl = isNfl;
         game.ncaaIcon = isNfl ? "remove" : "";
         game.nflIcon = isNfl ? "" : "remove";
 
@@ -234,6 +280,14 @@ function getGame(g, isNfl) {
 
         game.away = getTeam(1, comp, game);
         game.home = getTeam(0, comp, game);
+
+        if (isCloseGame(game)) {
+            game.isClose = true;
+        } else if (bothRanked(game) || bothHighWinPerc(game)) {
+            game.isGood = true;
+        } else if (containsFavorite(game)) {
+            game.isFavorite = true;
+        }
     } catch (err) {
         throw err;
     }
@@ -254,6 +308,7 @@ requests.push(
         type: "GET",
         dataType: "json",
         success: function (res) {
+            console.log(res);
             for (let i = 0; i < res.events.length; i++) {
                 game = getGame(res.events[i], 0);
                 if (game !== undefined) {
