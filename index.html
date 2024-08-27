@@ -20,14 +20,35 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
         <script>
+            function setCookie(cname, cvalue, exdays) {
+                const d = new Date();
+                d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+                let expires = "expires=" + d.toUTCString();
+                document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+            }
+
+            function getCookie(cname) {
+                let name = cname + "=";
+                let ca = document.cookie.split(";");
+                for (let i = 0; i < ca.length; i++) {
+                    let c = ca[i];
+                    while (c.charAt(0) == " ") {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return "";
+            }
+
             window.onbeforeunload = function (e) {
-                localStorage.setItem("scrollpos", window.scrollY);
+                setCookie("scrollpos", window.scrollY, 14);
             };
 
             // setInterval(function () {
             //     location.reload();
             // }, 60000);
-            // When the user scrolls the page, execute myFunction
 
             function numToQuart(num) {
                 if (num === 4) return "4th";
@@ -356,7 +377,7 @@
                         document.getElementById("container").style.visibility = "visible";
                         document.getElementById("loading").style.display = "none";
 
-                        var scrollpos = localStorage.getItem("scrollpos");
+                        var scrollpos = getCookie("scrollpos");
                         if (scrollpos) window.scrollTo(0, scrollpos);
 
                         window.onscroll = function () {
