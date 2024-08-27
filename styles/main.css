@@ -103,7 +103,7 @@ html {
     width: 100%;
     padding: 10px;
     font-size: 16px;
-    font-weight: bold;
+    font-weight: 600;
     margin: 0;
 }
 
@@ -131,7 +131,6 @@ html {
     from {
         opacity: 1;
     }
-
     to {
         opacity: 0;
     }
