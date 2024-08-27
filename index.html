@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="styles/main.css">
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet"
         type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
@@ -21,15 +26,15 @@
             return " "
         }
 
-        function renderDate(date) {
-            var htmlObject = document.createElement('div');
-            htmlObject.classList.add("date")
-            htmlObject.innerHTML = date;
+        function renderDate(value, className) {
+            var htmlObject = document.createElement('div')
+            htmlObject.classList.add(className)
+            htmlObject.innerHTML = value
             document.getElementById("container").appendChild(htmlObject)
         }
 
         function renderGame(game) {
-            var htmlObject = document.createElement('div');
+            var htmlObject = document.createElement('div')
             htmlObject.classList.add("game")
             htmlObject.onclick = function () { window.open(game.link) }
             var string = (`
@@ -40,11 +45,15 @@
                     <div class="teams">
                         <div class="team away">
                             <div class="team-logo">
-                                <svg width="31" height="31">
-                                    <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="31" height="31" fill="#${game.away.primary}"/>
-                                    <rect class="stripe" x="0" y="22" width="31" height="4" fill="#${game.away.alternate}" />
-                                    <rect class="stripe" x="0" y="14" width="31" height="4" fill="#${game.away.alternate}"/>
-                                    <rect class="stripe" x="0" y="6" width="31" height="4" fill="#${game.away.alternate}"/>
+                                <svg width="32" height="32" class="${game.ncaaIcon}">
+                                    <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="32" height="32" fill="#${game.away.primary}"/>
+                                    <rect class="stripe" x="12" y="0" width="8" height="32" fill="#${game.away.alternate}"/>
+                                    <rect class="stripe" x="9" y="0" width="3" height="32" fill="white"/>
+                                    <rect class="stripe" x="20" y="0" width="3" height="32" fill="white"/>
+                                </svg>
+                                <svg width="32" height="32" class="${game.nflIcon}">
+                                    <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="32" height="32" fill="#${game.away.primary}"/>
+                                    <circle class="stripe"  cx="16" cy="16" r="8" fill="#${game.away.alternate}" stroke="white" stroke-width="3"/>
                                 </svg>
                             </div>
                             <div class="team-name">
@@ -77,11 +86,15 @@
                         </div>
                         <div class="team home">
                             <div class="team-logo">
-                                <svg width="31" height="31">
-                                    <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="31" height="31" fill="#${game.home.primary}"/>
-                                    <rect class="stripe" x="0" y="22" width="31" height="4" fill="#${game.home.alternate}" />
-                                    <rect class="stripe" x="0" y="14" width="31" height="4" fill="#${game.home.alternate}"/>
-                                    <rect class="stripe" x="0" y="6" width="31" height="4" fill="#${game.home.alternate}"/>
+                                <svg width="32" height="32" class="${game.ncaaIcon}">
+                                    <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="32" height="32" fill="#${game.home.primary}"/>
+                                    <rect class="stripe" x="12" y="0" width="8" height="32" fill="#${game.home.alternate}"/>
+                                    <rect class="stripe" x="9" y="0" width="3" height="32" fill="white"/>
+                                    <rect class="stripe" x="20" y="0" width="3" height="32" fill="white"/>
+                                </svg>
+                                <svg width="32" height="32" class="${game.nflIcon}">
+                                    <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="32" height="32" fill="#${game.home.primary}"/>
+                                    <circle class="stripe"  cx="16" cy="16" r="8" fill="#${game.home.alternate}" stroke="white" stroke-width="3" />
                                 </svg>
                             </div>
                             <div class="team-name">
@@ -125,8 +138,8 @@
                 <div class="last-play">
                     ${game.lastPlay}
                 </div>
-            `);
-            htmlObject.innerHTML = string;
+            `)
+            htmlObject.innerHTML = string
             document.getElementById("container").appendChild(htmlObject)
         }
 
@@ -167,48 +180,57 @@
             return team
         }
 
-        function getGame(g) {
-
+        function getGame(g, isNfl) {
             var game = {}
-            g = ((g.competitions !== undefined) ? g.competitions[0] : {})
-            if (g == {}) { return }
+            try {
 
-            game.completed = g.status.type.completed
-            game.venue = g.venue.fullName
-            game.state = g.status.type.state
-            game.date = new Date(g.startDate)
-            game.startDate = game.date.toLocaleDateString([], { weekday: 'long' }) + " - " + game.date.toLocaleDateString([], { month: 'numeric', day: 'numeric' }) + " - " + game.date.toLocaleTimeString([], { timeStyle: 'short' })
-            game.link = ((g.links !== undefined) ? g.links[0].href : "")
-            game.channel = ((g.broadcasts.length > 0) ? g.broadcasts[0].names.join("/") : "")
-            game.odds = ((g.odds !== undefined) ? " (" + g.odds[0].details + " O/U " + g.odds[0].overUnder + ")" : "")
-            game.topHeader = [game.channel, game.venue, game.odds].filter(Boolean).join(" - ");
-            game.lastPlay = " "
-            game.downAndDist = " "
-            game.possession = " "
-            game.live = ""
+                var comp = ((g.competitions !== undefined) ? g.competitions[0] : {})
+                if (comp == {}) { return }
 
-            if (g.situation !== undefined) {
-                console.log(g.situation)
-                game.lastPlay = ((g.situation.lastPlay !== undefined) ? g.situation.lastPlay.text : " ")
-                game.downAndDist = ((g.situation.downDistanceText !== undefined) ? g.situation.downDistanceText : " ")
-                game.possession = ((g.situation.possession !== undefined) ? g.situation.possession : " ")
+                game.completed = g.status.type.completed
+                game.state = g.status.type.state
+                game.link = ((g.links !== undefined) ? g.links[0].href : "")
+                game.venue = comp.venue.fullName
+                game.date = new Date(comp.startDate)
+                game.dateString = game.date.toLocaleDateString([], { weekday: 'long' }) + " " + game.date.toLocaleDateString([], { month: 'numeric', day: 'numeric' })
+                game.timeString = game.date.toLocaleTimeString([], { timeStyle: 'short' })
+                game.startDate = game.dateString + " - " + game.timeString
+                game.channel = ((comp.broadcasts.length > 0) ? comp.broadcasts[0].names.join("/") : "")
+                game.odds = ((comp.odds !== undefined) ? " (" + comp.odds[0].details + " O/U " + comp.odds[0].overUnder + ")" : "")
+                game.topHeader = [game.channel, game.venue, game.odds].filter(Boolean).join(" - ")
+                game.lastPlay = " "
+                game.downAndDist = " "
+                game.possession = " "
+                game.live = ""
+                game.ncaaIcon = ((isNfl) ? "remove" : "")
+                game.nflIcon = ((isNfl) ? "" : "remove")
+
+                if (comp.situation !== undefined) {
+                    console.log(comp.situation)
+                    game.lastPlay = ((comp.situation.lastPlay !== undefined) ? comp.situation.lastPlay.text : " ")
+                    game.downAndDist = ((comp.situation.downDistanceText !== undefined) ? comp.situation.downDistanceText : " ")
+                    game.possession = ((comp.situation.possession !== undefined) ? comp.situation.possession : " ")
+                }
+
+                if (game.state == "pre") {
+                    game.time = ""
+                    game.quarter = ""
+                } else if (game.state == "post") {
+                    game.time = ""
+                    game.quarter = "Final"
+                } else {
+                    game.time = g.status.displayClock
+                    game.quarter = numToQuart(g.status.period)
+                    game.live = "fa fa-circle text-danger-glow blink"
+                    console.log(g)
+                }
+
+                game.away = getTeam(1, comp, game)
+                game.home = getTeam(0, comp, game)
+
+            } catch (err) {
+                alert(err)
             }
-
-            if (game.state == "pre") {
-                game.time = ""
-                game.quarter = ""
-            } else if (game.state == "post") {
-                game.time = ""
-                game.quarter = "Final"
-            } else {
-                game.time = g.status.displayClock
-                game.quarter = numToQuart(g.status.period)
-                game.live = "fa fa-circle text-danger-glow blink"
-                console.log(g)
-            }
-
-            game.away = getTeam(1, g, game)
-            game.home = getTeam(0, g, game)
 
             return game
         }
@@ -220,48 +242,55 @@
             type: 'GET',
             dataType: 'json',
             success: function (res) {
-                console.log(res);
+                console.log(res)
                 for (let i = 0; i < res.events.length; i++) {
-                    game = getGame(res.events[i])
-                    games.push(game)
+                    game = getGame(res.events[i], 0)
+                    if (game !== undefined) {
+                        games.push(game)
+                    }
                 }
             }
-        });
+        })
 
         var nfl = $.ajax({
             url: "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
             type: 'GET',
             dataType: 'json',
             success: function (res) {
-                console.log(res);
+                console.log(res)
                 for (let i = 0; i < res.events.length; i++) {
-                    game = getGame(res.events[i])
+                    game = getGame(res.events[i], 1)
                     games.push(game)
                 }
             }
-        });
+        })
 
         $.when(ncaa, nfl).done(function (res1, res2) {
 
             games.sort(function (a, b) {
-                return a.date - b.date;
-            });
+                return a.date - b.date
+            })
 
             var prevDate = ""
+            var prevTime = ""
 
             for (let i = 0; i < games.length; i++) {
-                if (games[i].startDate !== prevDate) {
-                    renderDate(games[i].startDate)
-                    prevDate = games[i].startDate
+                if (games[i].dateString !== prevDate) {
+                    renderDate(games[i].dateString, "game-date")
+                    prevDate = games[i].dateString
+                }
+                if (games[i].timeString !== prevTime) {
+                    renderDate(games[i].timeString, "game-time")
+                    prevTime = games[i].timeString
                 }
                 renderGame(games[i])
             }
 
             $(document).ready(function () {
-                document.getElementById("container").style.visibility = "visible";
-                document.getElementById("loading").style.display = "none";
-            });
-        });
+                document.getElementById("container").style.visibility = "visible"
+                document.getElementById("loading").style.display = "none"
+            })
+        })
 
     </script>
 </head>
