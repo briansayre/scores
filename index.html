@@ -27,6 +27,7 @@
             // setInterval(function () {
             //     location.reload();
             // }, 60000);
+            // When the user scrolls the page, execute myFunction
 
             function numToQuart(num) {
                 if (num === 4) return "4th";
@@ -357,6 +358,21 @@
 
                         var scrollpos = localStorage.getItem("scrollpos");
                         if (scrollpos) window.scrollTo(0, scrollpos);
+
+                        window.onscroll = function () {
+                            myFunction();
+                        };
+
+                        var dates = document.getElementsByClassName("game-date");
+                        var sticky = [];
+
+                        for (let i = 0; i < dates.length; i++) {
+                            sticky[i] = dates[i].offsetTop;
+                        }
+
+                        function myFunction() {
+                            for (let i = 0; i < dates.length; i++) {}
+                        }
                     });
                 });
             });
