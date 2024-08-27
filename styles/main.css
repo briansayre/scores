@@ -30,13 +30,21 @@ html {
     font-size: 16px;
     font-weight: 600;
     margin: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
 }
 
 .game-time {
+    background-color: #1e1e1e;
     width: 100%;
     padding: 10px;
     font-size: 14px;
+    z-index: 1;
     margin: 0;
+    position: -webkit-sticky; 
+    position: sticky;
+    top: 45px;
 }
 
 .game {
