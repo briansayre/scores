@@ -1,17 +1,14 @@
 <html>
 
 <head>
-    <!-- 
-        TODO:
-        - Verify TOs, possession , and last play  
-        - live status
-     -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Scores">
     <meta name="author" content="Brian Sayre">
     <title>Scores</title>
     <link rel="stylesheet" href="styles/main.css">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css" rel="stylesheet"
+        type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
     <script>
@@ -37,7 +34,7 @@
             htmlObject.onclick = function () { window.open(game.link) }
             var string = (`
                 <div class="network">
-                    ${game.topHeader} 
+                    <i class="${game.live}"></i>${game.topHeader} 
                 </div>
                 <div class="scores">
                     <div class="teams">
@@ -53,7 +50,7 @@
                             <div class="team-name">
                                 ${game.away.name} <span class="rank">${game.away.rank}</span>
                                 <div class="team-info">
-                                    ${game.away.record} ${game.away.info}
+                                    ${game.away.record} ${game.away.downAndDist}
                                 </div>
                             </div>
                             <div class="score-icons">
@@ -90,7 +87,7 @@
                             <div class="team-name">
                                 ${game.home.name} <span class="rank">${game.home.rank}</span>
                                 <div class="team-info">
-                                    ${game.home.record} ${game.home.info}
+                                    ${game.home.record} ${game.home.downAndDist}
                                 </div>
                             </div>
                             <div class="score-icons">
@@ -134,39 +131,35 @@
         }
 
         function getTeam(isAway, game, gameFormatted) {
-            let team = {}
-            let state = gameFormatted.state
-            team.id = game.competitions[0].competitors[isAway].id
-            team.name = game.competitions[0].competitors[isAway].team.shortDisplayName
-            team.record = game.competitions[0].competitors[isAway].records[0].summary
+
+            var t = game.competitors[isAway]
+            var team = {}
+            var state = gameFormatted.state
+
+            team.id = t.id
+            team.name = t.team.shortDisplayName
+            team.record = ((t.records !== undefined) ? t.records[0].summary : "")
             team.possession = "hide"
             team.timeouts = ["hide", "hide", "hide"]
-            team.score = game.competitions[0].competitors[isAway].score
-            team.downAndDist = "1st & 10"
-            team.info = ""
-            team.primary = game.competitions[0].competitors[isAway].team.color
-            team.alternate = game.competitions[0].competitors[isAway].team.alternateColor
-
-            if (game.competitions[0].competitors[isAway].curatedRank === undefined) {
-                team.rank = ""
-            } else {
-                team.rank = game.competitions[0].competitors[isAway].curatedRank.current
-                if (team.rank == 99) { team.rank = "" }
-            }
-            if (team.primary === undefined) { team.primary = "777777" }
-            if (team.alternate === undefined) { team.alternate = "777777" }
+            team.score = t.score
+            team.primary = t.team.color
+            team.alternate = t.team.alternateColor
+            team.rank = ((t.curatedRank !== undefined) ? t.curatedRank.current : "")
+            team.rank = ((team.rank !== 99) ? team.rank : "")
+            team.primary = ((team.primary !== undefined) ? team.primary : "777777")
+            team.alternate = ((team.alternate !== undefined) ? team.alternate : "777777")
+            team.downAndDist = ""
 
             if (state == "pre") {
-                game.time = ""
                 team.score = "-"
-                game.quarter = ""
             } else if (state == "post") {
+
             } else {
                 if (team.id == gameFormatted.possession) {
-                    team.info = gameFormatted.downAndDist
+                    team.downAndDist = gameFormatted.downAndDist
                     team.possession = "show"
                 }
-                for (let i = 0; i < 2; i++) {
+                for (let i = 0; i < 3; i++) {
                     team.timeouts[i] = "show"
                 }
             }
@@ -176,47 +169,30 @@
 
         function getGame(g) {
 
-            let game = {}
-            game.completed = g.competitions[0].status.type.completed
-            game.venue = g.competitions[0].venue.fullName
-            game.state = g.competitions[0].status.type.state
-            game.date = new Date(g.competitions[0].startDate)
+            var game = {}
+            g = ((g.competitions !== undefined) ? g.competitions[0] : {})
+            if (g == {}) { return }
+
+            game.completed = g.status.type.completed
+            game.venue = g.venue.fullName
+            game.state = g.status.type.state
+            game.date = new Date(g.startDate)
             game.startDate = game.date.toLocaleDateString([], { weekday: 'long' }) + " - " + game.date.toLocaleDateString([], { month: 'numeric', day: 'numeric' }) + " - " + game.date.toLocaleTimeString([], { timeStyle: 'short' })
-            game.possession = 0
-            game.link = g.links[0].href
-
-            game.lastPlay = ((game.lastPlay === 0) ? "" : game.lastPlay)
-
-            if (g.competitions[0].situation !== undefined) {
-                console.log(g.competitions[0].situation)
-                if (g.competitions[0].situation.lastPlay !== undefined) {
-                    game.lastPlay = g.competitions[0].situation.lastPlay.text
-                }
-                if (g.competitions[0].situation.downDistanceText !== undefined) {
-                    game.downAndDist = g.competitions[0].situation.downDistanceText
-                }
-                if (g.competitions[0].situation.possession !== undefined) {
-                    game.possession = g.competitions[0].situation.possession
-                }
-            } else {
-                game.lastPlay = " "
-                game.downAndDist = " "
-                game.possession = " "
-            }
-
-            if (g.competitions[0].broadcasts.length > 0) {
-                game.channel = g.competitions[0].broadcasts[0].names[0]
-            } else {
-                game.channel = ""
-            }
-
-            if (g.competitions[0].odds !== undefined) {
-                game.odds = " (" + g.competitions[0].odds[0].details + " O/U " + g.competitions[0].odds[0].overUnder + ")"
-            } else {
-                game.odds = ""
-            }
-
+            game.link = ((g.links !== undefined) ? g.links[0].href : "")
+            game.channel = ((g.broadcasts.length > 0) ? g.broadcasts[0].names.join("/") : "")
+            game.odds = ((g.odds !== undefined) ? " (" + g.odds[0].details + " O/U " + g.odds[0].overUnder + ")" : "")
             game.topHeader = [game.channel, game.venue, game.odds].filter(Boolean).join(" - ");
+            game.lastPlay = " "
+            game.downAndDist = " "
+            game.possession = " "
+            game.live = ""
+
+            if (g.situation !== undefined) {
+                console.log(g.situation)
+                game.lastPlay = ((g.situation.lastPlay !== undefined) ? g.situation.lastPlay.text : " ")
+                game.downAndDist = ((g.situation.downDistanceText !== undefined) ? g.situation.downDistanceText : " ")
+                game.possession = ((g.situation.possession !== undefined) ? g.situation.possession : " ")
+            }
 
             if (game.state == "pre") {
                 game.time = ""
@@ -225,8 +201,9 @@
                 game.time = ""
                 game.quarter = "Final"
             } else {
-                game.time = g.competitions[0].status.displayClock
-                game.quarter = numToQuart(g.competitions[0].status.period)
+                game.time = g.status.displayClock
+                game.quarter = numToQuart(g.status.period)
+                game.live = "fa fa-circle text-danger-glow blink"
                 console.log(g)
             }
 
@@ -234,7 +211,6 @@
             game.home = getTeam(0, g, game)
 
             return game
-
         }
 
         var games = []
@@ -271,7 +247,7 @@
                 return a.date - b.date;
             });
 
-            let prevDate = ""
+            var prevDate = ""
 
             for (let i = 0; i < games.length; i++) {
                 if (games[i].startDate !== prevDate) {
@@ -282,7 +258,8 @@
             }
 
             $(document).ready(function () {
-                document.getElementsByTagName("html")[0].style.visibility = "visible";
+                document.getElementById("container").style.visibility = "visible";
+                document.getElementById("loading").style.display = "none";
             });
         });
 
@@ -290,7 +267,12 @@
 </head>
 
 <body>
+    <div id="loading">
+        <img width="200px" src="./images/loading.webp" />
+        <h3>loading...</h3>
+    </div>
     <div id="container">
+
     </div>
 </body>
 

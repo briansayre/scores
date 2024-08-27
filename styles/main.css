@@ -1,5 +1,4 @@
 html {
-    visibility: hidden;
     background-color: #1E1E1E;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: #D9D9D9;
@@ -8,6 +7,7 @@ html {
 }
 
 #container {
+    visibility: hidden;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
@@ -102,4 +102,31 @@ html {
     font-style: bold;
     font-size: 20px;
     margin: 0;
+}
+
+.text-danger-glow {
+    color: #ff4141;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.295);
+}
+
+.blink {
+    display: block;
+    margin-right: 5px;
+    width: 10px;
+    height: 10px;
+    animation: blinker 1s cubic-bezier(.5, 0, 1, 1) infinite alternate;
+}
+
+@keyframes blinker {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+#loading {
+    text-align: center;
 }
