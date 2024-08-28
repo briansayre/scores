@@ -13,16 +13,17 @@ html {
 #container {
     visibility: hidden;
     display: flex;
-    justify-content: space-around;
     flex-wrap: wrap;
-    flex-grow: 1;
-    padding: 5px;
+    justify-content: space-around;
+    padding: 10px;
+    max-width: 700px;
     min-width: 300px;
-    max-width: 600px;
+    flex-grow: 1;
 }
 
 .game-date {
     background-color: #1e1e1e;
+    position: relative;
     z-index: 2;
     width: 100%;
     padding: 10px;
@@ -56,15 +57,15 @@ html {
 }
 
 .good-game {
-    border: 2px solid rgb(0, 115, 26, 0.37);
+    border: 1px solid rgb(0, 115, 26, 0.37);
 }
 
 .close-game {
-    border: 2px solid rgba(115, 0, 0, 0.37);
+    border: 1px solid rgba(115, 0, 0, 0.37);
 }
 
 .favorite-game {
-    border: 2px solid rgba(0, 46, 115, 0.37);
+    border: 1px solid rgba(0, 46, 115, 0.37);
 }
 
 .scores {
@@ -85,6 +86,8 @@ html {
 }
 
 .team-logo {
+    height: 32px;
+    width: 32px;
     margin-right: 10px;
     filter: drop-shadow(0px 4px 8px rgba(0, 0, 0, 0.45));
 }
@@ -116,8 +119,8 @@ html {
 }
 
 .score {
-    font-size: 24px;
-    margin: 10px;
+    font-size: 28px;
+    margin: 0px 10px;
 }
 
 .progress {
