@@ -50,7 +50,7 @@ function getWinPercent(team) {
 
 // do both teams have high win percentage
 function bothHighWinPercent(game) {
-    var threshold = .66;
+    var threshold = .69;
     return (getWinPercent(game.away) > threshold && getWinPercent(game.home) > threshold);
 }
 
@@ -393,6 +393,7 @@ $.when.apply($, requests).done(function () {
             if (games[i].dateString !== prevDate) {
                 renderDateOrTime(games[i].dateString, "game-date");
                 prevDate = games[i].dateString;
+                prevTime = "";
             }
             if (games[i].timeString !== prevTime) {
                 renderDateOrTime(games[i].timeString, "game-time");
