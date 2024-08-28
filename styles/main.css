@@ -108,15 +108,40 @@ html {
     flex-direction: column;
     flex-wrap: wrap-reverse;
     width: 30px;
-    margin-right: 10px;
 }
 
-.score-icons svg {
-    fill: #999999;
+.icon-holder {
+    height: 6px;
+}
+
+.timeouts {
+    height: 6px;
+    display: flex;
+    justify-content: space-between;
+    margin: 2px 0px;
+}
+
+.timeout {
+    height: 6px;
+    width: 6px;
+    background-color: #999999;
+    border-radius: 100%;
 }
 
 .possession {
     width: 10px;
+    height: 6px;
+    display: flex;
+    justify-content: space-around;
+    margin: 2px 0px;
+}
+
+.possession-icon {
+    display: inline-block;
+    height: 6px;
+    width: 10px;
+    background-color: #999999;
+    border-radius: 100%;
 }
 
 .score {

@@ -34,7 +34,7 @@ function numToQuart(num) {
 
 // are both teams ranked
 function bothRanked(game) {
-    return (game.home.rank !== "" && game.away.rank !== "");
+    return game.home.rank !== "" && game.away.rank !== "";
 }
 
 // get a teams win percentage
@@ -43,15 +43,15 @@ function getWinPercent(team) {
     if (indexOfDash === -1) return -1;
     var wins = Number(team.record.substring(0, indexOfDash));
     var losses = Number(team.record.substring(indexOfDash + 1));
-    var total = wins + losses
+    var total = wins + losses;
     if (total === 0) return -1;
     return wins / total;
 }
 
 // do both teams have high win percentage
 function bothHighWinPercent(game) {
-    var threshold = .69;
-    return (getWinPercent(game.away) > threshold && getWinPercent(game.home) > threshold);
+    var threshold = 0.69;
+    return getWinPercent(game.away) > threshold && getWinPercent(game.home) > threshold;
 }
 
 // is the game close towards the end
@@ -120,21 +120,13 @@ function renderGame(game) {
                         </div>
                     </div>
                     <div class="score-icons">
-                        <div class="timeouts">
-                            <svg class="${game.away.timeouts[2]}" width="6" height="6">
-                                <circle cx="3" cy="3" r="3" />
-                            </svg>
-                            <svg class="${game.away.timeouts[1]}" width="6" height="6">
-                                <circle cx="3" cy="3" r="3" />
-                            </svg>
-                            <svg class="${game.away.timeouts[0]}" width="6" height="6">
-                                <circle cx="3" cy="3" r="3" />
-                            </svg>
+                        <div class="timeouts ${game.away.timeout}">
+                            <div class="${game.away.timeouts[2]} timeout"></div>
+                            <div class="${game.away.timeouts[1]} timeout"></div>
+                            <div class="${game.away.timeouts[0]} timeout"></div>
                         </div>
-                        <div class="possession">
-                            <svg class="${game.away.possession}" width="10" height="6">
-                                <ellipse cx="5" cy="3" rx="5" ry="3" />
-                            </svg>
+                        <div class="possession ${game.away.possession}">
+                            <span class="possession-icon"></span>
                         </div>
                     </div>
                     <div class="score">
@@ -161,21 +153,15 @@ function renderGame(game) {
                         </div>
                     </div>
                     <div class="score-icons">
-                        <div class="timeouts">
-                            <svg class="${game.home.timeouts[2]}" width="6" height="6">
-                                <circle cx="3" cy="3" r="3" />
-                            </svg>
-                            <svg class="${game.home.timeouts[1]}" width="6" height="6">
-                                <circle cx="3" cy="3" r="3" />
-                            </svg>
-                            <svg class="${game.home.timeouts[0]}" width="6" height="6">
-                                <circle cx="3" cy="3" r="3" />
-                            </svg>
+                        <div class="icon-holder">
                         </div>
-                        <div class="possession">
-                            <svg class="${game.home.possession}" width="10" height="6">
-                                <ellipse cx="5" cy="3" rx="5" ry="3" />
-                            </svg>
+                        <div class="timeouts ${game.home.timeout}">
+                            <div class="${game.home.timeouts[2]} timeout"></div>
+                            <div class="${game.home.timeouts[1]} timeout"></div>
+                            <div class="${game.home.timeouts[0]} timeout"></div>
+                        </div>
+                        <div class="possession ${game.home.possession}">
+                            <span class="possession-icon"></span>
                         </div>
                     </div>
                     <div class="score">
@@ -209,9 +195,10 @@ function getTeam(isAway, comp, game) {
     team.id = t.id;
     team.name = t.team.shortDisplayName;
     team.record = t.records !== undefined ? t.records[0].summary : "";
-    team.possession = "hide";
+    team.possession = "remove";
     team.timeouts = ["hide", "hide", "hide"];
-    team.timeoutCount = 3; // TODO: get timeout number
+    team.timeout = "remove";
+    team.timeoutCount = 2; // TODO: get timeout number
     team.score = t.score;
     team.rank = t.curatedRank !== undefined ? t.curatedRank.current : "";
     team.rank = team.rank !== 99 ? team.rank : "";
@@ -224,7 +211,6 @@ function getTeam(isAway, comp, game) {
     if (state == "pre") {
         team.score = "-";
     } else if (state == "post") {
-
     } else {
         if (team.id == game.possession) {
             team.downAndDist = game.downAndDist;
@@ -232,6 +218,9 @@ function getTeam(isAway, comp, game) {
         }
         for (let i = 0; i < team.timeoutCount; i++) {
             team.timeouts[i] = "show";
+        }
+        if (team.timeoutCount > 0) {
+            team.timeout = "show";
         }
     }
 
@@ -249,10 +238,15 @@ function getGame(event, isNfl) {
         game.link = event.links !== undefined ? event.links[0].href : "";
         game.venue = comp.venue.fullName;
         game.date = new Date(comp.startDate !== undefined ? comp.startDate : event.date);
-        game.dateString = game.date.toLocaleDateString([], { weekday: "long", month: "numeric", day: "numeric" })
+        game.dateString = game.date.toLocaleDateString([], { weekday: "long", month: "numeric", day: "numeric" });
         game.timeString = game.date.toLocaleTimeString([], { timeStyle: "short" });
         game.channel = comp.broadcasts[0].names !== undefined ? comp.broadcasts[0].names.join("/") : "";
-        game.odds = comp.odds !== undefined ? " (" + comp.odds[0].details + (comp.odds[0].overUnder !== undefined ? " O/U " + comp.odds[0].overUnder + ")" : ")") : "";
+        game.odds =
+            comp.odds !== undefined
+                ? " (" +
+                  comp.odds[0].details +
+                  (comp.odds[0].overUnder !== undefined ? " O/U " + comp.odds[0].overUnder + ")" : ")")
+                : "";
         game.topHeader = [game.channel, game.venue, game.odds].filter(Boolean).join(" - ");
         game.lastPlay = " ";
         game.downAndDist = " ";
@@ -292,7 +286,6 @@ function getGame(event, isNfl) {
         } else if (containsFavorite(game)) {
             game.isFavorite = true;
         }
-
     } catch (err) {
         console.log(err);
     }
