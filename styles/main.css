@@ -51,7 +51,7 @@ html {
 .game {
     width: 100%;
     background-color: #242424;
-    padding: 10px;
+    padding: 10px 15px;
     border-radius: 10px;
     margin: 10px 0px;
     cursor: pointer;
@@ -126,7 +126,7 @@ html {
 
 .progress {
     text-align: center;
-    margin: 10px;
+    margin-left: 10px;
 }
 
 .team-info,
