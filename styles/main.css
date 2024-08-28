@@ -145,6 +145,7 @@ html {
 }
 
 .score {
+    font-family: "Chivo Mono", monospace;
     font-size: 28px;
     margin: 0px 10px;
 }
