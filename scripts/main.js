@@ -114,9 +114,11 @@ function renderGame(game) {
                         </svg>
                     </div>
                     <div class="team-name">
-                        ${game.away.name} <span class="rank">${game.away.rank}</span>
+                        ${game.away.name} 
+                        <span class="rank">${game.away.rank}</span>
+                        <span class="possession-icon ${game.away.possession}"></span>
                         <div class="team-info">
-                            ${game.away.record} ${game.away.downAndDist}
+                            ${game.away.record}
                         </div>
                     </div>
                     <div class="score-icons">
@@ -124,9 +126,6 @@ function renderGame(game) {
                             <div class="${game.away.timeouts[2]} timeout"></div>
                             <div class="${game.away.timeouts[1]} timeout"></div>
                             <div class="${game.away.timeouts[0]} timeout"></div>
-                        </div>
-                        <div class="possession ${game.away.possession}">
-                            <span class="possession-icon"></span>
                         </div>
                     </div>
                     <div class="score">
@@ -147,21 +146,18 @@ function renderGame(game) {
                         </svg>
                     </div>
                     <div class="team-name">
-                        ${game.home.name} <span class="rank">${game.home.rank}</span>
+                        ${game.home.name} 
+                        <span class="rank">${game.home.rank}</span> 
+                        <span class="possession-icon ${game.home.possession}"></span>
                         <div class="team-info">
-                            ${game.home.record} ${game.home.downAndDist}
+                            ${game.home.record}
                         </div>
                     </div>
                     <div class="score-icons">
-                        <div class="icon-holder">
-                        </div>
                         <div class="timeouts ${game.home.timeout}">
                             <div class="${game.home.timeouts[2]} timeout"></div>
                             <div class="${game.home.timeouts[1]} timeout"></div>
                             <div class="${game.home.timeouts[0]} timeout"></div>
-                        </div>
-                        <div class="possession ${game.home.possession}">
-                            <span class="possession-icon"></span>
                         </div>
                     </div>
                     <div class="score">
@@ -179,7 +175,7 @@ function renderGame(game) {
             </div>
         </div>
         <div class="last-play">
-            ${game.lastPlay}
+            ${game.info}
         </div>
     `;
     htmlObject.innerHTML = htmlString;
@@ -192,14 +188,13 @@ function getTeam(isAway, comp, game) {
     var team = {};
     var state = game.state;
 
-    
     team.id = t.id;
     team.name = t.team.shortDisplayName;
     team.record = t.records !== undefined ? t.records[0].summary : "";
     team.possession = "remove";
     team.timeouts = ["hide", "hide", "hide"];
     team.timeout = "remove";
-    team.timeoutCount = 0; // TODO: get timeout number
+    team.timeoutCount = 0;
     team.score = t.score;
     team.rank = t.curatedRank !== undefined ? t.curatedRank.current : "";
     team.rank = team.rank !== 99 ? team.rank : "";
@@ -208,21 +203,18 @@ function getTeam(isAway, comp, game) {
     team.alternate = t.team.alternateColor;
     team.alternate = team.alternate !== undefined ? team.alternate : "777777";
     team.downAndDist = "";
-    
+
     if (state == "pre") {
-        team.score = "-";
+        team.score = " ";
     } else if (state == "post") {
-    } else {
-        team.timeoutCount = isAway ? comp.situation.awayTimeouts : comp.situation.homeTimeouts
-        console.log("to,",team.timeoutCount,team.name)
+    } else if (state == "in") {
         if (team.id == game.possession) {
             team.downAndDist = game.downAndDist;
             team.possession = "show";
         }
+        team.timeoutCount = isAway ? comp.situation.awayTimeouts : comp.situation.homeTimeouts
         for (let i = 0; i < team.timeoutCount; i++) {
             team.timeouts[i] = "show";
-        }
-        if (team.timeoutCount > 0) {
             team.timeout = "show";
         }
     }
@@ -247,12 +239,10 @@ function getGame(event, isNfl) {
         game.odds =
             comp.odds !== undefined
                 ? " (" +
-                  comp.odds[0].details +
-                  (comp.odds[0].overUnder !== undefined ? " O/U " + comp.odds[0].overUnder + ")" : ")")
+                comp.odds[0].details +
+                (comp.odds[0].overUnder !== undefined ? " O/U " + comp.odds[0].overUnder + ")" : ")")
                 : "";
         game.topHeader = [game.channel, game.venue, game.odds].filter(Boolean).join(" - ");
-        game.lastPlay = " ";
-        game.downAndDist = " ";
         game.possession = " ";
         game.live = " ";
         game.isNfl = isNfl;
@@ -260,10 +250,13 @@ function getGame(event, isNfl) {
         game.nflIcon = isNfl ? "" : "remove";
 
         if (comp.situation !== undefined) {
-            console.log(comp.situation);
-            game.lastPlay = comp.situation.lastPlay !== undefined ? comp.situation.lastPlay.text : " ";
-            game.downAndDist = comp.situation.downDistanceText !== undefined ? comp.situation.downDistanceText : " ";
+            game.lastPlay = comp.situation.lastPlay !== undefined ? comp.situation.lastPlay.text : undefined;
+            game.downAndDist = comp.situation.downDistanceText;
+            game.info = [game.downAndDist, game.lastPlay].filter(Boolean).join(" - ");
             game.possession = comp.situation.possession !== undefined ? comp.situation.possession : " ";
+            game.isRedZone = comp.situation.isRedZone;
+        } else {
+            game.info = " ";
         }
 
         if (game.state == "pre") {
@@ -272,17 +265,17 @@ function getGame(event, isNfl) {
         } else if (game.state == "post") {
             game.time = " ";
             game.quarter = "Final";
-        } else {
-            game.time = event.status.displayClock;
+        } else if (game.state == "in") {
+            console.log(comp)
+            game.time = event.status.displayClock == "0:00" ? "End of" : event.status.displayClock;
             game.quarter = numToQuart(event.status.period);
             game.live = "fa fa-circle text-danger-glow blink";
-            // console.log(game);
         }
 
         game.away = getTeam(1, comp, game);
         game.home = getTeam(0, comp, game);
 
-        if (isCloseGame(game)) {
+        if (game.isRedZone) {
             game.isClose = true;
         } else if (bothRanked(game) || bothHighWinPercent(game)) {
             game.isGood = true;
@@ -290,7 +283,7 @@ function getGame(event, isNfl) {
             game.isFavorite = true;
         }
     } catch (err) {
-        console.log(err);
+        alert(err);
     }
 
     return game;
