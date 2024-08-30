@@ -304,6 +304,7 @@ requests.push(
         url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard",
         type: "GET",
         dataType: "json",
+        cache: false,
         success: function (res) {
             console.log(res);
             for (let i = 0; i < res.events.length; i++) {
@@ -322,6 +323,7 @@ requests.push(
         url: "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
         type: "GET",
         dataType: "json",
+        cache: false,
         success: function (res) {
             console.log(res);
             for (let i = 0; i < res.events.length; i++) {
@@ -341,6 +343,7 @@ for (let i = 0; i < extraTeams.length; i++) {
             url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/".concat(extraTeams[i]),
             type: "GET",
             dataType: "json",
+            cache: false,
             success: function (res) {
                 var rank = res.team.rank !== undefined ? res.team.rank : 99;
                 if (rank > 25 && res.team.nextEvent !== undefined) {
@@ -363,6 +366,7 @@ $.when.apply($, requests).done(function () {
                 ),
                 type: "GET",
                 dataType: "json",
+                cache: false,
                 success: function (res) {
                     game = getGame(res, 0);
                     if (game !== undefined) {
