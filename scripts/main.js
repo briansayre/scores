@@ -192,13 +192,14 @@ function getTeam(isAway, comp, game) {
     var team = {};
     var state = game.state;
 
+    
     team.id = t.id;
     team.name = t.team.shortDisplayName;
     team.record = t.records !== undefined ? t.records[0].summary : "";
     team.possession = "remove";
     team.timeouts = ["hide", "hide", "hide"];
     team.timeout = "remove";
-    team.timeoutCount = 2; // TODO: get timeout number
+    team.timeoutCount = 0; // TODO: get timeout number
     team.score = t.score;
     team.rank = t.curatedRank !== undefined ? t.curatedRank.current : "";
     team.rank = team.rank !== 99 ? team.rank : "";
@@ -207,11 +208,13 @@ function getTeam(isAway, comp, game) {
     team.alternate = t.team.alternateColor;
     team.alternate = team.alternate !== undefined ? team.alternate : "777777";
     team.downAndDist = "";
-
+    
     if (state == "pre") {
         team.score = "-";
     } else if (state == "post") {
     } else {
+        team.timeoutCount = isAway ? comp.situation.awayTimeouts : comp.situation.homeTimeouts
+        console.log("to,",team.timeoutCount,team.name)
         if (team.id == game.possession) {
             team.downAndDist = game.downAndDist;
             team.possession = "show";
@@ -273,7 +276,7 @@ function getGame(event, isNfl) {
             game.time = event.status.displayClock;
             game.quarter = numToQuart(event.status.period);
             game.live = "fa fa-circle text-danger-glow blink";
-            console.log(g);
+            // console.log(game);
         }
 
         game.away = getTeam(1, comp, game);

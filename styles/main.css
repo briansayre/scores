@@ -107,7 +107,7 @@ html {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap-reverse;
-    width: 30px;
+    width: 20px;
 }
 
 .icon-holder {
@@ -115,22 +115,22 @@ html {
 }
 
 .timeouts {
-    height: 6px;
+    height: 5px;
     display: flex;
     justify-content: space-between;
     margin: 2px 0px;
 }
 
 .timeout {
-    height: 6px;
-    width: 6px;
+    height: 5px;
+    width: 5px;
     background-color: #999999;
     border-radius: 100%;
 }
 
 .possession {
     width: 10px;
-    height: 6px;
+    height: 5px;
     display: flex;
     justify-content: space-around;
     margin: 2px 0px;
@@ -138,7 +138,7 @@ html {
 
 .possession-icon {
     display: inline-block;
-    height: 6px;
+    height: 5px;
     width: 10px;
     background-color: #999999;
     border-radius: 100%;
