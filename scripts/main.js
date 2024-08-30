@@ -236,12 +236,9 @@ function getGame(event, isNfl) {
         game.dateString = game.date.toLocaleDateString([], { weekday: "long", month: "numeric", day: "numeric" });
         game.timeString = game.date.toLocaleTimeString([], { timeStyle: "short" });
         game.channel = comp.broadcasts[0].names !== undefined ? comp.broadcasts[0].names.join("/") : "";
-        game.odds =
-            comp.odds !== undefined
-                ? " (" +
-                comp.odds[0].details +
-                (comp.odds[0].overUnder !== undefined ? " O/U " + comp.odds[0].overUnder + ")" : ")")
-                : "";
+        if (comp.odds !== undefined) {
+            game.odds = "(" + [comp.odds[0].details, comp.odds[0].overUnder].filter(Boolean).join(" O/U ") + ")";
+        }
         game.topHeader = [game.channel, game.venue, game.odds].filter(Boolean).join(" - ");
         game.possession = " ";
         game.live = " ";
@@ -267,8 +264,15 @@ function getGame(event, isNfl) {
             game.time = " ";
             game.quarter = "Final";
         } else if (game.state == "in") {
-            game.time = event.status.displayClock == "0:00" ? "End of" : event.status.displayClock;
-            game.quarter = numToQuart(event.status.period);
+            if (event.status.type.name === "STATUS_HALFTIME") {
+                game.isRedZone = false;
+                game.info = " "
+                game.time = " "
+                game.quarter = "Half"
+            } else {
+                game.time = event.status.displayClock == "0:00" ? "End of" : event.status.displayClock;
+                game.quarter = numToQuart(event.status.period);
+            }
             game.live = "fa fa-circle text-danger-glow blink";
         }
 
@@ -285,7 +289,6 @@ function getGame(event, isNfl) {
     } catch (err) {
         alert(err);
     }
-
     return game;
 }
 
