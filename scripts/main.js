@@ -212,7 +212,7 @@ function getTeam(isAway, comp, game) {
             team.downAndDist = game.downAndDist;
             team.possession = "show";
         }
-        team.timeoutCount = isAway ? comp.situation.awayTimeouts : comp.situation.homeTimeouts
+        // team.timeoutCount = isAway ? comp.situation.awayTimeouts : comp.situation.homeTimeouts
         for (let i = 0; i < team.timeoutCount; i++) {
             team.timeouts[i] = "show";
             team.timeout = "show";
@@ -250,6 +250,7 @@ function getGame(event, isNfl) {
         game.nflIcon = isNfl ? "" : "remove";
 
         if (comp.situation !== undefined) {
+            console.log(game.venue, comp.situation.awayTimeouts, comp.situation.homeTimeouts);
             game.lastPlay = comp.situation.lastPlay !== undefined ? comp.situation.lastPlay.text : undefined;
             game.downAndDist = comp.situation.downDistanceText;
             game.info = [game.downAndDist, game.lastPlay].filter(Boolean).join(" - ");
@@ -266,7 +267,6 @@ function getGame(event, isNfl) {
             game.time = " ";
             game.quarter = "Final";
         } else if (game.state == "in") {
-            console.log(comp)
             game.time = event.status.displayClock == "0:00" ? "End of" : event.status.displayClock;
             game.quarter = numToQuart(event.status.period);
             game.live = "fa fa-circle text-danger-glow blink";
