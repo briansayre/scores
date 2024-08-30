@@ -408,8 +408,12 @@ $.when.apply($, requests).done(function () {
             window.onbeforeunload = function (e) {
                 setCookie("scrollPos", window.scrollY, 14);
             };
-            
+
             window.onpagehide = function (e) {
+                setCookie("scrollPos", window.scrollY, 14);
+            };
+
+            window.onscroll = function (e) {
                 setCookie("scrollPos", window.scrollY, 14);
             };
         });
