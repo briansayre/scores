@@ -8,7 +8,7 @@ var extraGames = [];
 function setCookie(cName, cValue, expirationDays) {
     const d = new Date();
     d.setTime(d.getTime() + expirationDays * 24 * 60 * 60 * 1000);
-    let expires = "expires=" + d.toUTCString();
+    var expires = "expires=" + d.toUTCString();
     document.cookie = cName + "=" + cValue + ";" + expires + ";path=/";
 }
 
@@ -57,7 +57,10 @@ function getWinPercent(team) {
 // do both teams have high win percentage
 function bothHighWinPercent(game) {
     var threshold = 0.69;
-    return getWinPercent(game.away) > threshold && getWinPercent(game.home) > threshold;
+    return (
+        getWinPercent(game.away) > threshold &&
+        getWinPercent(game.home) > threshold
+    );
 }
 
 // is the game close towards the end
@@ -70,8 +73,10 @@ function isCloseGame(game) {
 
 // does the game contain a favorite team
 function containsFavorite(game) {
-    if (!game.isNfl && (game.home.id === "66" || game.away.id === "66")) return true;
-    if (game.isNfl && (game.home.id === "6" || game.away.id === "6")) return true;
+    if (!game.isNfl && (game.home.id === "66" || game.away.id === "66"))
+        return true;
+    if (game.isNfl && (game.home.id === "6" || game.away.id === "6"))
+        return true;
     return false;
 }
 
@@ -120,7 +125,7 @@ function renderGame(game) {
                         </svg>
                     </div>
                     <div class="team-name">
-                        ${game.away.name} 
+                        ${game.away.name}
                         <span class="rank">${game.away.rank}</span>
                         <span class="possession-icon ${game.away.possession}"></span>
                         <div class="team-info">
@@ -232,20 +237,40 @@ function getTeam(isAway, comp, game) {
 function getGame(event, isNfl) {
     var game = {};
     try {
-        var comp = event.competitions !== undefined ? event.competitions[0] : {};
+        var comp =
+            event.competitions !== undefined ? event.competitions[0] : {};
         if (comp == {}) return;
 
-        game.state = event.status !== undefined ? event.status.type.state : "pre";
+        game.state =
+            event.status !== undefined ? event.status.type.state : "pre";
         game.link = event.links !== undefined ? event.links[0].href : "";
         game.venue = comp.venue.fullName;
-        game.date = new Date(comp.startDate !== undefined ? comp.startDate : event.date);
-        game.dateString = game.date.toLocaleDateString([], { weekday: "long", month: "numeric", day: "numeric" });
-        game.timeString = game.date.toLocaleTimeString([], { timeStyle: "short" });
-        game.channel = comp.broadcasts[0].names !== undefined ? comp.broadcasts[0].names.join("/") : "";
+        game.date = new Date(
+            comp.startDate !== undefined ? comp.startDate : event.date
+        );
+        game.dateString = game.date.toLocaleDateString([], {
+            weekday: "long",
+            month: "numeric",
+            day: "numeric",
+        });
+        game.timeString = game.date.toLocaleTimeString([], {
+            timeStyle: "short",
+        });
+        game.channel =
+            comp.broadcasts[0].names !== undefined
+                ? comp.broadcasts[0].names.join("/")
+                : "";
         if (comp.odds !== undefined) {
-            game.odds = "(" + [comp.odds[0].details, comp.odds[0].overUnder].filter(Boolean).join(" O/U ") + ")";
+            game.odds =
+                "(" +
+                [comp.odds[0].details, comp.odds[0].overUnder]
+                    .filter(Boolean)
+                    .join(" O/U ") +
+                ")";
         }
-        game.topHeader = [game.channel, game.venue, game.odds].filter(Boolean).join(" - ");
+        game.topHeader = [game.channel, game.venue, game.odds]
+            .filter(Boolean)
+            .join(" - ");
         game.possession = " ";
         game.live = " ";
         game.isNfl = isNfl;
@@ -253,11 +278,23 @@ function getGame(event, isNfl) {
         game.nflIcon = isNfl ? "" : "remove";
 
         if (comp.situation !== undefined) {
-            console.log(game.venue, comp.situation.awayTimeouts, comp.situation.homeTimeouts);
-            game.lastPlay = comp.situation.lastPlay !== undefined ? comp.situation.lastPlay.text : undefined;
+            console.log(
+                game.venue,
+                comp.situation.awayTimeouts,
+                comp.situation.homeTimeouts
+            );
+            game.lastPlay =
+                comp.situation.lastPlay !== undefined
+                    ? comp.situation.lastPlay.text
+                    : undefined;
             game.downAndDist = comp.situation.downDistanceText;
-            game.info = [game.downAndDist, game.lastPlay].filter(Boolean).join(" - ");
-            game.possession = comp.situation.possession !== undefined ? comp.situation.possession : " ";
+            game.info = [game.downAndDist, game.lastPlay]
+                .filter(Boolean)
+                .join(" - ");
+            game.possession =
+                comp.situation.possession !== undefined
+                    ? comp.situation.possession
+                    : " ";
             game.isRedZone = comp.situation.isRedZone;
         } else {
             game.info = " ";
@@ -272,11 +309,14 @@ function getGame(event, isNfl) {
         } else if (game.state == "in") {
             if (event.status.type.name === "STATUS_HALFTIME") {
                 game.isRedZone = false;
-                game.info = " "
-                game.time = " "
-                game.quarter = "Half"
+                game.info = " ";
+                game.time = " ";
+                game.quarter = "Half";
             } else {
-                game.time = event.status.displayClock == "0:00" ? "End of" : event.status.displayClock;
+                game.time =
+                    event.status.displayClock == "0:00"
+                        ? "End of"
+                        : event.status.displayClock;
                 game.quarter = numToQuart(event.status.period);
             }
             game.live = "fa fa-circle text-danger-glow blink";
@@ -300,17 +340,18 @@ function getGame(event, isNfl) {
 
 // render the games given a filter mode
 function renderGames(filter, clearScreen) {
-
     if (clearScreen) clearGamesScreen();
 
-    shownGames = games.filter(function (game) {
-        if (filter == "both") return 1;
-        if (game.isNfl && filter == "nfl") return 1;
-        if (!game.isNfl && filter == "ncaa") return 1;
-        return 0;
-    }).sort(function (a, b) {
-        return a.date - b.date;
-    });
+    shownGames = games
+        .filter(function (game) {
+            if (filter == "both") return 1;
+            if (game.isNfl && filter == "nfl") return 1;
+            if (!game.isNfl && filter == "ncaa") return 1;
+            return 0;
+        })
+        .sort(function (a, b) {
+            return a.date - b.date;
+        });
 
     var prevDate = "";
     var prevTime = "";
@@ -338,7 +379,6 @@ function requestNcaaGames() {
             dataType: "json",
             cache: false,
             success: function (res) {
-                console.log(res);
                 for (let i = 0; i < res.events.length; i++) {
                     game = getGame(res.events[i], 0);
                     if (game !== undefined) {
@@ -357,7 +397,9 @@ function requestExtraNcaaTeams() {
     for (let i = 0; i < extraTeams.length; i++) {
         requests.push(
             $.ajax({
-                url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/".concat(extraTeams[i]),
+                url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/".concat(
+                    extraTeams[i]
+                ),
                 type: "GET",
                 dataType: "json",
                 cache: false,
@@ -404,7 +446,6 @@ function requestNflGames() {
             dataType: "json",
             cache: false,
             success: function (res) {
-                console.log(res);
                 for (let i = 0; i < res.events.length; i++) {
                     game = getGame(res.events[i], 1);
                     if (game !== undefined) {
@@ -433,7 +474,7 @@ function clearGamesData() {
 function filterClick(element, resetScroll) {
     var buttons = document.getElementsByClassName("button");
     var arr = [...buttons];
-    var index = arr.indexOf(element)
+    var index = arr.indexOf(element);
 
     element.style.backgroundColor = "#242424";
     element.style.fontWeight = "bold";
@@ -461,7 +502,6 @@ function filterClick(element, resetScroll) {
 
 // send requests, filter games, and render
 function requestGames() {
-
     clearGamesData();
 
     requestNcaaGames();
@@ -470,18 +510,17 @@ function requestGames() {
 
     // when ncaa, nfl, and extra teams are done, do extra games
     $.when.apply($, requests).done(function () {
-
         requestExtraNcaaGames();
 
         // now render the games
         $.when.apply($, extraGameRequests).done(function () {
-
             var filterCookie = getCookie("filter");
             var filter = filterCookie === "" ? "both" : filterCookie;
             filterClick(document.getElementById(filter + "-button"), 0);
 
             $(document).ready(function () {
-                document.getElementById("container").style.visibility = "visible";
+                document.getElementById("container").style.visibility =
+                    "visible";
                 document.getElementById("buttons").style.visibility = "visible";
                 document.getElementById("loading").style.display = "none";
 
@@ -507,5 +546,3 @@ function requestGames() {
 // request games and get updates every 10 seconds
 requestGames();
 setInterval(requestGames, 10 * 1000);
-
-
