@@ -10,6 +10,30 @@ html {
     text-align: center;
 }
 
+#buttons {
+    visibility: hidden;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+    margin: 10px;
+    background-color: #24242400;
+}
+
+.button {
+    flex-grow: 1;
+    appearance: none;
+    color: #d9d9d9;
+    background-color: #24242400;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    font-size: 14px;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
 #container {
     visibility: hidden;
     display: flex;

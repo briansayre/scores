@@ -1,3 +1,9 @@
+var games = [];
+var shownGames = [];
+var requests = [];
+var extraGameRequests = [];
+var extraGames = [];
+
 // set a cookie value
 function setCookie(cName, cValue, expirationDays) {
     const d = new Date();
@@ -292,72 +298,83 @@ function getGame(event, isNfl) {
     return game;
 }
 
-var games = [];
-var requests = [];
-var extraGameRequests = [];
-var extraGames = [];
-var extraTeams = [66, 38, 2460, 2294];
+// render the games given a filter mode
+function renderGames(filter, clearScreen) {
 
-// ncaa
-requests.push(
-    $.ajax({
-        url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard",
-        type: "GET",
-        dataType: "json",
-        cache: false,
-        success: function (res) {
-            console.log(res);
-            for (let i = 0; i < res.events.length; i++) {
-                game = getGame(res.events[i], 0);
-                if (game !== undefined) {
-                    games.push(game);
-                }
-            }
-        },
-    })
-);
+    if (clearScreen) clearGamesScreen();
 
-// nfl
-requests.push(
-    $.ajax({
-        url: "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
-        type: "GET",
-        dataType: "json",
-        cache: false,
-        success: function (res) {
-            console.log(res);
-            for (let i = 0; i < res.events.length; i++) {
-                game = getGame(res.events[i], 1);
-                if (game !== undefined) {
-                    games.push(game);
-                }
-            }
-        },
-    })
-);
+    shownGames = games.filter(function (game) {
+        if (filter == "both") return 1;
+        if (game.isNfl && filter == "nfl") return 1;
+        if (!game.isNfl && filter == "ncaa") return 1;
+        return 0;
+    }).sort(function (a, b) {
+        return a.date - b.date;
+    });
 
-// extra teams
-for (let i = 0; i < extraTeams.length; i++) {
+    var prevDate = "";
+    var prevTime = "";
+
+    for (let i = 0; i < shownGames.length; i++) {
+        if (shownGames[i].dateString !== prevDate) {
+            renderDateOrTime(shownGames[i].dateString, "game-date");
+            prevDate = shownGames[i].dateString;
+            prevTime = "";
+        }
+        if (shownGames[i].timeString !== prevTime) {
+            renderDateOrTime(shownGames[i].timeString, "game-time");
+            prevTime = shownGames[i].timeString;
+        }
+        renderGame(shownGames[i]);
+    }
+}
+
+// request ncaa games
+function requestNcaaGames() {
     requests.push(
         $.ajax({
-            url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/".concat(extraTeams[i]),
+            url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard",
             type: "GET",
             dataType: "json",
             cache: false,
             success: function (res) {
-                var rank = res.team.rank !== undefined ? res.team.rank : 99;
-                if (rank > 25 && res.team.nextEvent !== undefined) {
-                    id = res.team.nextEvent[0].id;
-                    extraGames.push(id);
+                console.log(res);
+                for (let i = 0; i < res.events.length; i++) {
+                    game = getGame(res.events[i], 0);
+                    if (game !== undefined) {
+                        games.push(game);
+                    }
                 }
             },
         })
     );
 }
 
-// when ncaa, nfl, and extra teams are done, do extra games
-$.when.apply($, requests).done(function () {
-    // get extra games
+// request the extra teams
+function requestExtraNcaaTeams() {
+    var extraTeams = [66, 38, 2460, 2294, 275];
+
+    for (let i = 0; i < extraTeams.length; i++) {
+        requests.push(
+            $.ajax({
+                url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/".concat(extraTeams[i]),
+                type: "GET",
+                dataType: "json",
+                cache: false,
+                success: function (res) {
+                    var rank = res.team.rank !== undefined ? res.team.rank : 99;
+                    if (rank > 25 && res.team.nextEvent !== undefined) {
+                        id = res.team.nextEvent[0].id;
+                        extraGames.push(id);
+                    }
+                },
+            })
+        );
+    }
+}
+
+// request extra games
+function requestExtraNcaaGames() {
     for (let i = 0; i < extraGames.length; i++) {
         extraGameRequests.push(
             $.ajax({
@@ -376,46 +393,119 @@ $.when.apply($, requests).done(function () {
             })
         );
     }
-    // now render the games
-    $.when.apply($, extraGameRequests).done(function () {
-        games.sort(function (a, b) {
-            return a.date - b.date;
-        });
+}
 
-        var prevDate = "";
-        var prevTime = "";
+// request nfl games
+function requestNflGames() {
+    requests.push(
+        $.ajax({
+            url: "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard",
+            type: "GET",
+            dataType: "json",
+            cache: false,
+            success: function (res) {
+                console.log(res);
+                for (let i = 0; i < res.events.length; i++) {
+                    game = getGame(res.events[i], 1);
+                    if (game !== undefined) {
+                        games.push(game);
+                    }
+                }
+            },
+        })
+    );
+}
 
-        for (let i = 0; i < games.length; i++) {
-            if (games[i].dateString !== prevDate) {
-                renderDateOrTime(games[i].dateString, "game-date");
-                prevDate = games[i].dateString;
-                prevTime = "";
-            }
-            if (games[i].timeString !== prevTime) {
-                renderDateOrTime(games[i].timeString, "game-time");
-                prevTime = games[i].timeString;
-            }
-            renderGame(games[i]);
-        }
+// remove the games from the screen
+function clearGamesScreen() {
+    document.getElementById("container").innerHTML = "";
+}
 
-        $(document).ready(function () {
-            document.getElementById("container").style.visibility = "visible";
-            document.getElementById("loading").style.display = "none";
+// clears the arrays holding the games and requests in order to get new ones
+function clearGamesData() {
+    games = [];
+    requests = [];
+    extraGameRequests = [];
+    extraGames = [];
+}
 
-            var scrollPos = getCookie("scrollPos");
-            if (scrollPos) window.scrollTo(0, scrollPos);
+// filer the games given the button pressed
+function filterClick(element, resetScroll) {
+    var buttons = document.getElementsByClassName("button");
+    var arr = [...buttons];
+    var index = arr.indexOf(element)
 
-            window.onbeforeunload = function (e) {
-                setCookie("scrollPos", window.scrollY, 14);
-            };
+    element.style.backgroundColor = "#242424";
+    element.style.fontWeight = "bold";
 
-            window.onpagehide = function (e) {
-                setCookie("scrollPos", window.scrollY, 14);
-            };
+    if (resetScroll) setCookie("scrollPos", 0, 14);
 
-            window.onscroll = function (e) {
-                setCookie("scrollPos", window.scrollY, 14);
-            };
+    if (index == 0) {
+        renderGames("ncaa", 1);
+        setCookie("filter", "ncaa", 14);
+    } else if (index == 1) {
+        renderGames("both", 1);
+        setCookie("filter", "both", 14);
+    } else {
+        renderGames("nfl", 1);
+        setCookie("filter", "nfl", 14);
+    }
+
+    arr.filter(function (item) {
+        return item != element;
+    }).forEach((item) => {
+        item.style.backgroundColor = "#24242400";
+        item.style.fontWeight = "";
+    });
+}
+
+// send requests, filter games, and render
+function requestGames() {
+
+    clearGamesData();
+
+    requestNcaaGames();
+    requestExtraNcaaTeams();
+    requestNflGames();
+
+    // when ncaa, nfl, and extra teams are done, do extra games
+    $.when.apply($, requests).done(function () {
+
+        requestExtraNcaaGames();
+
+        // now render the games
+        $.when.apply($, extraGameRequests).done(function () {
+
+            var modeCookie = getCookie("filter");
+            var mode = modeCookie === "" ? "both" : modeCookie;
+            filterClick(document.getElementById(mode + "-button"), 0);
+
+            $(document).ready(function () {
+                document.getElementById("container").style.visibility = "visible";
+                document.getElementById("buttons").style.visibility = "visible";
+                document.getElementById("loading").style.display = "none";
+
+                var scrollPos = getCookie("scrollPos");
+                if (scrollPos) window.scrollTo(0, scrollPos);
+
+                window.onbeforeunload = function (e) {
+                    setCookie("scrollPos", window.scrollY, 14);
+                };
+
+                window.onpagehide = function (e) {
+                    setCookie("scrollPos", window.scrollY, 14);
+                };
+
+                window.onscroll = function (e) {
+                    setCookie("scrollPos", window.scrollY, 14);
+                };
+            });
         });
     });
-});
+}
+
+// request games and get updates every 10 seconds
+requestGames();
+setInterval(requestGames, 10 * 1000);
+
+
