@@ -476,9 +476,9 @@ function requestGames() {
         // now render the games
         $.when.apply($, extraGameRequests).done(function () {
 
-            var modeCookie = getCookie("filter");
-            var mode = modeCookie === "" ? "both" : modeCookie;
-            filterClick(document.getElementById(mode + "-button"), 0);
+            var filterCookie = getCookie("filter");
+            var filter = filterCookie === "" ? "both" : filterCookie;
+            filterClick(document.getElementById(filter + "-button"), 0);
 
             $(document).ready(function () {
                 document.getElementById("container").style.visibility = "visible";
