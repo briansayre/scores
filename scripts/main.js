@@ -107,7 +107,7 @@ function renderGame(game) {
 
     var htmlString = `
         <div class="network">
-            <i class="${game.live}"></i>${game.topHeader}
+            <span class="${game.live}"></span>${game.topHeader}
         </div>
         <div class="scores">
             <div class="teams">
@@ -319,7 +319,7 @@ function getGame(event, isNfl) {
                         : event.status.displayClock;
                 game.quarter = numToQuart(event.status.period);
             }
-            game.live = "fa fa-circle text-danger-glow blink";
+            game.live = "live-game";
         }
 
         game.away = getTeam(1, comp, game);

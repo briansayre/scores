@@ -42,7 +42,7 @@ html {
     max-width: 700px;
     min-width: 300px;
     flex-grow: 1;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
 }
 
 .game-date {
@@ -188,17 +188,15 @@ html {
     display: none;
 }
 
-.text-danger-glow {
-    color: #ff4141;
-    text-shadow: 0 0 5px rgba(255, 0, 0, 0.295);
-}
-
-.blink {
-    display: block;
+.live-game {
+    background-color: #ff4141;
+    filter: drop-shadow(0 0 7px rgba(255, 0, 0, 0.692));
+    animation: blinker 0.75s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
+    display: inline-block;
     margin-right: 5px;
-    width: 10px;
-    height: 10px;
-    animation: blinker 1s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
+    width: 7px;
+    height: 7px;
+    border-radius: 100%;
 }
 
 @keyframes blinker {
