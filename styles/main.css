@@ -102,6 +102,27 @@ html {
     align-items: center;
 }
 
+.live-game {
+    background-color: #ff4141;
+    filter: drop-shadow(0 0 7px rgba(255, 0, 0, 0.692));
+    animation: blinker 0.75s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
+    display: inline-block;
+    margin-right: 5px;
+    width: 7px;
+    height: 7px;
+    border-radius: 100%;
+}
+
+@keyframes blinker {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0.1;
+    }
+}
+
 .teams {
     flex-grow: 1;
 }
@@ -186,25 +207,4 @@ html {
 
 .remove {
     display: none;
-}
-
-.live-game {
-    background-color: #ff4141;
-    filter: drop-shadow(0 0 7px rgba(255, 0, 0, 0.692));
-    animation: blinker 0.75s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
-    display: inline-block;
-    margin-right: 5px;
-    width: 7px;
-    height: 7px;
-    border-radius: 100%;
-}
-
-@keyframes blinker {
-    from {
-        opacity: 1;
-    }
-
-    to {
-        opacity: 0.1;
-    }
 }

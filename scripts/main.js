@@ -13,8 +13,8 @@ function setCookie(cName, cValue, expirationDays) {
 }
 
 // get a cookie value
-function getCookie(cname) {
-    let name = cname + "=";
+function getCookie(cName) {
+    let name = cName + "=";
     let ca = document.cookie.split(";");
     for (let i = 0; i < ca.length; i++) {
         let c = ca[i];
@@ -26,58 +26,6 @@ function getCookie(cname) {
         }
     }
     return "";
-}
-
-// convert number to quarter string
-function numToQuart(num) {
-    if (num === 4) return "4th";
-    if (num === 3) return "3rd";
-    if (num === 2) return "2nd";
-    if (num === 1) return "1st";
-    if (num === 0) return "";
-    return "OT";
-}
-
-// are both teams ranked
-function bothRanked(game) {
-    return game.home.rank !== "" && game.away.rank !== "";
-}
-
-// get a teams win percentage
-function getWinPercent(team) {
-    var indexOfDash = team.record.indexOf("-");
-    if (indexOfDash === -1) return -1;
-    var wins = Number(team.record.substring(0, indexOfDash));
-    var losses = Number(team.record.substring(indexOfDash + 1));
-    var total = wins + losses;
-    if (total === 0) return -1;
-    return wins / total;
-}
-
-// do both teams have high win percentage
-function bothHighWinPercent(game) {
-    var threshold = 0.69;
-    return (
-        getWinPercent(game.away) > threshold &&
-        getWinPercent(game.home) > threshold
-    );
-}
-
-// is the game close towards the end
-function isCloseGame(game) {
-    return (
-        Math.abs(Number(game.home.score) - Number(game.away.score)) < 9 &&
-        (game.quarter == "3rd" || game.quarter == "4th" || game.quarter == "OT")
-    );
-}
-
-// does the game contain a favorite team
-function containsFavorite(game) {
-    if (!game.isNfl && (game.home.id === "66" || game.away.id === "66"))
-        return true;
-    if (game.isNfl && (game.home.id === "6" || game.away.id === "6"))
-        return true;
-    return false;
 }
 
 // render a date or time
@@ -133,10 +81,10 @@ function renderGame(game) {
                         </div>
                     </div>
                     <div class="score-icons">
-                        <div class="timeouts ${game.away.timeout}">
-                            <div class="${game.away.timeouts[2]} timeout"></div>
-                            <div class="${game.away.timeouts[1]} timeout"></div>
-                            <div class="${game.away.timeouts[0]} timeout"></div>
+                        <div class="timeouts ${game.away.timeouts}">
+                            <div class="${game.away.timeoutIcons[2]} timeout"></div>
+                            <div class="${game.away.timeoutIcons[1]} timeout"></div>
+                            <div class="${game.away.timeoutIcons[0]} timeout"></div>
                         </div>
                     </div>
                     <div class="score">
@@ -165,10 +113,10 @@ function renderGame(game) {
                         </div>
                     </div>
                     <div class="score-icons">
-                        <div class="timeouts ${game.home.timeout}">
-                            <div class="${game.home.timeouts[2]} timeout"></div>
-                            <div class="${game.home.timeouts[1]} timeout"></div>
-                            <div class="${game.home.timeouts[0]} timeout"></div>
+                        <div class="timeouts ${game.home.timeouts}">
+                            <div class="${game.home.timeoutIcons[2]} timeout"></div>
+                            <div class="${game.home.timeoutIcons[1]} timeout"></div>
+                            <div class="${game.home.timeoutIcons[0]} timeout"></div>
                         </div>
                     </div>
                     <div class="score">
@@ -193,154 +141,9 @@ function renderGame(game) {
     document.getElementById("container").appendChild(htmlObject);
 }
 
-// parse the team from the response
-function getTeam(isAway, comp, game) {
-    var t = comp.competitors[isAway];
-    var team = {};
-    var state = game.state;
-
-    team.id = t.id;
-    team.name = t.team.shortDisplayName;
-    team.record = t.records !== undefined ? t.records[0].summary : "";
-    team.possession = "remove";
-    team.timeouts = ["hide", "hide", "hide"];
-    team.timeout = "remove";
-    team.timeoutCount = 0;
-    team.score = t.score;
-    team.rank = t.curatedRank !== undefined ? t.curatedRank.current : "";
-    team.rank = team.rank !== 99 ? team.rank : "";
-    team.primary = t.team.color;
-    team.primary = team.primary !== undefined ? team.primary : "777777";
-    team.alternate = t.team.alternateColor;
-    team.alternate = team.alternate !== undefined ? team.alternate : "777777";
-    team.downAndDist = "";
-
-    if (state == "pre") {
-        team.score = " ";
-    } else if (state == "post") {
-    } else if (state == "in") {
-        if (team.id == game.possession) {
-            team.downAndDist = game.downAndDist;
-            team.possession = "show";
-        }
-        // team.timeoutCount = isAway ? comp.situation.awayTimeouts : comp.situation.homeTimeouts
-        for (let i = 0; i < team.timeoutCount; i++) {
-            team.timeouts[i] = "show";
-            team.timeout = "show";
-        }
-    }
-
-    return team;
-}
-
-// parse the game from the response
-function getGame(event, isNfl) {
-    var game = {};
-    try {
-        var comp =
-            event.competitions !== undefined ? event.competitions[0] : {};
-        if (comp == {}) return;
-
-        game.state =
-            event.status !== undefined ? event.status.type.state : "pre";
-        game.link = event.links !== undefined ? event.links[0].href : "";
-        game.venue = comp.venue.fullName;
-        game.date = new Date(
-            comp.startDate !== undefined ? comp.startDate : event.date
-        );
-        game.dateString = game.date.toLocaleDateString([], {
-            weekday: "long",
-            month: "numeric",
-            day: "numeric",
-        });
-        game.timeString = game.date.toLocaleTimeString([], {
-            timeStyle: "short",
-        });
-        game.channel =
-            comp.broadcasts[0].names !== undefined
-                ? comp.broadcasts[0].names.join("/")
-                : "";
-        if (comp.odds !== undefined) {
-            game.odds =
-                "(" +
-                [comp.odds[0].details, comp.odds[0].overUnder]
-                    .filter(Boolean)
-                    .join(" O/U ") +
-                ")";
-        }
-        game.topHeader = [game.channel, game.venue, game.odds]
-            .filter(Boolean)
-            .join(" - ");
-        game.possession = " ";
-        game.live = " ";
-        game.isNfl = isNfl;
-        game.ncaaIcon = isNfl ? "remove" : "";
-        game.nflIcon = isNfl ? "" : "remove";
-
-        if (comp.situation !== undefined) {
-            console.log(
-                game.venue,
-                comp.situation.awayTimeouts,
-                comp.situation.homeTimeouts
-            );
-            game.lastPlay =
-                comp.situation.lastPlay !== undefined
-                    ? comp.situation.lastPlay.text
-                    : undefined;
-            game.downAndDist = comp.situation.downDistanceText;
-            game.info = [game.downAndDist, game.lastPlay]
-                .filter(Boolean)
-                .join(" - ");
-            game.possession =
-                comp.situation.possession !== undefined
-                    ? comp.situation.possession
-                    : " ";
-            game.isRedZone = comp.situation.isRedZone;
-        } else {
-            game.info = " ";
-        }
-
-        if (game.state == "pre") {
-            game.time = " ";
-            game.quarter = " ";
-        } else if (game.state == "post") {
-            game.time = " ";
-            game.quarter = "Final";
-        } else if (game.state == "in") {
-            if (event.status.type.name === "STATUS_HALFTIME") {
-                game.isRedZone = false;
-                game.info = " ";
-                game.time = " ";
-                game.quarter = "Half";
-            } else {
-                game.time =
-                    event.status.displayClock == "0:00"
-                        ? "End of"
-                        : event.status.displayClock;
-                game.quarter = numToQuart(event.status.period);
-            }
-            game.live = "live-game";
-        }
-
-        game.away = getTeam(1, comp, game);
-        game.home = getTeam(0, comp, game);
-
-        if (game.isRedZone) {
-            game.isClose = true;
-        } else if (bothRanked(game) || bothHighWinPercent(game)) {
-            game.isGood = true;
-        } else if (containsFavorite(game)) {
-            game.isFavorite = true;
-        }
-    } catch (err) {
-        alert(err);
-    }
-    return game;
-}
-
 // render the games given a filter mode
-function renderGames(filter, clearScreen) {
-    if (clearScreen) clearGamesScreen();
+function renderGames(filter) {
+    clearGamesScreen();
 
     shownGames = games
         .filter(function (game) {
@@ -370,6 +173,19 @@ function renderGames(filter, clearScreen) {
     }
 }
 
+// remove the games from the screen
+function clearGamesScreen() {
+    document.getElementById("container").innerHTML = "";
+}
+
+// clears the arrays holding the games and requests in order to get new ones
+function clearGamesData() {
+    games = [];
+    requests = [];
+    extraGameRequests = [];
+    extraGames = [];
+}
+
 // request ncaa games
 function requestNcaaGames() {
     requests.push(
@@ -380,8 +196,8 @@ function requestNcaaGames() {
             cache: false,
             success: function (res) {
                 for (let i = 0; i < res.events.length; i++) {
-                    game = getGame(res.events[i], 0);
-                    if (game !== undefined) {
+                    game = new Game(res.events[i], 0);
+                    if (game !== undefined && oneTeamRanked(game)) {
                         games.push(game);
                     }
                 }
@@ -418,22 +234,27 @@ function requestExtraNcaaTeams() {
 // request extra games
 function requestExtraNcaaGames() {
     for (let i = 0; i < extraGames.length; i++) {
-        extraGameRequests.push(
-            $.ajax({
-                url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard/".concat(
-                    extraGames[i]
-                ),
-                type: "GET",
-                dataType: "json",
-                cache: false,
-                success: function (res) {
-                    game = getGame(res, 0);
-                    if (game !== undefined) {
-                        games.push(game);
-                    }
-                },
-            })
-        );
+        var foundGame = games.find((game) => {
+            return game.id === extraGames[i];
+        });
+        if (foundGame === undefined) {
+            extraGameRequests.push(
+                $.ajax({
+                    url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard/".concat(
+                        extraGames[i]
+                    ),
+                    type: "GET",
+                    dataType: "json",
+                    cache: false,
+                    success: function (res) {
+                        game = new Game(res, 0);
+                        if (game !== undefined) {
+                            games.push(game);
+                        }
+                    },
+                })
+            );
+        }
     }
 }
 
@@ -447,7 +268,7 @@ function requestNflGames() {
             cache: false,
             success: function (res) {
                 for (let i = 0; i < res.events.length; i++) {
-                    game = getGame(res.events[i], 1);
+                    game = new Game(res.events[i], 1);
                     if (game !== undefined) {
                         games.push(game);
                     }
@@ -455,19 +276,6 @@ function requestNflGames() {
             },
         })
     );
-}
-
-// remove the games from the screen
-function clearGamesScreen() {
-    document.getElementById("container").innerHTML = "";
-}
-
-// clears the arrays holding the games and requests in order to get new ones
-function clearGamesData() {
-    games = [];
-    requests = [];
-    extraGameRequests = [];
-    extraGames = [];
 }
 
 // filer the games given the button pressed
@@ -482,13 +290,13 @@ function filterClick(element, resetScroll) {
     if (resetScroll) setCookie("scrollPos", 0, 14);
 
     if (index == 0) {
-        renderGames("ncaa", 1);
+        renderGames("ncaa");
         setCookie("filter", "ncaa", 14);
     } else if (index == 1) {
-        renderGames("both", 1);
+        renderGames("both");
         setCookie("filter", "both", 14);
     } else {
-        renderGames("nfl", 1);
+        renderGames("nfl");
         setCookie("filter", "nfl", 14);
     }
 
@@ -501,9 +309,8 @@ function filterClick(element, resetScroll) {
 }
 
 // send requests, filter games, and render
-function requestGames() {
+function loadPage() {
     clearGamesData();
-
     requestNcaaGames();
     requestExtraNcaaTeams();
     requestNflGames();
@@ -543,6 +350,6 @@ function requestGames() {
     });
 }
 
-// request games and get updates every 10 seconds
-requestGames();
-setInterval(requestGames, 10 * 1000);
+// load page and get updates every 10 seconds
+loadPage();
+setInterval(loadPage, 10 * 1000);
