@@ -1,45 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="Scores" />
+        <meta name="author" content="Brian Sayre" />
+        <title>Scores</title>
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="./apple-touch-icon.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="32x32"
+            href="./favicon-32x32.png"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="16x16"
+            href="./favicon-16x16.png"
+        />
+        <link rel="manifest" href="./site.webmanifest" />
+        <link rel="stylesheet" href="styles/main.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Chivo+Mono&family=DM+Mono&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="./scripts/team.js"></script>
+        <script src="./scripts/game.js"></script>
+        <script src="./scripts/main.js"></script>
+    </head>
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Scores" />
-    <meta name="author" content="Brian Sayre" />
-    <title>Scores</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
-    <link rel="manifest" href="./site.webmanifest" />
-    <link rel="stylesheet" href="styles/main.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400&display=swap"
-        rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono&family=DM+Mono&display=swap" rel="stylesheet" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="./scripts/team.js"></script>
-    <script src="./scripts/game.js"></script>
-    <script src="./scripts/main.js"></script>
-</head>
-
-<body>
-    <div id="loading">
-        <h3>loading...</h3>
-        <!-- <img width="200px" src="./images/loading.webp" alt="loading..." /> -->
-    </div>
-    <div id="buttons">
-        <button type="button" class="button" name="toggle" id="ncaa-button" onclick="filterClick(this, 1)">
-            NCAA
-        </button>
-        <button type="button" class="button" name="toggle" id="both-button" onclick="filterClick(this, 1)">
-            Both
-        </button>
-        <button type="button" class="button" name="toggle" id="nfl-button" onclick="filterClick(this, 1)">
-            NFL
-        </button>
-    </div>
-    <div id="container"></div>
-</body>
-
+    <body>
+        <div id="loading">
+            <h3>loading...</h3>
+            <!-- <img width="200px" src="./images/loading.webp" alt="loading..." /> -->
+        </div>
+        <div id="buttons">
+            <button
+                type="button"
+                class="tab-button"
+                name="toggle"
+                id="ncaa-button"
+                onclick="tabClick(this, 1)"
+            >
+                NCAA
+            </button>
+            <button
+                type="button"
+                class="tab-button"
+                name="toggle"
+                id="both-button"
+                onclick="tabClick(this, 1)"
+            >
+                Both
+            </button>
+            <button
+                type="button"
+                class="tab-button"
+                name="toggle"
+                id="nfl-button"
+                onclick="tabClick(this, 1)"
+            >
+                NFL
+            </button>
+        </div>
+        <div id="container"></div>
+        <div id="settings">
+            <button
+                type="button"
+                class="button"
+                name="settings"
+                id="settings-button"
+                onclick="settingsClick()"
+            >
+                Settings
+            </button>
+            <div id="settings-modal">
+                <div id="settings-content">
+                    <span class="close" onclick="closeSettings()">&times;</span>
+                    <p>College football games selection:</p>
+                    <form>
+                        <input
+                            type="radio"
+                            id="ranked"
+                            name="ncaa-selection"
+                            value="ranked"
+                        />
+                        <label for="ranked">Ranked</label> <br />
+                        <input
+                            type="radio"
+                            id="all"
+                            name="ncaa-selection"
+                            value="all"
+                        />
+                        <label for="all">All</label> <br /><br />
+                        <button
+                            type="button"
+                            class="button"
+                            name="save"
+                            id="save-button"
+                            onclick="saveClick()"
+                        >
+                            Save
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

@@ -3,29 +3,16 @@ var shownGames = [];
 var requests = [];
 var extraGameRequests = [];
 var extraGames = [];
+var extraTeams = [66, 38, 2460, 2294, 275];
 
-// set a cookie value
-function setCookie(cName, cValue, expirationDays) {
-    const d = new Date();
-    d.setTime(d.getTime() + expirationDays * 24 * 60 * 60 * 1000);
-    var expires = "expires=" + d.toUTCString();
-    document.cookie = cName + "=" + cValue + ";" + expires + ";path=/";
+// set a local storage value
+function setLocalStorage(name, value) {
+    localStorage.setItem(name, value);
 }
 
-// get a cookie value
-function getCookie(cName) {
-    let name = cName + "=";
-    let ca = document.cookie.split(";");
-    for (let i = 0; i < ca.length; i++) {
-        let c = ca[i];
-        while (c.charAt(0) == " ") {
-            c = c.substring(1);
-        }
-        if (c.indexOf(name) == 0) {
-            return c.substring(name.length, c.length);
-        }
-    }
-    return "";
+// get a local storage value
+function getLocalStorage(name) {
+    return localStorage.getItem(name);
 }
 
 // render a date or time
@@ -142,19 +129,10 @@ function renderGame(game) {
 }
 
 // render the games given a filter mode
-function renderGames(filter) {
+function renderGames() {
     clearGamesScreen();
 
-    shownGames = games
-        .filter(function (game) {
-            if (filter == "both") return 1;
-            if (game.isNfl && filter == "nfl") return 1;
-            if (!game.isNfl && filter == "ncaa") return 1;
-            return 0;
-        })
-        .sort(function (a, b) {
-            return a.date - b.date;
-        });
+    shownGames = filterBasedOnSettings(games);
 
     var prevDate = "";
     var prevTime = "";
@@ -171,6 +149,29 @@ function renderGames(filter) {
         }
         renderGame(shownGames[i]);
     }
+}
+
+// filter games array based on settings and tab
+function filterBasedOnSettings(games) {
+    var tab = getLocalStorage("tab");
+    if (tab === null) ncaaSelection = "both";
+    games = games.filter(function (game) {
+        if (tab == "both") return 1;
+        if (game.isNfl && tab == "nfl") return 1;
+        if (!game.isNfl && tab == "ncaa") return 1;
+        return 0;
+    });
+
+    var ncaaSelection = getLocalStorage("ncaaSelection");
+    if (ncaaSelection === null) ncaaSelection = "ranked";
+    games = games.filter(function (game) {
+        if (!game.isNfl && ncaaSelection == "ranked") {
+            return oneTeamRanked(game) || containsExtra(game, extraTeams);
+        }
+        return 1;
+    });
+
+    return games;
 }
 
 // remove the games from the screen
@@ -190,14 +191,13 @@ function clearGamesData() {
 function requestNcaaGames() {
     requests.push(
         $.ajax({
-            url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard",
-            type: "GET",
+            url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=80",
             dataType: "json",
             cache: false,
             success: function (res) {
                 for (let i = 0; i < res.events.length; i++) {
                     game = new Game(res.events[i], 0);
-                    if (game !== undefined && oneTeamRanked(game)) {
+                    if (game !== undefined) {
                         games.push(game);
                     }
                 }
@@ -208,8 +208,6 @@ function requestNcaaGames() {
 
 // request the extra teams
 function requestExtraNcaaTeams() {
-    var extraTeams = [66, 38, 2460, 2294, 275];
-
     for (let i = 0; i < extraTeams.length; i++) {
         requests.push(
             $.ajax({
@@ -279,33 +277,52 @@ function requestNflGames() {
 }
 
 // filer the games given the button pressed
-function filterClick(element, resetScroll) {
-    var buttons = document.getElementsByClassName("button");
+function tabClick(element, resetScroll) {
+    var buttons = document.getElementsByClassName("tab-button");
     var arr = [...buttons];
     var index = arr.indexOf(element);
 
     element.style.backgroundColor = "#242424";
     element.style.fontWeight = "bold";
 
-    if (resetScroll) setCookie("scrollPos", 0, 14);
+    if (resetScroll) setLocalStorage("scrollPos", 0);
 
     if (index == 0) {
-        renderGames("ncaa");
-        setCookie("filter", "ncaa", 14);
+        setLocalStorage("tab", "ncaa");
     } else if (index == 1) {
-        renderGames("both");
-        setCookie("filter", "both", 14);
+        setLocalStorage("tab", "both");
     } else {
-        renderGames("nfl");
-        setCookie("filter", "nfl", 14);
+        setLocalStorage("tab", "nfl");
     }
+
+    renderGames();
 
     arr.filter(function (item) {
         return item != element;
     }).forEach((item) => {
-        item.style.backgroundColor = "#24242400";
+        item.style.backgroundColor = "#00000000";
         item.style.fontWeight = "";
     });
+}
+
+function settingsClick() {
+    var ncaaSelection = getLocalStorage("ncaaSelection");
+    if (ncaaSelection !== null)
+        document.getElementById(ncaaSelection).checked = true;
+    document.getElementById("settings-modal").style.display = "block";
+}
+
+function saveClick() {
+    var ncaaSelection = document.querySelector(
+        'input[name="ncaa-selection"]:checked'
+    ).value;
+    setLocalStorage("ncaaSelection", ncaaSelection);
+    closeSettings();
+    loadPage();
+}
+
+function closeSettings() {
+    document.getElementById("settings-modal").style.display = "none";
 }
 
 // send requests, filter games, and render
@@ -321,29 +338,38 @@ function loadPage() {
 
         // now render the games
         $.when.apply($, extraGameRequests).done(function () {
-            var filterCookie = getCookie("filter");
-            var filter = filterCookie === "" ? "both" : filterCookie;
-            filterClick(document.getElementById(filter + "-button"), 0);
+            var tabCookie = getLocalStorage("tab");
+            var tab = tabCookie === null ? "both" : tabCookie;
+
+            tabClick(document.getElementById(tab + "-button"), 0);
 
             $(document).ready(function () {
                 document.getElementById("container").style.visibility =
                     "visible";
                 document.getElementById("buttons").style.visibility = "visible";
                 document.getElementById("loading").style.display = "none";
+                document.getElementById("settings-button").style.display =
+                    "block";
 
-                var scrollPos = getCookie("scrollPos");
+                var scrollPos = getLocalStorage("scrollPos");
                 if (scrollPos) window.scrollTo(0, scrollPos);
 
+                window.onclick = function (e) {
+                    if (e.target == document.getElementById("settings-modal")) {
+                        closeSettings();
+                    }
+                };
+
                 window.onbeforeunload = function (e) {
-                    setCookie("scrollPos", window.scrollY, 14);
+                    setLocalStorage("scrollPos", window.scrollY);
                 };
 
                 window.onpagehide = function (e) {
-                    setCookie("scrollPos", window.scrollY, 14);
+                    setLocalStorage("scrollPos", window.scrollY);
                 };
 
                 window.onscroll = function (e) {
-                    setCookie("scrollPos", window.scrollY, 14);
+                    setLocalStorage("scrollPos", window.scrollY);
                 };
             });
         });

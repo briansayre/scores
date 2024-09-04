@@ -180,6 +180,14 @@ function containsFavorite(game) {
     return false;
 }
 
+// does the game contain an extra team
+function containsExtra(game, extraTeams) {
+    if (game.isNfl) return false;
+    for (var i = 0; i < extraTeams.length; i++) {
+        if (Number(game.home.id) === extraTeams[i] || Number(game.away.id) === extraTeams[i]) return true;
+    }
+}
+
 // is one team ranked
 function oneTeamRanked(game) {
     return isRanked(game.home) || isRanked(game.away);
