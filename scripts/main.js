@@ -372,4 +372,4 @@ function loadPage() {
 
 // load page and get updates every 10 seconds
 loadPage();
-setInterval(loadPage, 10 * 1000);
+setInterval(loadPage, 20 * 1000);
