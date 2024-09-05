@@ -221,9 +221,7 @@ function requestExtraNcaaTeams() {
     for (let i = 0; i < extraTeams.length; i++) {
         requests.push(
             $.ajax({
-                url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/".concat(
-                    extraTeams[i]
-                ),
+                url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/teams/".concat(extraTeams[i]),
                 type: "GET",
                 dataType: "json",
                 cache: false,
@@ -248,9 +246,7 @@ function requestExtraNcaaGames() {
         if (foundGame === undefined) {
             extraGameRequests.push(
                 $.ajax({
-                    url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard/".concat(
-                        extraGames[i]
-                    ),
+                    url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard/".concat(extraGames[i]),
                     type: "GET",
                     dataType: "json",
                     cache: false,
@@ -297,13 +293,13 @@ function tabClick(element) {
     var buttons = document.getElementsByClassName("tab-button");
     var arr = [...buttons];
 
-    element.style.backgroundColor = "#242424";
+    element.style.backgroundColor = "var(--foregroud)";
     element.style.fontWeight = "bold";
 
     arr.filter(function (item) {
         return item != element;
     }).forEach((item) => {
-        item.style.backgroundColor = "#00000000";
+        item.style.backgroundColor = "var(--transparent)";
         item.style.fontWeight = "";
     });
 
@@ -321,12 +317,12 @@ function settingsClick() {
 
 // save settings when the save button is clicked
 function saveClick() {
-    var ncaaSelection = document.querySelector(
-        'input[name="ncaa-selection"]:checked'
-    ).value;
-    setLocalStorage("ncaaSelection", ncaaSelection);
     closeSettings();
-    loadPage();
+    var ncaaSelection = document.querySelector('input[name="ncaa-selection"]:checked').value;
+    if (ncaaSelection !== getLocalStorage("ncaaSelection")) {
+        setLocalStorage("ncaaSelection", ncaaSelection);
+        loadPage();
+    }
 }
 
 // close modal
@@ -362,20 +358,6 @@ function loadPage() {
                     if (e.target == document.getElementById("settings-modal")) {
                         closeSettings();
                     }
-                };
-
-                window.addEventListener('click', function (e) {
-                    if (e.target == document.getElementById("settings-modal")) {
-                        closeSettings();
-                    }
-                });
-
-                window.onbeforeunload = function (e) {
-                    setLocalStorage("scrollPos", window.scrollY);
-                };
-
-                window.onpagehide = function (e) {
-                    setLocalStorage("scrollPos", window.scrollY);
                 };
 
                 window.onscroll = function (e) {

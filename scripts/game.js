@@ -65,26 +65,19 @@ function formatTimeString(date) {
 }
 
 function parseChannel(comp) {
-    return comp.broadcasts[0] !== undefined
-        ? comp.broadcasts[0].names.join("/")
-        : "";
+    return comp.broadcasts[0] !== undefined ? comp.broadcasts[0].names.join("/") : "";
 }
 
 function parseOdds(comp) {
     if (comp.odds !== undefined) {
-        return (
-            "(" +
-            [comp.odds[0].details, comp.odds[0].overUnder]
-                .filter(Boolean)
-                .join(" O/U ") +
-            ")"
-        );
+        return "(" + [comp.odds[0].details, comp.odds[0].overUnder].filter(Boolean).join(" O/U ") + ")";
     }
     return undefined;
 }
 
 function formatTopHeader(game) {
-    return [game.channel, game.venue, game.odds].filter(Boolean).join(" - ");
+    // return [game.channel, game.venue, game.odds].filter(Boolean).join(" - ");
+    return [game.channel, game.odds].filter(Boolean).join(" ");
 }
 
 function getIconClass(isNfl, league) {
@@ -94,9 +87,7 @@ function getIconClass(isNfl, league) {
 
 function parseLastPlay(comp) {
     if (comp.situation === undefined) return undefined;
-    return comp.situation.lastPlay !== undefined
-        ? comp.situation.lastPlay.text
-        : undefined;
+    return comp.situation.lastPlay !== undefined ? comp.situation.lastPlay.text : undefined;
 }
 
 function parseDownAndDist(comp) {
@@ -110,9 +101,7 @@ function formatInfo(game) {
 
 function parsePossession(comp) {
     if (comp.situation === undefined) return undefined;
-    return comp.situation.possession !== undefined
-        ? comp.situation.possession
-        : " ";
+    return comp.situation.possession !== undefined ? comp.situation.possession : " ";
 }
 
 function parseIsRedZone(comp) {
@@ -134,10 +123,7 @@ function formatGameGivenState(event, game) {
             game.time = " ";
             game.quarter = "Half";
         } else {
-            game.time =
-                event.status.displayClock == "0:00"
-                    ? "End oFf"
-                    : event.status.displayClock;
+            game.time = event.status.displayClock == "0:00" ? "End oFf" : event.status.displayClock;
             game.quarter = numToQuart(event.status.period);
         }
         game.live = "live-game";
@@ -157,10 +143,7 @@ function numToQuart(num) {
 // do both teams have high win percentage
 function bothHighWinPercent(game) {
     var threshold = 0.69;
-    return (
-        getWinPercent(game.away) > threshold &&
-        getWinPercent(game.home) > threshold
-    );
+    return getWinPercent(game.away) > threshold && getWinPercent(game.home) > threshold;
 }
 
 // is the game close towards the end
@@ -173,10 +156,8 @@ function isCloseGame(game) {
 
 // does the game contain a favorite team
 function containsFavorite(game) {
-    if (!game.isNfl && (game.home.id === "66" || game.away.id === "66"))
-        return true;
-    if (game.isNfl && (game.home.id === "6" || game.away.id === "6"))
-        return true;
+    if (!game.isNfl && (game.home.id === "66" || game.away.id === "66")) return true;
+    if (game.isNfl && (game.home.id === "6" || game.away.id === "6")) return true;
     return false;
 }
 
@@ -209,9 +190,5 @@ function bothTeamsRanked(game) {
 // log the number of timeouts
 function logTimeouts(comp) {
     if (comp.situation === undefined) return;
-    console.log(
-        this.venue,
-        comp.situation.awayTimeouts,
-        comp.situation.homeTimeouts
-    );
+    console.log(this.venue, comp.situation.awayTimeouts, comp.situation.homeTimeouts);
 }
