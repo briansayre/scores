@@ -7,6 +7,7 @@ function Team(isAway, comp, game) {
     this.rank = parseRank(rawTeam);
     this.primary = parseColor(rawTeam, 1);
     this.alternate = parseColor(rawTeam, 0);
+    this.conference = parseConference(rawTeam, 0);
     this.possession = "remove";
     this.timeouts = "remove";
     this.timeoutIcons = ["hide", "hide", "hide"];
@@ -29,6 +30,15 @@ function parseColor(rawTeam, isPrimary) {
     var color = isPrimary ? rawTeam.team.color : rawTeam.team.alternateColor;
     if (color === undefined) color = "777777";
     return color;
+}
+
+function parseConference(rawTeam) {
+    var id = Number(rawTeam.team.conferenceId);
+    if (id === 5) return "big10";
+    if (id === 8) return "sec";
+    if (id === 4) return "big12";
+    if (id === 1) return "acc";
+    return undefined;
 }
 
 function formatTeamGivenState(team, isAway, comp, game) {

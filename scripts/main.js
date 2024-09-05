@@ -134,6 +134,10 @@ function renderGames() {
 
     shownGames = filterBasedOnSettings(games);
 
+    shownGames.sort(function(a, b){
+        return a.date - b.date;
+    });
+
     var prevDate = "";
     var prevTime = "";
 
@@ -164,10 +168,16 @@ function filterBasedOnSettings(games) {
 
     var ncaaSelection = getLocalStorage("ncaaSelection");
     if (ncaaSelection === null) ncaaSelection = "ranked";
+
     games = games.filter(function (game) {
-        if (!game.isNfl && ncaaSelection == "ranked") {
-            return oneTeamRanked(game) || containsExtra(game, extraTeams);
+        if (!game.isNfl) {
+            if (ncaaSelection === "ranked") {
+                return oneTeamRanked(game) || containsExtra(game, extraTeams);
+            } else if (ncaaSelection !== "all") {
+                return containsConference(game, ncaaSelection);
+            }
         }
+        
         return 1;
     });
 
@@ -307,8 +317,8 @@ function tabClick(element, resetScroll) {
 
 function settingsClick() {
     var ncaaSelection = getLocalStorage("ncaaSelection");
-    if (ncaaSelection !== null)
-        document.getElementById(ncaaSelection).checked = true;
+    if (ncaaSelection === null) ncaaSelection = "all";
+    document.getElementById(ncaaSelection).checked = true;
     document.getElementById("settings-modal").style.display = "block";
 }
 

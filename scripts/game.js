@@ -188,6 +188,14 @@ function containsExtra(game, extraTeams) {
     }
 }
 
+// does the game contain a team in a conf
+function containsConference(game, conf) {
+    if (game.isNfl) return false;
+    for (var i = 0; i < extraTeams.length; i++) {
+        if (game.home.conference === conf || game.away.conference === conf) return true;
+    }
+}
+
 // is one team ranked
 function oneTeamRanked(game) {
     return isRanked(game.home) || isRanked(game.away);
