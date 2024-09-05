@@ -2,6 +2,7 @@
     --background: #111111;
     --foregroud: #181818;
     --light-foreground: #535353;
+    --border: #272727;
     --text: #ececec;
     --dark-text: #999999;
     --transparent: #00000000;
@@ -22,6 +23,7 @@ button {
     padding: 10px 30px;
     border: none;
     font-size: 14px;
+    border: 1px solid var(--border);
 }
 
 button:hover {
@@ -37,15 +39,12 @@ button:hover {
     visibility: hidden;
     display: flex;
     justify-content: center;
-    border-radius: 5px;
     margin: 10px;
-    background-color: var(--transparent);
 }
 
 .tab-button {
     flex-grow: 1;
     appearance: none;
-    background-color: var(--transparent);
 }
 
 #container {
@@ -92,6 +91,7 @@ button:hover {
     border-radius: 10px;
     margin: 5px;
     cursor: pointer;
+    border: 1px solid var(--border);
 }
 
 .good-game {
@@ -257,7 +257,8 @@ button:hover {
     padding: 10px 30px 30px 30px;
     border-radius: 10px;
     width: 40%;
-    min-width: 250px;
+    min-width: 300px;
+    border: 1px solid #272727;
 }
 
 .close {

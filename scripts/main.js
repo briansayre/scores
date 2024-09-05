@@ -294,12 +294,14 @@ function tabClick(element) {
     var arr = [...buttons];
 
     element.style.backgroundColor = "var(--foregroud)";
+    element.style.border = "1px solid var(--border)";
     element.style.fontWeight = "bold";
 
     arr.filter(function (item) {
         return item != element;
     }).forEach((item) => {
         item.style.backgroundColor = "var(--transparent)";
+        item.style.border = "0px";
         item.style.fontWeight = "";
     });
 
