@@ -134,7 +134,7 @@ function renderGames() {
 
     shownGames = filterBasedOnSettings(games);
 
-    shownGames.sort(function(a, b){
+    shownGames.sort(function (a, b) {
         return a.date - b.date;
     });
 
@@ -177,7 +177,7 @@ function filterBasedOnSettings(games) {
                 return containsConference(game, ncaaSelection);
             }
         }
-        
+
         return 1;
     });
 
@@ -189,7 +189,7 @@ function clearGamesScreen() {
     document.getElementById("container").innerHTML = "";
 }
 
-// clears the arrays holding the games and requests in order to get new ones
+// clears the arrays holding the games and requests
 function clearGamesData() {
     games = [];
     requests = [];
@@ -287,25 +287,18 @@ function requestNflGames() {
 }
 
 // filer the games given the button pressed
-function tabClick(element, resetScroll) {
+function tabClick(element) {
+    if (element === undefined) {
+        var tabStorage = getLocalStorage("tab");
+        var tab = tabStorage === null ? "both" : tabStorage;
+        element = document.getElementById(tab.trim() + "-button");
+    }
+
     var buttons = document.getElementsByClassName("tab-button");
     var arr = [...buttons];
-    var index = arr.indexOf(element);
 
     element.style.backgroundColor = "#242424";
     element.style.fontWeight = "bold";
-
-    if (resetScroll) setLocalStorage("scrollPos", 0);
-
-    if (index == 0) {
-        setLocalStorage("tab", "ncaa");
-    } else if (index == 1) {
-        setLocalStorage("tab", "both");
-    } else {
-        setLocalStorage("tab", "nfl");
-    }
-
-    renderGames();
 
     arr.filter(function (item) {
         return item != element;
@@ -313,8 +306,12 @@ function tabClick(element, resetScroll) {
         item.style.backgroundColor = "#00000000";
         item.style.fontWeight = "";
     });
+
+    setLocalStorage("tab", element.innerHTML.toLowerCase().trim());
+    renderGames();
 }
 
+// open modal and load settings
 function settingsClick() {
     var ncaaSelection = getLocalStorage("ncaaSelection");
     if (ncaaSelection === null) ncaaSelection = "all";
@@ -322,6 +319,7 @@ function settingsClick() {
     document.getElementById("settings-modal").style.display = "block";
 }
 
+// save settings when the save button is clicked
 function saveClick() {
     var ncaaSelection = document.querySelector(
         'input[name="ncaa-selection"]:checked'
@@ -331,6 +329,7 @@ function saveClick() {
     loadPage();
 }
 
+// close modal
 function closeSettings() {
     document.getElementById("settings-modal").style.display = "none";
 }
@@ -348,18 +347,13 @@ function loadPage() {
 
         // now render the games
         $.when.apply($, extraGameRequests).done(function () {
-            var tabCookie = getLocalStorage("tab");
-            var tab = tabCookie === null ? "both" : tabCookie;
-
-            tabClick(document.getElementById(tab + "-button"), 0);
+            tabClick();
 
             $(document).ready(function () {
-                document.getElementById("container").style.visibility =
-                    "visible";
+                document.getElementById("container").style.visibility = "visible";
                 document.getElementById("buttons").style.visibility = "visible";
                 document.getElementById("loading").style.display = "none";
-                document.getElementById("settings-button").style.display =
-                    "block";
+                document.getElementById("settings-button").style.display = "block";
 
                 var scrollPos = getLocalStorage("scrollPos");
                 if (scrollPos) window.scrollTo(0, scrollPos);
@@ -369,6 +363,12 @@ function loadPage() {
                         closeSettings();
                     }
                 };
+
+                window.addEventListener('click', function (e) {
+                    if (e.target == document.getElementById("settings-modal")) {
+                        closeSettings();
+                    }
+                });
 
                 window.onbeforeunload = function (e) {
                     setLocalStorage("scrollPos", window.scrollY);
