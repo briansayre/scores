@@ -30,10 +30,10 @@ function renderGame(game) {
     htmlObject.classList.add("game");
     if (game.isClose) {
         htmlObject.classList.add("close-game");
-    } else if (game.isGood) {
-        htmlObject.classList.add("good-game");
     } else if (game.isFavorite) {
         htmlObject.classList.add("favorite-game");
+    } else if (game.isGood) {
+        htmlObject.classList.add("good-game");
     }
 
     htmlObject.onclick = function () {
