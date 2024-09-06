@@ -1,8 +1,9 @@
 var games = [];
+var newGames = [];
 var shownGames = [];
 var requests = [];
 var extraGameRequests = [];
-var extraGames = [];
+var extraGameIds = [];
 var extraTeams = [66, 38, 2460, 2294, 275];
 
 // set a local storage value
@@ -111,7 +112,7 @@ function renderGame(game) {
                     </div>
                 </div>
             </div>
-            <div class="progress">
+            <div class="progress" style="color:${game.timeColor}">
                 <div class="time">
                     ${game.time}
                 </div>
@@ -130,17 +131,17 @@ function renderGame(game) {
 
 // render the games given a filter mode
 function renderGames() {
-    clearGamesScreen();
-
-    shownGames = filterBasedOnSettings(games);
-
+    
+    shownGames = filterBasedOnSettings();
+    
     shownGames.sort(function (a, b) {
         return a.date - b.date;
     });
-
+    
     var prevDate = "";
     var prevTime = "";
-
+    clearGamesScreen();
+    
     for (let i = 0; i < shownGames.length; i++) {
         if (shownGames[i].dateString !== prevDate) {
             renderDateOrTime(shownGames[i].dateString, "game-date");
@@ -156,10 +157,13 @@ function renderGames() {
 }
 
 // filter games array based on settings and tab
-function filterBasedOnSettings(games) {
+function filterBasedOnSettings() {
+    var shownGames = games;
+
     var tab = getLocalStorage("tab");
     if (tab === null) ncaaSelection = "both";
-    games = games.filter(function (game) {
+
+    shownGames = shownGames.filter(function (game) {
         if (tab == "both") return 1;
         if (game.isNfl && tab == "nfl") return 1;
         if (!game.isNfl && tab == "ncaa") return 1;
@@ -169,7 +173,7 @@ function filterBasedOnSettings(games) {
     var ncaaSelection = getLocalStorage("ncaaSelection");
     if (ncaaSelection === null) ncaaSelection = "ranked";
 
-    games = games.filter(function (game) {
+    shownGames = shownGames.filter(function (game) {
         if (!game.isNfl) {
             if (ncaaSelection === "ranked") {
                 return oneTeamRanked(game) || containsExtra(game, extraTeams);
@@ -181,7 +185,7 @@ function filterBasedOnSettings(games) {
         return 1;
     });
 
-    return games;
+    return shownGames;
 }
 
 // remove the games from the screen
@@ -189,31 +193,12 @@ function clearGamesScreen() {
     document.getElementById("container").innerHTML = "";
 }
 
-// clears the arrays holding the games and requests
-function clearGamesData() {
-    games = [];
+// clears the arrays holding the new games and requests
+function clearRequestsData() {
+    newGames = [];
+    extraGameIds = [];
     requests = [];
     extraGameRequests = [];
-    extraGames = [];
-}
-
-// request ncaa games
-function requestNcaaGames() {
-    requests.push(
-        $.ajax({
-            url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=80",
-            dataType: "json",
-            cache: false,
-            success: function (res) {
-                for (let i = 0; i < res.events.length; i++) {
-                    game = new Game(res.events[i], 0);
-                    if (game !== undefined) {
-                        games.push(game);
-                    }
-                }
-            },
-        })
-    );
 }
 
 // request the extra teams
@@ -229,7 +214,7 @@ function requestExtraNcaaTeams() {
                     var rank = res.team.rank !== undefined ? res.team.rank : 99;
                     if (rank > 25 && res.team.nextEvent !== undefined) {
                         id = res.team.nextEvent[0].id;
-                        extraGames.push(id);
+                        extraGameIds.push(id);
                     }
                 },
             })
@@ -237,23 +222,42 @@ function requestExtraNcaaTeams() {
     }
 }
 
+// request ncaa games
+function requestNcaaGames() {
+    requests.push(
+        $.ajax({
+            url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard?groups=80",
+            dataType: "json",
+            cache: false,
+            success: function (res) {
+                for (let i = 0; i < res.events.length; i++) {
+                    game = new Game(res.events[i], 0);
+                    if (game !== undefined) {
+                        newGames.push(game);
+                    }
+                }
+            },
+        })
+    );
+}
+
 // request extra games
 function requestExtraNcaaGames() {
-    for (let i = 0; i < extraGames.length; i++) {
+    for (let i = 0; i < extraGameIds.length; i++) {
         var foundGame = games.find((game) => {
-            return game.id === extraGames[i];
+            return game.id === extraGameIds[i];
         });
         if (foundGame === undefined) {
             extraGameRequests.push(
                 $.ajax({
-                    url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard/".concat(extraGames[i]),
+                    url: "https://site.api.espn.com/apis/site/v2/sports/football/college-football/scoreboard/".concat(extraGameIds[i]),
                     type: "GET",
                     dataType: "json",
                     cache: false,
                     success: function (res) {
                         game = new Game(res, 0);
                         if (game !== undefined) {
-                            games.push(game);
+                            newGames.push(game);
                         }
                     },
                 })
@@ -274,7 +278,7 @@ function requestNflGames() {
                 for (let i = 0; i < res.events.length; i++) {
                     game = new Game(res.events[i], 1);
                     if (game !== undefined) {
-                        games.push(game);
+                        newGames.push(game);
                     }
                 }
             },
@@ -334,7 +338,7 @@ function closeSettings() {
 
 // send requests, filter games, and render
 function loadPage() {
-    clearGamesData();
+    clearRequestsData();
     requestNcaaGames();
     requestExtraNcaaTeams();
     requestNflGames();
@@ -345,6 +349,7 @@ function loadPage() {
 
         // now render the games
         $.when.apply($, extraGameRequests).done(function () {
+            games = newGames
             tabClick();
 
             $(document).ready(function () {

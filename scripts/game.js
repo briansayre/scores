@@ -26,8 +26,8 @@ function Game(event, isNfl) {
         this.isClose = this.isRedZone;
         this.isFavorite = containsFavorite(this);
         this.live = "";
+        this.timeColor = "var(--text)"
         formatGameGivenState(event, this);
-        logTimeouts(comp);
     } catch (err) {
         throw err;
     }
@@ -117,13 +117,16 @@ function formatGameGivenState(event, game) {
         game.time = " ";
         game.quarter = "Final";
     } else if (game.state == "in") {
+        if (event.status.clock <= 120 && (event.status.period == 2 || event.status.period == 4)) {
+            game.timeColor = "rgb(211, 0, 0)";
+        }
         if (event.status.type.name === "STATUS_HALFTIME") {
             game.isRedZone = false;
             game.info = " ";
             game.time = " ";
             game.quarter = "Half";
         } else {
-            game.time = event.status.displayClock == "0:00" ? "End oFf" : event.status.displayClock;
+            game.time = event.status.displayClock == "0:00" ? "End of" : event.status.displayClock;
             game.quarter = numToQuart(event.status.period);
         }
         game.live = "live-game";
