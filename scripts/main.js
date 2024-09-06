@@ -5,6 +5,7 @@ var requests = [];
 var extraGameRequests = [];
 var extraGameIds = [];
 var extraTeams = [66, 38, 2460, 2294, 275];
+var debug = window.location.href === "https://briansayre.com/scores/" ? false : true;
 
 // set a local storage value
 function setLocalStorage(name, value) {
@@ -349,7 +350,7 @@ function loadPage() {
 
         // now render the games
         $.when.apply($, extraGameRequests).done(function () {
-            games = newGames
+            games = debug ? mock : newGames;
             tabClick();
 
             $(document).ready(function () {
@@ -377,4 +378,4 @@ function loadPage() {
 
 // load page and get updates every 10 seconds
 loadPage();
-setInterval(loadPage, 20 * 1000);
+if (!debug) setInterval(loadPage, 20 * 1000);

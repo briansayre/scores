@@ -1,66 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta name="description" content="Scores" />
-        <meta name="author" content="Brian Sayre" />
-        <title>Scores</title>
-        <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
-        <link rel="manifest" href="./site.webmanifest" />
-        <link rel="stylesheet" href="./styles/main.css" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono&family=DM+Mono&display=swap" rel="stylesheet" />
-        <script src="./scripts/jquery.min.js"></script>
-        <script src="./scripts/team.js"></script>
-        <script src="./scripts/game.js"></script>
-        <script src="./scripts/main.js"></script>
-    </head>
 
-    <body>
-        <div id="loading">
-            <h3>loading...</h3>
-            <!-- <img width="200px" src="./images/loading.webp" alt="loading..." /> -->
-        </div>
-        <div id="buttons">
-            <button type="button" class="tab-button" name="toggle" id="ncaa-button" onclick="tabClick(this)">NCAA</button>
-            <button type="button" class="tab-button" name="toggle" id="both-button" onclick="tabClick(this)">Both</button>
-            <button type="button" class="tab-button" name="toggle" id="nfl-button" onclick="tabClick(this)">NFL</button>
-        </div>
-        <div id="container"></div>
-        <div id="settings">
-            <button type="button" class="button" name="settings" id="settings-button" onclick="settingsClick()">Settings</button>
-            <div id="settings-modal">
-                <div id="settings-content">
-                    <span class="close" onclick="closeSettings()">&times;</span>
-                    <h3>NCAA Games:</h3>
-                    <form>
-                        <input type="radio" id="ranked" name="ncaa-selection" value="ranked" />
-                        <label for="ranked">Ranked (+others)</label>
-                        <br />
-                        <input type="radio" id="big10" name="ncaa-selection" value="big10" />
-                        <label for="big10">Big 10</label>
-                        <br />
-                        <input type="radio" id="big12" name="ncaa-selection" value="big12" />
-                        <label for="big12">Big 12</label>
-                        <br />
-                        <input type="radio" id="sec" name="ncaa-selection" value="sec" />
-                        <label for="sec">SEC</label>
-                        <br />
-                        <input type="radio" id="acc" name="ncaa-selection" value="acc" />
-                        <label for="acc">ACC</label>
-                        <br />
-                        <input type="radio" id="all" name="ncaa-selection" value="all" />
-                        <label for="all">All</label>
-                        <br /><br />
-                    </form>
-                    <button type="button" class="button" name="save" id="save-button" onclick="saveClick()">Save</button>
-                </div>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Scores" />
+    <meta name="author" content="Brian Sayre" />
+    <title>Scores</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png" />
+    <link rel="manifest" href="./site.webmanifest" />
+    <link rel="stylesheet" href="./styles/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Chivo+Mono&family=DM+Mono&display=swap" rel="stylesheet" />
+    <script src="./scripts/jquery.min.js"></script>
+    <script src="./scripts/mock.js"></script>
+    <script src="./scripts/team.js"></script>
+    <script src="./scripts/game.js"></script>
+    <script src="./scripts/main.js"></script>
+</head>
+
+<body>
+    <div id="loading">
+        <h3>loading...</h3>
+        <!-- <img width="200px" src="./images/loading.webp" alt="loading..." /> -->
+    </div>
+    <div id="buttons">
+        <button type="button" class="tab-button" name="toggle" id="ncaa-button" onclick="tabClick(this)">NCAA</button>
+        <button type="button" class="tab-button" name="toggle" id="both-button" onclick="tabClick(this)">Both</button>
+        <button type="button" class="tab-button" name="toggle" id="nfl-button" onclick="tabClick(this)">NFL</button>
+    </div>
+    <div id="container"></div>
+    <div id="settings">
+        <button type="button" class="button" name="settings" id="settings-button"
+            onclick="settingsClick()">Settings</button>
+        <div id="settings-modal">
+            <div id="settings-content">
+                <span class="close" onclick="closeSettings()">&times;</span>
+                <h3>NCAA Games:</h3>
+                <form>
+                    <input type="radio" id="ranked" name="ncaa-selection" value="ranked" />
+                    <label for="ranked">Ranked (+others)</label>
+                    <br />
+                    <input type="radio" id="big10" name="ncaa-selection" value="big10" />
+                    <label for="big10">Big 10</label>
+                    <br />
+                    <input type="radio" id="big12" name="ncaa-selection" value="big12" />
+                    <label for="big12">Big 12</label>
+                    <br />
+                    <input type="radio" id="sec" name="ncaa-selection" value="sec" />
+                    <label for="sec">SEC</label>
+                    <br />
+                    <input type="radio" id="acc" name="ncaa-selection" value="acc" />
+                    <label for="acc">ACC</label>
+                    <br />
+                    <input type="radio" id="all" name="ncaa-selection" value="all" />
+                    <label for="all">All</label>
+                    <br /><br />
+                </form>
+                <button type="button" class="button" name="save" id="save-button" onclick="saveClick()">Save</button>
             </div>
         </div>
-    </body>
+    </div>
+</body>
+
 </html>
