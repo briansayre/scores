@@ -1,16 +1,18 @@
 :root {
     --background: #111111;
-    --foregroud: #181818;
+    --foreground: #181818;
     --light-foreground: #535353;
     --border: #272727;
     --text: #ececec;
     --dark-text: #999999;
     --transparent: #00000000;
+    --red: #d30000;
+    --green: #0daf33;
+    --blue: #0075e2;
 }
 
 html {
     background-color: var(--background);
-    /* font-family: -apple-system, BlinkMacSystemFont, sans-serif; */
     font-family: "Poppins", sans-serif;
     color: var(--text);
     display: flex;
@@ -92,7 +94,7 @@ button:hover {
 
 .game {
     width: 100%;
-    background-color: var(--foregroud);
+    background-color: var(--foreground);
     padding: 10px 15px;
     border-radius: 10px;
     margin: 5px;
@@ -101,17 +103,17 @@ button:hover {
 }
 
 .good-game {
-    outline: 1px solid rgb(13, 175, 51);
+    outline: 1px solid var(--green);
     outline-offset: 2px;
 }
 
 .close-game {
-    outline: 1px solid rgb(211, 0, 0);
+    outline: 1px solid var(--red);
     outline-offset: 2px;
 }
 
 .favorite-game {
-    outline: 1px solid rgb(0, 117, 226);
+    outline: 1px solid var(--blue);
     outline-offset: 2px;
 }
 
@@ -122,7 +124,7 @@ button:hover {
 }
 
 .live-game {
-    background-color: #ff4141;
+    background-color: var(--red);
     filter: drop-shadow(0 0 7px rgba(255, 0, 0, 0.692));
     animation: blinker 0.75s cubic-bezier(0.5, 0, 1, 1) infinite alternate;
     display: inline-block;
@@ -236,7 +238,7 @@ button:hover {
 
 #settings-button {
     display: none;
-    background-color: var(--foregroud);
+    background-color: var(--foreground);
 }
 
 #save-button {
@@ -258,7 +260,7 @@ button:hover {
 }
 
 #settings-content {
-    background-color: var(--foregroud);
+    background-color: var(--foreground);
     margin: 15% auto;
     padding: 10px 30px 30px 30px;
     border-radius: 10px;

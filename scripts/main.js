@@ -112,7 +112,7 @@ function renderGame(game) {
                     </div>
                 </div>
             </div>
-            <div class="progress" style="color:${game.timeColor}">
+            <div class="progress" style="color:${game.progressColor}">
                 <div class="time">
                     ${game.time}
                 </div>
@@ -297,7 +297,7 @@ function tabClick(element) {
     var buttons = document.getElementsByClassName("tab-button");
     var arr = [...buttons];
 
-    element.style.backgroundColor = "var(--foregroud)";
+    element.style.backgroundColor = "var(--foreground)";
     element.style.border = "1px solid var(--border)";
     element.style.fontWeight = "bold";
 
