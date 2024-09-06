@@ -45,10 +45,14 @@ function formatTeamGivenState(team, isAway, comp, game) {
     if (game.state == "pre") {
         team.score = " ";
     } else if (game.state == "in") {
-        if (game.isNfl)
+        if (game.possession === team.id) {
+            team.possession = "show";
+        }
+        if (game.isNfl) {
             this.timeoutCount = isAway
                 ? comp.situation.awayTimeouts
                 : comp.situation.homeTimeouts;
+        }
         for (let i = 0; i < this.timeoutCount; i++) {
             team.timeoutIcons[i] = "show";
             team.timeouts = "show";
