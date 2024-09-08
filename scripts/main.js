@@ -5,7 +5,7 @@ var requests = [];
 var extraGameRequests = [];
 var extraGameIds = [];
 var extraTeams = [66, 38, 2460, 2294, 275];
-var debug = window.location.href === "https://briansayre.com/scores/" ? false : true;
+var debug = window.location.href === "https://briansayre.com/scores/" ? false : false;
 
 // set a local storage value
 function setLocalStorage(name, value) {
@@ -125,6 +125,14 @@ function renderGame(game) {
         <div class="info">
             ${game.info}
         </div>
+        <div class="field-progress ${game.fieldProgress}">
+            <svg width="100%" height="12" class="">
+                <rect class="field-line" x="0" y="4" rx="1" ry="1" width="100%" height="2" fill="var(--light-foreground)"/>
+                <circle class="field-spot" cx="${game.spot}%" cy="5" r="4" fill="#${game.possessionColor}" stroke="var(--light-foreground)" stroke-width="2" />
+                <rect style="" class="field-first" x="${game.first}%" y="4" rx="0" ry="0" width="2" height="2" fill="#fae12588"/>
+            </svg>
+        </div>
+    </div>
     `;
     htmlObject.innerHTML = htmlString;
     document.getElementById("container").appendChild(htmlObject);
