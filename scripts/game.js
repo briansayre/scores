@@ -26,6 +26,11 @@ function Game(event, isNfl) {
         this.isClose = this.isRedZone;
         this.isFavorite = containsFavorite(this);
         this.live = "";
+        this.spot = "";
+        this.first = "";
+        this.fieldProgress = "";
+        this.possessionColor = "";
+        this.fieldProgress = "remove";
         this.progressColor = "var(--text)"
         formatGameGivenState(event, this);
     } catch (err) {
@@ -104,6 +109,12 @@ function parsePossession(comp) {
     return comp.situation.possession !== undefined ? comp.situation.possession : " ";
 }
 
+function parsePossessionColor(game) {
+    console.log(game)
+    if (game.possession == game.home.id) return game.home.primary;
+    return game.away.primary;
+}
+
 function parseIsRedZone(comp) {
     if (comp.situation === undefined) return undefined;
     return comp.situation.isRedZone;
@@ -126,8 +137,18 @@ function formatGameGivenState(event, game) {
             game.home.timeouts = "remove";
             game.away.timeouts = "remove";
         } else {
+
             game.time = event.status.displayClock == "0:00" ? "End of" : event.status.displayClock;
             game.quarter = numToQuart(event.status.period);
+
+            if (game.home.possession !== "remove" || game.away.possession !== "remove") {
+                game.spot = event.competitions[0].situation.yardLine;
+                game.first = game.spot + event.competitions[0].situation.distance;
+                game.fieldProgress = "show";
+                game.possessionColor = parsePossessionColor(game);
+
+            }
+
             if (event.status.clock <= 120 && (event.status.period == 2 || event.status.period == 4)) {
                 game.progressColor = "var(--red)";
             }
