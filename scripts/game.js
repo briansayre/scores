@@ -110,7 +110,6 @@ function parsePossession(comp) {
 }
 
 function parsePossessionColor(game) {
-    console.log(game)
     if (game.possession == game.home.id) return game.home.primary;
     return game.away.primary;
 }

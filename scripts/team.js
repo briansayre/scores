@@ -7,7 +7,8 @@ function Team(isAway, comp, game) {
     this.rank = parseRank(rawTeam);
     this.primary = parseColor(rawTeam, 1);
     this.alternate = parseColor(rawTeam, 0);
-    this.conference = parseConference(rawTeam, 0);
+    this.conference = parseConference(rawTeam);
+    this.img = parseImg(rawTeam);
     this.possession = "remove";
     this.timeouts = "remove";
     this.timeoutIcons = ["hide", "hide", "hide"];
@@ -39,6 +40,10 @@ function parseConference(rawTeam) {
     if (id === 4) return "big12";
     if (id === 1) return "acc";
     return undefined;
+}
+
+function parseImg(rawTeam) {
+    return rawTeam.team.logo;
 }
 
 function formatTeamGivenState(team, isAway, comp, game) {

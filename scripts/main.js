@@ -50,6 +50,8 @@ function renderGame(game) {
             <div class="teams">
                 <div class="team away">
                     <div class="team-logo">
+                        <img width="32px" alt="logo" src="${game.away.img}" />
+                        <!--
                         <svg width="32" height="32" class="${game.ncaaIcon}">
                             <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="32" height="32" fill="#${game.away.primary}"/>
                             <rect class="stripe" x="12" y="0" width="8" height="32" fill="#${game.away.alternate}"/>
@@ -60,6 +62,7 @@ function renderGame(game) {
                             <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="32" height="32" fill="#${game.away.primary}"/>
                             <circle class="stripe"  cx="16" cy="16" r="8" fill="#${game.away.alternate}" stroke="white" stroke-width="3"/>
                         </svg>
+                        -->
                     </div>
                     <div class="team-name">
                         ${game.away.name}
@@ -82,6 +85,8 @@ function renderGame(game) {
                 </div>
                 <div class="team home">
                     <div class="team-logo">
+                        <img width="32px" alt="logo" src="${game.home.img}" />
+                        <!--
                         <svg width="32" height="32" class="${game.ncaaIcon}">
                             <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="32" height="32" fill="#${game.home.primary}"/>
                             <rect class="stripe" x="12" y="0" width="8" height="32" fill="#${game.home.alternate}"/>
@@ -92,6 +97,7 @@ function renderGame(game) {
                             <rect class="logo-background" x="0" y="0" rx="3" ry="3" width="32" height="32" fill="#${game.home.primary}"/>
                             <circle class="stripe"  cx="16" cy="16" r="8" fill="#${game.home.alternate}" stroke="white" stroke-width="3" />
                         </svg>
+                        -->
                     </div>
                     <div class="team-name">
                         ${game.home.name} 
@@ -224,8 +230,7 @@ function requestExtraNcaaTeams() {
                 dataType: "json",
                 cache: false,
                 success: function (res) {
-                    var rank = res.team.rank !== undefined ? res.team.rank : 99;
-                    if (rank > 25 && res.team.nextEvent !== undefined) {
+                    if (res.team.nextEvent !== undefined) {
                         id = res.team.nextEvent[0].id;
                         extraGameIds.push(id);
                     }
@@ -257,7 +262,7 @@ function requestNcaaGames() {
 // request extra games
 function requestExtraNcaaGames() {
     for (let i = 0; i < extraGameIds.length; i++) {
-        var foundGame = games.find((game) => {
+        var foundGame = newGames.find((game) => {
             return game.id === extraGameIds[i];
         });
         if (foundGame === undefined) {
@@ -351,7 +356,9 @@ function closeSettings() {
 
 // send requests, filter games, and render
 function loadPage() {
+
     clearRequestsData();
+
     requestNcaaGames();
     requestExtraNcaaTeams();
     requestNflGames();
