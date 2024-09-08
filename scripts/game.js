@@ -141,11 +141,11 @@ function formatGameGivenState(event, game) {
             game.quarter = numToQuart(event.status.period);
 
             if (game.home.possession !== "remove" || game.away.possession !== "remove") {
-                game.spot = event.competitions[0].situation.yardLine;
+                game.spot = game.home.possession === "show" ?  event.competitions[0].situation.yardLine : 100 - event.competitions[0].situation.yardLine;
                 game.first = game.spot + event.competitions[0].situation.distance;
+                if (game.first === 0) game.first = 100;
                 game.fieldProgress = "show";
                 game.possessionColor = parsePossessionColor(game);
-
             }
 
             if (event.status.clock <= 120 && (event.status.period == 2 || event.status.period == 4)) {

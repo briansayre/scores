@@ -223,8 +223,7 @@ button:hover {
 
 .info {
     max-height: 16px;
-    overflow-x: scroll;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .field-progress {
