@@ -87,12 +87,12 @@ function getIconClass(isNfl, league) {
 
 function parseLastPlay(comp) {
     if (comp.situation === undefined) return undefined;
-    return comp.situation.lastPlay !== undefined ? comp.situation.lastPlay.text : undefined;
+    return comp.situation.lastPlay !== undefined ? comp.situation.lastPlay.text : "";
 }
 
 function parseDownAndDist(comp) {
     if (comp.situation === undefined) return undefined;
-    return comp.situation.downDistanceText;
+    return comp.situation.downDistanceText !== undefined ? comp.situation.downDistanceText : "";
 }
 
 function formatInfo(game) {

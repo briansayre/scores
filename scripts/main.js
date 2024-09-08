@@ -5,7 +5,7 @@ var requests = [];
 var extraGameRequests = [];
 var extraGameIds = [];
 var extraTeams = [66, 38, 2460, 2294, 275];
-var debug = window.location.href === "https://briansayre.com/scores/" ? false : true;
+var debug = window.location.href === "https://briansayre.com/scores/" ? false : false;
 
 // set a local storage value
 function setLocalStorage(name, value) {
@@ -122,7 +122,7 @@ function renderGame(game) {
                 </div>
             </div>
         </div>
-        <div class="last-play">
+        <div class="info">
             ${game.info}
         </div>
     `;
@@ -135,7 +135,11 @@ function renderGames() {
     
     shownGames = filterBasedOnSettings();
     
-    shownGames.sort(function (a, b) {
+    shownGames.sort(function(a, b) {
+        var nameA = a.home.name.toUpperCase();
+        var nameB = b.home.name.toUpperCase();
+        return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
+    }).sort(function (a, b) {
         return a.date - b.date;
     });
     
@@ -378,4 +382,4 @@ function loadPage() {
 
 // load page and get updates every 10 seconds
 loadPage();
-if (!debug) setInterval(loadPage, 20 * 1000);
+// if (!debug) setInterval(loadPage, 20 * 1000);

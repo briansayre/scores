@@ -215,11 +215,16 @@ button:hover {
     margin-left: 10px;
 }
 
-.team-info,
-.last-play,
+.info,
 .network {
     font-size: 10px;
     font-style: italic;
+}
+
+.info {
+    max-height: 16px;
+    overflow-x: scroll;
+    overflow-y: scroll;
 }
 
 .hide {
