@@ -377,6 +377,7 @@ function loadPage() {
                 document.getElementById("buttons").style.visibility = "visible";
                 document.getElementById("loading").style.display = "none";
                 document.getElementById("settings-button").style.display = "block";
+                clearInterval( loadingInt );
 
                 var scrollPos = getLocalStorage("scrollPos");
                 if (scrollPos) window.scrollTo(0, scrollPos);
@@ -398,3 +399,9 @@ function loadPage() {
 // load page and get updates every 10 seconds
 loadPage();
 if (!debug) setInterval(loadPage, 20 * 1000);
+var loadingInt = setInterval(function() {
+    var dots = document.getElementById("load-dots");
+    if ((dots.innerHTML += '.').length == 4) {
+        dots.innerHTML = '';
+    }
+}, 300);
