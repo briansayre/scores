@@ -26,8 +26,8 @@ function Game(event, isNfl) {
         this.isClose = this.isRedZone;
         this.isFavorite = containsFavorite(this);
         this.live = "";
-        this.spot = "";
-        this.first = "";
+        this.spot = 0;
+        this.first = 0;
         this.fieldProgress = "";
         this.possessionColor = "";
         this.fieldProgress = "remove";
@@ -140,7 +140,7 @@ function formatGameGivenState(event, game) {
             game.time = event.status.displayClock == "0:00" ? "End of" : event.status.displayClock;
             game.quarter = numToQuart(event.status.period);
 
-            if (game.home.possession !== "remove" || game.away.possession !== "remove") {
+            if (game.home.possession === "show" || game.away.possession === "show") {
                 game.spot = game.home.possession === "show" ?  event.competitions[0].situation.yardLine : 100 - event.competitions[0].situation.yardLine;
                 game.first = game.spot + event.competitions[0].situation.distance;
                 if (game.first === 0) game.first = 100;
