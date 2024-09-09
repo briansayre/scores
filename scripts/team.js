@@ -43,7 +43,7 @@ function parseConference(rawTeam) {
 }
 
 function parseImg(rawTeam) {
-    return rawTeam.team.logo;
+    return rawTeam.team.logo.replace("500","500-dark");
 }
 
 function formatTeamGivenState(team, isAway, comp, game) {
