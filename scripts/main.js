@@ -6,6 +6,7 @@ var scorigamiRequest;
 var extraGameRequests = [];
 var extraGameIds = [];
 var extraTeams = [66, 38, 2460, 2294, 275];
+var gamesFailed = 0;
 var debug = window.location.href === "https://briansayre.com/scores/" ? false : false;
 
 // set a local storage value
@@ -226,6 +227,7 @@ function clearRequestsData() {
     extraGameIds = [];
     requests = [];
     extraGameRequests = [];
+    gamesFailed = 0;
 }
 
 // request the extra teams
@@ -260,6 +262,8 @@ function requestNcaaGames() {
                     game = new Game(res.events[i], 0);
                     if (game !== undefined && game.success) {
                         newGames.push(game);
+                    } else {
+                        gamesFailed++;
                     }
                 }
             },
@@ -284,6 +288,8 @@ function requestExtraNcaaGames() {
                         game = new Game(res, 0);
                         if (game !== undefined && game.success) {
                             newGames.push(game);
+                        } else {
+                            gamesFailed++;
                         }
                     },
                 })
@@ -305,6 +311,8 @@ function requestNflGames() {
                     game = new Game(res.events[i], 1);
                     if (game !== undefined && game.success) {
                         newGames.push(game);
+                    } else {
+                        gamesFailed++;
                     }
                 }
             },
@@ -385,6 +393,7 @@ function loadPage() {
                 document.getElementById("buttons").style.visibility = "visible";
                 document.getElementById("loading").style.display = "none";
                 document.getElementById("settings-button").style.display = "block";
+                document.getElementById("games-failed").innerText = gamesFailed;
                 clearInterval(loadingInt);
 
                 var scrollPos = getLocalStorage("scrollPos");
