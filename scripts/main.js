@@ -2,6 +2,7 @@ var games = [];
 var newGames = [];
 var shownGames = [];
 var requests = [];
+var scorigamiRequest;
 var extraGameRequests = [];
 var extraGameIds = [];
 var extraTeams = [66, 38, 2460, 2294, 275];
@@ -28,6 +29,8 @@ function renderDateOrTime(value, className) {
 // given a game, render the div
 function renderGame(game) {
     var htmlObject = document.createElement("div");
+
+    htmlObject.id = game.id;
 
     htmlObject.classList.add("game");
     if (game.isClose) {
@@ -150,21 +153,22 @@ function renderGame(game) {
 
 // render the games given a filter mode
 function renderGames() {
-    
     shownGames = filterBasedOnSettings();
-    
-    shownGames.sort(function(a, b) {
-        var nameA = a.home.name.toUpperCase();
-        var nameB = b.home.name.toUpperCase();
-        return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
-    }).sort(function (a, b) {
-        return a.date - b.date;
-    });
-    
+
+    shownGames
+        .sort(function (a, b) {
+            var nameA = a.home.name.toUpperCase();
+            var nameB = b.home.name.toUpperCase();
+            return nameA < nameB ? -1 : nameA > nameB ? 1 : 0;
+        })
+        .sort(function (a, b) {
+            return a.date - b.date;
+        });
+
     var prevDate = "";
     var prevTime = "";
     clearGamesScreen();
-    
+
     for (let i = 0; i < shownGames.length; i++) {
         if (shownGames[i].dateString !== prevDate) {
             renderDateOrTime(shownGames[i].dateString, "game-date");
@@ -308,6 +312,30 @@ function requestNflGames() {
     );
 }
 
+// request nfl games
+function getScoragami() {
+    try {
+        $.ajax({
+            url: "https://nflscorigami.com/data",
+            type: "GET",
+            dataType: "json",
+            cache: false,
+            host: "nflscorigami.com",
+            success: function (res) {
+                if (renderDateOrTime.newScorigami !== undefined) {
+                    for (let i = 0; i < res.newScorigami.length; i++) {
+                        var game = document.getElementById(newScorigami[i]);
+                        console.log(game);
+                        game.getElementsByClassName("quarter")[0].innerHTML = "<span style='color: var(--red);'> Scorigami </span>";
+                    }
+                }
+            },
+        });
+    } catch (err) {
+        console.log(err);
+    }
+}
+
 // filer the games given the button pressed
 function tabClick(element) {
     if (element === undefined) {
@@ -360,7 +388,6 @@ function closeSettings() {
 
 // send requests, filter games, and render
 function loadPage() {
-
     clearRequestsData();
 
     requestNcaaGames();
@@ -377,11 +404,13 @@ function loadPage() {
             tabClick();
 
             $(document).ready(function () {
+                getScoragami();
+
                 document.getElementById("container").style.visibility = "visible";
                 document.getElementById("buttons").style.visibility = "visible";
                 document.getElementById("loading").style.display = "none";
                 document.getElementById("settings-button").style.display = "block";
-                clearInterval( loadingInt );
+                clearInterval(loadingInt);
 
                 var scrollPos = getLocalStorage("scrollPos");
                 if (scrollPos) window.scrollTo(0, scrollPos);
@@ -403,9 +432,9 @@ function loadPage() {
 // load page and get updates every 10 seconds
 loadPage();
 if (!debug) setInterval(loadPage, 20 * 1000);
-var loadingInt = setInterval(function() {
+var loadingInt = setInterval(function () {
     var dots = document.getElementById("load-dots");
-    if ((dots.innerHTML += '.').length == 4) {
-        dots.innerHTML = '';
+    if ((dots.innerHTML += ".").length == 4) {
+        dots.innerHTML = "";
     }
 }, 300);
