@@ -312,30 +312,6 @@ function requestNflGames() {
     );
 }
 
-// request nfl games
-function getScoragami() {
-    try {
-        $.ajax({
-            url: "https://nflscorigami.com/data",
-            type: "GET",
-            dataType: "json",
-            cache: false,
-            host: "nflscorigami.com",
-            success: function (res) {
-                if (renderDateOrTime.newScorigami !== undefined) {
-                    for (let i = 0; i < res.newScorigami.length; i++) {
-                        var game = document.getElementById(newScorigami[i]);
-                        console.log(game);
-                        game.getElementsByClassName("quarter")[0].innerHTML = "<span style='color: var(--red);'> Scorigami </span>";
-                    }
-                }
-            },
-        });
-    } catch (err) {
-        console.log(err);
-    }
-}
-
 // filer the games given the button pressed
 function tabClick(element) {
     if (element === undefined) {
@@ -404,7 +380,6 @@ function loadPage() {
             tabClick();
 
             $(document).ready(function () {
-                getScoragami();
 
                 document.getElementById("container").style.visibility = "visible";
                 document.getElementById("buttons").style.visibility = "visible";
