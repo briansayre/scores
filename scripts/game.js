@@ -129,6 +129,11 @@ function formatGameGivenState(event, game) {
     } else if (game.state == "post") {
         game.time = " ";
         game.quarter = "Final";
+        if (game.away.score > game.home.score) {
+            game.home.textColorClass = "dark-text";
+        } else if (game.away.score < game.home.score) {
+            game.away.textColorClass = "dark-text";
+        }
     } else if (game.state == "in") {
 
         if (event.status.type.name === "STATUS_HALFTIME") {

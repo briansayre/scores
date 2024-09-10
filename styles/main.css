@@ -92,6 +92,10 @@ button:hover {
     top: 30px;
 }
 
+.dark-text {
+    color: var(--dark-text);
+}
+
 .game {
     width: 100%;
     background-color: var(--foreground);
@@ -151,7 +155,7 @@ button:hover {
 .team {
     display: flex;
     justify-content: space-between;
-    margin: 2px 0px;
+    margin: 4px 0px;
     align-items: center;
 }
 
@@ -165,6 +169,11 @@ button:hover {
 .team-name {
     font-size: 14px;
     flex-grow: 1;
+}
+
+.team-record {
+    font-size: 10px;
+    margin: -2px 0px;
 }
 
 .rank {

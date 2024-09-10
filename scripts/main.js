@@ -48,7 +48,7 @@ function renderGame(game) {
         </div>
         <div class="scores">
             <div class="teams">
-                <div class="team away">
+                <div class="team away ${game.away.textColorClass}">
                     <div class="team-logo">
                         <img width="32px" alt="logo" src="${game.away.img}" />
                         <!--
@@ -65,10 +65,12 @@ function renderGame(game) {
                         -->
                     </div>
                     <div class="team-name">
-                        ${game.away.name}
-                        <span class="rank">${game.away.rank}</span>
-                        <span class="possession-icon ${game.away.possession}"></span>
-                        <div class="team-info">
+                        <div class="team-name-top">
+                            ${game.away.name}
+                            <span class="rank">${game.away.rank}</span>
+                            <span class="possession-icon ${game.away.possession}"></span>
+                        </div>
+                        <div class="team-record">
                             ${game.away.record}
                         </div>
                     </div>
@@ -83,7 +85,7 @@ function renderGame(game) {
                         ${game.away.score}
                     </div>
                 </div>
-                <div class="team home">
+                <div class="team home ${game.home.textColorClass}">
                     <div class="team-logo">
                         <img width="32px" alt="logo" src="${game.home.img}" />
                         <!--
@@ -100,10 +102,12 @@ function renderGame(game) {
                         -->
                     </div>
                     <div class="team-name">
-                        ${game.home.name} 
-                        <span class="rank">${game.home.rank}</span> 
-                        <span class="possession-icon ${game.home.possession}"></span>
-                        <div class="team-info">
+                        <div class="team-name-top">
+                            ${game.home.name} 
+                            <span class="rank">${game.home.rank}</span> 
+                            <span class="possession-icon ${game.home.possession}"></span>
+                        </div>
+                        <div class="team-record">
                             ${game.home.record}
                         </div>
                     </div>

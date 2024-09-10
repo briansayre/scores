@@ -11,6 +11,7 @@ function Team(isAway, comp, game) {
     this.img = parseImg(rawTeam);
     this.possession = "remove";
     this.timeouts = "remove";
+    this.textColorClass = "";
     this.timeoutIcons = ["hide", "hide", "hide"];
     this.timeoutCount = 0;
     formatTeamGivenState(this, isAway, comp, game);
