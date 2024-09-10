@@ -33,8 +33,11 @@ function Game(event, isNfl) {
         this.fieldProgress = "remove";
         this.progressColor = "var(--text)"
         formatGameGivenState(event, this);
+        this.success = true;
+        this.err = "";
     } catch (err) {
-        throw err;
+        this.err = err;
+        this.success = false;
     }
 }
 

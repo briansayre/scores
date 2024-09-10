@@ -250,7 +250,7 @@ function requestNcaaGames() {
             success: function (res) {
                 for (let i = 0; i < res.events.length; i++) {
                     game = new Game(res.events[i], 0);
-                    if (game !== undefined) {
+                    if (game !== undefined && game.success) {
                         newGames.push(game);
                     }
                 }
@@ -274,7 +274,7 @@ function requestExtraNcaaGames() {
                     cache: false,
                     success: function (res) {
                         game = new Game(res, 0);
-                        if (game !== undefined) {
+                        if (game !== undefined && game.success) {
                             newGames.push(game);
                         }
                     },
@@ -295,7 +295,7 @@ function requestNflGames() {
             success: function (res) {
                 for (let i = 0; i < res.events.length; i++) {
                     game = new Game(res.events[i], 1);
-                    if (game !== undefined) {
+                    if (game !== undefined && game.success) {
                         newGames.push(game);
                     }
                 }
