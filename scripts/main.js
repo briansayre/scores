@@ -158,11 +158,11 @@ function renderGames() {
 
     var noResults = document.getElementById("no-results");
     if (shownGames.length === 0) {
-        noResults.innerText = "No results"; 
-        noResults.style.marginBottom = "30px"
+        noResults.innerText = "No results";
+        noResults.style.marginBottom = "30px";
     } else {
-        noResults.style.marginBottom = "0px"
-        noResults.innerText = ""; 
+        noResults.style.marginBottom = "0px";
+        noResults.innerText = "";
     }
 
     shownGames
@@ -177,19 +177,23 @@ function renderGames() {
 
     var prevDate = "";
     var prevTime = "";
+    var gamesRendered = [];
     clearGamesScreen();
 
     for (let i = 0; i < shownGames.length; i++) {
-        if (shownGames[i].dateString !== prevDate) {
-            renderDateOrTime(shownGames[i].dateString, "game-date");
-            prevDate = shownGames[i].dateString;
-            prevTime = "";
+        if (!gamesRendered.includes(shownGames[i].id)) {
+            if (shownGames[i].dateString !== prevDate) {
+                renderDateOrTime(shownGames[i].dateString, "game-date");
+                prevDate = shownGames[i].dateString;
+                prevTime = "";
+            }
+            if (shownGames[i].timeString !== prevTime) {
+                renderDateOrTime(shownGames[i].timeString, "game-time");
+                prevTime = shownGames[i].timeString;
+            }
+            renderGame(shownGames[i]);
+            gamesRendered.push(shownGames[i].id);
         }
-        if (shownGames[i].timeString !== prevTime) {
-            renderDateOrTime(shownGames[i].timeString, "game-time");
-            prevTime = shownGames[i].timeString;
-        }
-        renderGame(shownGames[i]);
     }
 }
 
@@ -225,16 +229,16 @@ function filterBasedOnSettings() {
     var searchInput = getLocalStorage("search");
     if (searchInput) {
         shownGames = shownGames.filter(function (game) {
-            return (game.home.searchName.includes(searchInput) || game.away.searchName.includes(searchInput))
-        })
+            return game.home.searchName.includes(searchInput) || game.away.searchName.includes(searchInput);
+        });
     }
-    
+
     return shownGames;
 }
 
 // search for a team from the search bar
 function searchTeams() {
-    var searchInput = document.getElementById("search").value.toLowerCase().replaceAll(" ","");
+    var searchInput = document.getElementById("search").value.toLowerCase().replaceAll(" ", "");
     setLocalStorage("search", searchInput);
     renderGames();
 }
@@ -411,15 +415,14 @@ function loadPage() {
             tabClick();
 
             $(document).ready(function () {
-
                 document.getElementById("container").style.visibility = "visible";
                 document.getElementById("search-container").style.visibility = "visible";
                 document.getElementById("tabs").style.visibility = "visible";
                 document.getElementById("loading").style.display = "none";
                 document.getElementById("settings-button").style.display = "block";
                 document.getElementById("games-failed").innerText = gamesFailed;
-                document.getElementById("search").addEventListener("input",searchTeams);
-                
+                document.getElementById("search").addEventListener("input", searchTeams);
+
                 clearInterval(loadingInt);
 
                 var scrollPos = getLocalStorage("scrollPos");
@@ -439,7 +442,6 @@ function loadPage() {
                 if (searchInput) {
                     document.getElementById("search").value = searchInput;
                 }
-
             });
         });
     });
