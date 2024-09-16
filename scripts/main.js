@@ -418,6 +418,7 @@ function loadPage() {
                 document.getElementById("loading").style.display = "none";
                 document.getElementById("settings-button").style.display = "block";
                 document.getElementById("games-failed").innerText = gamesFailed;
+                document.getElementById("search").addEventListener("input",searchTeams);
                 
                 clearInterval(loadingInt);
 
@@ -439,9 +440,6 @@ function loadPage() {
                     document.getElementById("search").value = searchInput;
                 }
 
-                $('#search').on('keyup change', function () {
-                    searchTeams()
-                });
             });
         });
     });
