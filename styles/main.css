@@ -11,12 +11,22 @@
     --blue: #0075e2;
 }
 
+*:focus {
+    outline: none;
+}
+
 html {
     background-color: var(--background);
     font-family: "Poppins", sans-serif;
     color: var(--text);
     display: flex;
     justify-content: space-around;
+}
+
+body {
+    flex-grow: 1;
+    max-width: 700px;
+    min-width: 300px;
 }
 
 button {
@@ -43,10 +53,35 @@ button:hover {
     text-align: center;
 }
 
-#buttons {
+#no-results {
+    text-align: center;
+    flex-grow: 1;
+}
+
+#search-container {
+    visibility: hidden;
+    display: flex;
+    flex-grow: 1;
+    margin: 20px 10px;
+}
+
+#search {
+    flex-grow: 1;
+    color: var(--text);
+    background-color: var(--foreground);
+    border-radius: 10px;
+    padding: 10px 30px;
+    border: none;
+    font-size: 14px;
+    border: 1px solid var(--border);
+    user-select: none;
+}
+
+#tabs {
     visibility: hidden;
     display: flex;
     justify-content: center;
+    flex-grow: 1;
     margin: 10px;
 }
 
@@ -60,8 +95,6 @@ button:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    max-width: 700px;
-    min-width: 300px;
     flex-grow: 1;
     margin-bottom: 20px;
 }

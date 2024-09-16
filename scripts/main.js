@@ -156,6 +156,15 @@ function renderGame(game) {
 function renderGames() {
     shownGames = filterBasedOnSettings();
 
+    var noResults = document.getElementById("no-results");
+    if (shownGames.length === 0) {
+        noResults.innerText = "No results"; 
+        noResults.style.marginBottom = "30px"
+    } else {
+        noResults.style.marginBottom = "0px"
+        noResults.innerText = ""; 
+    }
+
     shownGames
         .sort(function (a, b) {
             var nameA = a.home.name.toUpperCase();
@@ -213,7 +222,21 @@ function filterBasedOnSettings() {
         return 1;
     });
 
+    var searchInput = getLocalStorage("search");
+    if (searchInput) {
+        shownGames = shownGames.filter(function (game) {
+            return (game.home.searchName.includes(searchInput) || game.away.searchName.includes(searchInput))
+        })
+    }
+    
     return shownGames;
+}
+
+// search for a team from the search bar
+function searchTeams() {
+    var searchInput = document.getElementById("search").value.toLowerCase().replaceAll(" ","");
+    setLocalStorage("search", searchInput);
+    renderGames();
 }
 
 // remove the games from the screen
@@ -390,10 +413,12 @@ function loadPage() {
             $(document).ready(function () {
 
                 document.getElementById("container").style.visibility = "visible";
-                document.getElementById("buttons").style.visibility = "visible";
+                document.getElementById("search-container").style.visibility = "visible";
+                document.getElementById("tabs").style.visibility = "visible";
                 document.getElementById("loading").style.display = "none";
                 document.getElementById("settings-button").style.display = "block";
                 document.getElementById("games-failed").innerText = gamesFailed;
+                
                 clearInterval(loadingInt);
 
                 var scrollPos = getLocalStorage("scrollPos");
@@ -408,6 +433,15 @@ function loadPage() {
                 window.onscroll = function (e) {
                     setLocalStorage("scrollPos", window.scrollY);
                 };
+
+                var searchInput = getLocalStorage("search");
+                if (searchInput) {
+                    document.getElementById("search").value = searchInput;
+                }
+
+                $('#search').on('keyup change', function () {
+                    searchTeams()
+                });
             });
         });
     });

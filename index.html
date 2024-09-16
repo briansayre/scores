@@ -30,12 +30,16 @@
     </div>
     <!-- <img width="200px" src="./images/loading.webp" alt="loading..." /> -->
     </div>
-    <div id="buttons">
+    <div id="search-container">
+        <input id="search" type="search" placeholder="Search team">
+    </div>
+    <div id="tabs">
         <button type="button" class="tab-button" name="toggle" id="ncaa-button" onclick="tabClick(this)">NCAA</button>
         <button type="button" class="tab-button" name="toggle" id="both-button" onclick="tabClick(this)">Both</button>
         <button type="button" class="tab-button" name="toggle" id="nfl-button" onclick="tabClick(this)">NFL</button>
     </div>
     <div id="container"></div>
+    <div id="no-results"></div>
     <div id="settings">
         <button type="button" class="button" name="settings" id="settings-button"
             onclick="settingsClick()">Settings</button>

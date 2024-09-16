@@ -2,7 +2,8 @@ function Team(isAway, comp, game) {
     var rawTeam = comp.competitors[isAway];
     this.id = rawTeam.id;
     this.name = rawTeam.team.shortDisplayName;
-    this.score = rawTeam.score;
+    this.searchName = rawTeam.team.displayName.toLowerCase().replaceAll(" ","");
+    this.score = Number(rawTeam.score);
     this.record = parseRecord(rawTeam);
     this.rank = parseRank(rawTeam);
     this.primary = parseColor(rawTeam, 1);
