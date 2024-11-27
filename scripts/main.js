@@ -268,8 +268,10 @@ function requestExtraNcaaTeams() {
                 cache: false,
                 success: function (res) {
                     if (res.team.nextEvent !== undefined) {
-                        id = res.team.nextEvent[0].id;
-                        extraGameIds.push(id);
+                        if (res.team.nextEvent.length > 0) {
+                            id = res.team.nextEvent[0].id;
+                            extraGameIds.push(id);
+                        }
                     }
                 },
             })
