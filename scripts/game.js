@@ -38,6 +38,7 @@ function Game(event, isNfl) {
     } catch (err) {
         this.err = err;
         this.success = false;
+        console.log(err, this);
     }
 }
 
