@@ -70,7 +70,7 @@ button:hover {
     flex-grow: 1;
     color: var(--text);
     background-color: var(--foreground);
-    border-radius: 10px;
+    border-radius: 10px 0 0 10px;
     padding: 10px 15px;
     border: none;
     font-size: 14px;
@@ -290,6 +290,8 @@ button:hover {
 #settings-button {
     display: none;
     background-color: var(--foreground);
+    border-radius: 0 10px 10px 0;
+    border-right-width: 0px;
 }
 
 #save-button {
