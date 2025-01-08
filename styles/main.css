@@ -292,6 +292,7 @@ button:hover {
     background-color: var(--foreground);
     border-radius: 0 10px 10px 0;
     border-right-width: 0px;
+    height: 100%;
 }
 
 #save-button {
