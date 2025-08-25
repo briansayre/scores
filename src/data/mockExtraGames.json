@@ -1,0 +1,1729 @@
+[
+  {
+    "id": "401762522",
+    "uid": "s:20~l:23~e:401762522",
+    "date": "2025-08-28T21:30Z",
+    "name": "Boise State Broncos at South Florida Bulls",
+    "shortName": "BOIS @ USF",
+    "season": {
+      "year": 2025,
+      "type": 2,
+      "slug": "regular-season"
+    },
+    "week": {
+      "number": 1
+    },
+    "competitions": [
+      {
+        "id": "401762522",
+        "uid": "s:20~l:23~e:401762522~c:401762522",
+        "date": "2025-08-28T21:30Z",
+        "attendance": 0,
+        "type": {
+          "id": "1",
+          "abbreviation": "STD"
+        },
+        "timeValid": true,
+        "dateValid": false,
+        "neutralSite": false,
+        "conferenceCompetition": false,
+        "playByPlayAvailable": false,
+        "recent": false,
+        "venue": {
+          "id": "3886",
+          "fullName": "Raymond James Stadium",
+          "address": {
+            "city": "Tampa",
+            "state": "FL",
+            "country": "USA"
+          },
+          "indoor": false
+        },
+        "competitors": [
+          {
+            "id": "58",
+            "uid": "s:20~l:23~t:58",
+            "type": "team",
+            "order": 0,
+            "homeAway": "home",
+            "team": {
+              "id": "58",
+              "uid": "s:20~l:23~t:58",
+              "location": "South Florida",
+              "name": "Bulls",
+              "abbreviation": "USF",
+              "displayName": "South Florida Bulls",
+              "shortDisplayName": "South Florida",
+              "color": "004A36",
+              "alternateColor": "231f20",
+              "isActive": true,
+              "venue": {
+                "id": "3886"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "clubhouse",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/58/south-florida-bulls",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "clubhouse",
+                    "mobile",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/58/south-florida-bulls",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "roster",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/roster/_/id/58",
+                  "text": "Roster",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "stats",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/stats/_/id/58",
+                  "text": "Statistics",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "schedule",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/schedule/_/id/58",
+                  "text": "Schedule",
+                  "isExternal": false,
+                  "isPremium": false
+                }
+              ],
+              "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/58.png",
+              "conferenceId": "151"
+            },
+            "score": "0",
+            "curatedRank": {
+              "current": 99
+            },
+            "statistics": [],
+            "records": [
+              {
+                "name": "overall",
+                "abbreviation": "overall",
+                "type": "total",
+                "summary": "0-0"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "Home",
+                "type": "homerecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "Away",
+                "abbreviation": "Away",
+                "type": "awayrecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "vs. Conf.",
+                "abbreviation": "CONF",
+                "type": "vsconf",
+                "summary": "0-0"
+              }
+            ]
+          },
+          {
+            "id": "68",
+            "uid": "s:20~l:23~t:68",
+            "type": "team",
+            "order": 1,
+            "homeAway": "away",
+            "team": {
+              "id": "68",
+              "uid": "s:20~l:23~t:68",
+              "location": "Boise State",
+              "name": "Broncos",
+              "abbreviation": "BOIS",
+              "displayName": "Boise State Broncos",
+              "shortDisplayName": "Boise St",
+              "color": "0033a0",
+              "alternateColor": "fa4616",
+              "isActive": true,
+              "venue": {
+                "id": "3653"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "clubhouse",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/68/boise-state-broncos",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "clubhouse",
+                    "mobile",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/68/boise-state-broncos",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "roster",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/roster/_/id/68",
+                  "text": "Roster",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "stats",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/stats/_/id/68",
+                  "text": "Statistics",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "schedule",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/schedule/_/id/68",
+                  "text": "Schedule",
+                  "isExternal": false,
+                  "isPremium": false
+                }
+              ],
+              "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/68.png",
+              "conferenceId": "17"
+            },
+            "score": "0",
+            "curatedRank": {
+              "current": 25
+            },
+            "statistics": [],
+            "records": [
+              {
+                "name": "overall",
+                "abbreviation": "overall",
+                "type": "total",
+                "summary": "0-0"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "Home",
+                "type": "homerecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "Away",
+                "abbreviation": "Away",
+                "type": "awayrecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "vs. Conf.",
+                "abbreviation": "CONF",
+                "type": "vsconf",
+                "summary": "0-0"
+              }
+            ]
+          }
+        ],
+        "notes": [],
+        "status": {
+          "clock": 0.0,
+          "displayClock": "0:00",
+          "period": 0,
+          "type": {
+            "id": "1",
+            "name": "STATUS_SCHEDULED",
+            "state": "pre",
+            "completed": false,
+            "description": "Scheduled",
+            "detail": "Thu, August 28th at 5:30 PM EDT",
+            "shortDetail": "8/28 - 5:30 PM EDT"
+          }
+        },
+        "broadcasts": [
+          {
+            "market": "national",
+            "names": [
+              "ESPN"
+            ]
+          }
+        ],
+        "format": {
+          "regulation": {
+            "periods": 4
+          }
+        },
+        "tickets": [
+          {
+            "summary": "Tickets as low as $30",
+            "numberAvailable": 2623,
+            "links": [
+              {
+                "href": "https://www.vividseats.com/south-florida-bulls-football-tickets-raymond-james-stadium-8-30-2025--sports-ncaa-football/production/5445939?wsUser=717"
+              },
+              {
+                "href": "https://www.vividseats.com/raymond-james-stadium-tickets/venue/1391?wsUser=717"
+              }
+            ]
+          }
+        ],
+        "startDate": "2025-08-28T21:30Z",
+        "broadcast": "ESPN",
+        "geoBroadcasts": [
+          {
+            "type": {
+              "id": "1",
+              "shortName": "TV"
+            },
+            "market": {
+              "id": "1",
+              "type": "National"
+            },
+            "media": {
+              "shortName": "ESPN",
+              "logo": "https://a.espncdn.com/guid/335fd2d2-97b9-336b-81ee-573eb6bdcffc/logos/default.png",
+              "darkLogo": ""
+            },
+            "lang": "en",
+            "region": "us"
+          }
+        ],
+        "odds": [
+          {
+            "provider": {
+              "id": "58",
+              "name": "ESPN BET",
+              "priority": 1,
+              "logos": [
+                {
+                  "href": "https://a.espncdn.com/i/espnbet/ESPN_Bet_Sportsbook_Light.svg",
+                  "rel": [
+                    "light"
+                  ]
+                },
+                {
+                  "href": "https://a.espncdn.com/i/espnbet/ESPN_Bet_Sportsbook_Dark.svg",
+                  "rel": [
+                    "dark"
+                  ]
+                }
+              ]
+            },
+            "details": "BOIS -6.5",
+            "overUnder": 63.5,
+            "spread": 6.5,
+            "awayTeamOdds": {
+              "favorite": true,
+              "underdog": false,
+              "team": {
+                "id": "68",
+                "uid": "s:20~l:23~t:68",
+                "abbreviation": "BOIS",
+                "name": "Broncos",
+                "displayName": "Boise State Broncos",
+                "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/68.png"
+              },
+              "favoriteAtOpen": true
+            },
+            "homeTeamOdds": {
+              "favorite": false,
+              "underdog": true,
+              "team": {
+                "id": "58",
+                "uid": "s:20~l:23~t:58",
+                "abbreviation": "USF",
+                "name": "Bulls",
+                "displayName": "South Florida Bulls",
+                "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/58.png"
+              },
+              "favoriteAtOpen": false
+            },
+            "moneyline": {
+              "displayName": "Moneyline",
+              "shortDisplayName": "ML",
+              "home": {
+                "close": {
+                  "odds": "+190",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "home",
+                      "desktop",
+                      "bets",
+                      "espn-bet"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/6626a861-8010-4883-934e-4f673e04603d&market_selection_id[0]=1ca56d92-3044-45b6-af4b-033bf77795eb&odds_numerator[0]=29&odds_denominator[0]=10",
+                    "text": "Home Bet",
+                    "shortText": "Home Bet",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401762522,
+                        "betSide": "home",
+                        "betType": "straight"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "odds": "+260"
+                }
+              },
+              "away": {
+                "close": {
+                  "odds": "-225",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "away",
+                      "desktop",
+                      "bets",
+                      "espn-bet"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/6626a861-8010-4883-934e-4f673e04603d&market_selection_id[0]=43c30377-5d6f-4f8e-b657-5e2ba909eb1b&odds_numerator[0]=13&odds_denominator[0]=9",
+                    "text": "Away Bet",
+                    "shortText": "Away Bet",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401762522,
+                        "betSide": "away",
+                        "betType": "straight"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "odds": "-320"
+                }
+              }
+            },
+            "pointSpread": {
+              "displayName": "Spread",
+              "shortDisplayName": "Spread",
+              "home": {
+                "close": {
+                  "line": "+6.5",
+                  "odds": "-110",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "homeSpread",
+                      "desktop",
+                      "bets"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/6626a861-8010-4883-934e-4f673e04603d&market_selection_id[0]=845bdc3c-2259-44ed-b053-08dfc925c67f&odds_numerator[0]=21&odds_denominator[0]=11",
+                    "text": "Home Point Spread",
+                    "shortText": "Home Point Spread",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401762522,
+                        "betSide": "none",
+                        "betType": "straight",
+                        "betDetails": "Spread:USF+6.5"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "line": "+8.5",
+                  "odds": "-110"
+                }
+              },
+              "away": {
+                "close": {
+                  "line": "-6.5",
+                  "odds": "-110",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "awaySpread",
+                      "desktop",
+                      "bets"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/6626a861-8010-4883-934e-4f673e04603d&market_selection_id[0]=eb5afcab-57a2-4194-88c0-d0730c283bce&odds_numerator[0]=21&odds_denominator[0]=11",
+                    "text": "Away Point Spread",
+                    "shortText": "Away Point Spread",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401762522,
+                        "betSide": "none",
+                        "betType": "straight",
+                        "betDetails": "Spread:BOIS-6.5"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "line": "-8.5",
+                  "odds": "-110"
+                }
+              }
+            },
+            "total": {
+              "displayName": "Total Points",
+              "shortDisplayName": "Total",
+              "over": {
+                "close": {
+                  "line": "o63.5",
+                  "odds": "-115",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "over",
+                      "desktop",
+                      "bets"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/6626a861-8010-4883-934e-4f673e04603d&market_selection_id[0]=1d8b28c9-1ce7-4caa-a0bd-8ef5042ada25&odds_numerator[0]=43&odds_denominator[0]=23",
+                    "text": "Over Odds",
+                    "shortText": "Over Odds",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401762522,
+                        "betSide": "over",
+                        "betType": "straight",
+                        "betDetails": "Over:63.5"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "line": "o64.5",
+                  "odds": "-105"
+                }
+              },
+              "under": {
+                "close": {
+                  "line": "u63.5",
+                  "odds": "-105",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "under",
+                      "desktop",
+                      "bets"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/6626a861-8010-4883-934e-4f673e04603d&market_selection_id[0]=72c5abef-f089-43c6-b4dd-c3d59e7a27ae&odds_numerator[0]=41&odds_denominator[0]=21",
+                    "text": "Under Odds",
+                    "shortText": "Under Odds",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401762522,
+                        "betSide": "under",
+                        "betType": "straight",
+                        "betDetails": "Under:63.5"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "line": "u64.5",
+                  "odds": "-115"
+                }
+              }
+            },
+            "link": {
+              "language": "en-US",
+              "rel": [
+                "game",
+                "desktop",
+                "bets"
+              ],
+              "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/6626a861-8010-4883-934e-4f673e04603d",
+              "text": "See More on ESPN BET Sportsbook",
+              "shortText": "Game",
+              "isExternal": true,
+              "isPremium": false,
+              "tracking": {
+                "campaign": "betting-integrations",
+                "tags": {
+                  "league": "college-football",
+                  "sport": "football",
+                  "gameId": 401762522,
+                  "betSide": "none",
+                  "betType": "straight"
+                }
+              }
+            },
+            "header": {
+              "logo": {
+                "dark": "https://a.espncdn.com/i/espnbet/dark/espn-bet-square-off.svg",
+                "light": "https://a.espncdn.com/i/espnbet/espn-bet-square-off.svg",
+                "exclusivesLogoDark": "https://a.espncdn.com/i/espnbet/espn-bet-square-mint.svg",
+                "exclusivesLogoLight": "https://a.espncdn.com/i/espnbet/espn-bet-square-mint.svg"
+              },
+              "text": "ESPN Bet Sportsbook"
+            }
+          }
+        ],
+        "highlights": []
+      }
+    ],
+    "links": [
+      {
+        "language": "en-US",
+        "rel": [
+          "summary",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/college-football/game/_/gameId/401762522/boise-st-south-florida",
+        "text": "Gamecast",
+        "shortText": "Gamecast",
+        "isExternal": false,
+        "isPremium": false
+      }
+    ],
+    "weather": {
+      "displayValue": "Mostly sunny",
+      "temperature": 89,
+      "highTemperature": 89,
+      "conditionId": "2",
+      "link": {
+        "language": "en-US",
+        "rel": [
+          "33607"
+        ],
+        "href": "http://www.accuweather.com/en/us/raymond-james-stadium-fl/33602/hourly-weather-forecast/53558_poi?day=11&hbhhour=17&lang=en-us",
+        "text": "Weather",
+        "shortText": "Weather",
+        "isExternal": true,
+        "isPremium": false
+      }
+    },
+    "status": {
+      "clock": 0.0,
+      "displayClock": "0:00",
+      "period": 0,
+      "type": {
+        "id": "1",
+        "name": "STATUS_SCHEDULED",
+        "state": "pre",
+        "completed": false,
+        "description": "Scheduled",
+        "detail": "Thu, August 28th at 5:30 PM EDT",
+        "shortDetail": "8/28 - 5:30 PM EDT"
+      }
+    }
+  },
+  {
+    "id": "401752794",
+    "uid": "s:20~l:23~e:401752794",
+    "date": "2025-08-28T22:00Z",
+    "name": "Ohio Bobcats at Rutgers Scarlet Knights",
+    "shortName": "OHIO @ RUTG",
+    "season": {
+      "year": 2025,
+      "type": 2,
+      "slug": "regular-season"
+    },
+    "week": {
+      "number": 1
+    },
+    "competitions": [
+      {
+        "id": "401752794",
+        "uid": "s:20~l:23~e:401752794~c:401752794",
+        "date": "2025-08-28T22:00Z",
+        "attendance": 0,
+        "type": {
+          "id": "1",
+          "abbreviation": "STD"
+        },
+        "timeValid": true,
+        "dateValid": false,
+        "neutralSite": false,
+        "conferenceCompetition": false,
+        "playByPlayAvailable": false,
+        "recent": false,
+        "venue": {
+          "id": "6577",
+          "fullName": "SHI Stadium",
+          "address": {
+            "city": "Piscataway",
+            "state": "NJ",
+            "country": "USA"
+          },
+          "indoor": false
+        },
+        "competitors": [
+          {
+            "id": "164",
+            "uid": "s:20~l:23~t:164",
+            "type": "team",
+            "order": 0,
+            "homeAway": "home",
+            "team": {
+              "id": "164",
+              "uid": "s:20~l:23~t:164",
+              "location": "Rutgers",
+              "name": "Scarlet Knights",
+              "abbreviation": "RUTG",
+              "displayName": "Rutgers Scarlet Knights",
+              "shortDisplayName": "Rutgers",
+              "color": "d21034",
+              "alternateColor": "ffffff",
+              "isActive": true,
+              "venue": {
+                "id": "3754"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "clubhouse",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/164/rutgers-scarlet-knights",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "clubhouse",
+                    "mobile",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/164/rutgers-scarlet-knights",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "roster",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/roster/_/id/164",
+                  "text": "Roster",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "stats",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/stats/_/id/164",
+                  "text": "Statistics",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "schedule",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/schedule/_/id/164",
+                  "text": "Schedule",
+                  "isExternal": false,
+                  "isPremium": false
+                }
+              ],
+              "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/164.png",
+              "conferenceId": "5"
+            },
+            "score": "0",
+            "curatedRank": {
+              "current": 99
+            },
+            "statistics": [],
+            "records": [
+              {
+                "name": "overall",
+                "abbreviation": "overall",
+                "type": "total",
+                "summary": "0-0"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "Home",
+                "type": "homerecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "Away",
+                "abbreviation": "Away",
+                "type": "awayrecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "vs. Conf.",
+                "abbreviation": "CONF",
+                "type": "vsconf",
+                "summary": "0-0"
+              }
+            ]
+          },
+          {
+            "id": "195",
+            "uid": "s:20~l:23~t:195",
+            "type": "team",
+            "order": 1,
+            "homeAway": "away",
+            "team": {
+              "id": "195",
+              "uid": "s:20~l:23~t:195",
+              "location": "Ohio",
+              "name": "Bobcats",
+              "abbreviation": "OHIO",
+              "displayName": "Ohio Bobcats",
+              "shortDisplayName": "Ohio",
+              "color": "295A29",
+              "alternateColor": "e4bb85",
+              "isActive": true,
+              "venue": {
+                "id": "3876"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "clubhouse",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/195/ohio-bobcats",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "clubhouse",
+                    "mobile",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/195/ohio-bobcats",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "roster",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/roster/_/id/195",
+                  "text": "Roster",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "stats",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/stats/_/id/195",
+                  "text": "Statistics",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "schedule",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/schedule/_/id/195",
+                  "text": "Schedule",
+                  "isExternal": false,
+                  "isPremium": false
+                }
+              ],
+              "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/195.png",
+              "conferenceId": "15"
+            },
+            "score": "0",
+            "curatedRank": {
+              "current": 99
+            },
+            "statistics": [],
+            "records": [
+              {
+                "name": "overall",
+                "abbreviation": "overall",
+                "type": "total",
+                "summary": "0-0"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "Home",
+                "type": "homerecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "Away",
+                "abbreviation": "Away",
+                "type": "awayrecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "vs. Conf.",
+                "abbreviation": "CONF",
+                "type": "vsconf",
+                "summary": "0-0"
+              }
+            ]
+          }
+        ],
+        "notes": [],
+        "status": {
+          "clock": 0.0,
+          "displayClock": "0:00",
+          "period": 0,
+          "type": {
+            "id": "1",
+            "name": "STATUS_SCHEDULED",
+            "state": "pre",
+            "completed": false,
+            "description": "Scheduled",
+            "detail": "Thu, August 28th at 6:00 PM EDT",
+            "shortDetail": "8/28 - 6:00 PM EDT"
+          }
+        },
+        "broadcasts": [
+          {
+            "market": "national",
+            "names": [
+              "BTN"
+            ]
+          }
+        ],
+        "format": {
+          "regulation": {
+            "periods": 4
+          }
+        },
+        "tickets": [
+          {
+            "summary": "Tickets as low as $26",
+            "numberAvailable": 2397,
+            "links": [
+              {
+                "href": "https://www.vividseats.com/rutgers-scarlet-knights-football-tickets-shi-stadium-8-30-2025--sports-ncaa-football/production/5417898?wsUser=717"
+              },
+              {
+                "href": "https://www.vividseats.com/shi-stadium-tickets/venue/1481?wsUser=717"
+              }
+            ]
+          }
+        ],
+        "startDate": "2025-08-28T22:00Z",
+        "broadcast": "BTN",
+        "geoBroadcasts": [
+          {
+            "type": {
+              "id": "1",
+              "shortName": "TV"
+            },
+            "market": {
+              "id": "1",
+              "type": "National"
+            },
+            "media": {
+              "shortName": "BTN"
+            },
+            "lang": "en",
+            "region": "us"
+          }
+        ],
+        "odds": [
+          {
+            "provider": {
+              "id": "58",
+              "name": "ESPN BET",
+              "priority": 1,
+              "logos": [
+                {
+                  "href": "https://a.espncdn.com/i/espnbet/ESPN_Bet_Sportsbook_Light.svg",
+                  "rel": [
+                    "light"
+                  ]
+                },
+                {
+                  "href": "https://a.espncdn.com/i/espnbet/ESPN_Bet_Sportsbook_Dark.svg",
+                  "rel": [
+                    "dark"
+                  ]
+                }
+              ]
+            },
+            "details": "RUTG -14.5",
+            "overUnder": 46.5,
+            "spread": -14.5,
+            "awayTeamOdds": {
+              "favorite": false,
+              "underdog": true,
+              "team": {
+                "id": "195",
+                "uid": "s:20~l:23~t:195",
+                "abbreviation": "OHIO",
+                "name": "Bobcats",
+                "displayName": "Ohio Bobcats",
+                "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/195.png"
+              },
+              "favoriteAtOpen": false
+            },
+            "homeTeamOdds": {
+              "favorite": true,
+              "underdog": false,
+              "team": {
+                "id": "164",
+                "uid": "s:20~l:23~t:164",
+                "abbreviation": "RUTG",
+                "name": "Scarlet Knights",
+                "displayName": "Rutgers Scarlet Knights",
+                "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/164.png"
+              },
+              "favoriteAtOpen": true
+            },
+            "moneyline": {
+              "displayName": "Moneyline",
+              "shortDisplayName": "ML",
+              "home": {
+                "close": {
+                  "odds": "-750",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "home",
+                      "desktop",
+                      "bets",
+                      "espn-bet"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/f7090929-692a-4f49-86bd-6b85d6e1f40b&market_selection_id[0]=e889d8a9-b0ea-420b-a044-30bf804446dd&odds_numerator[0]=17&odds_denominator[0]=15",
+                    "text": "Home Bet",
+                    "shortText": "Home Bet",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401752794,
+                        "betSide": "home",
+                        "betType": "straight"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "odds": "-450"
+                }
+              },
+              "away": {
+                "close": {
+                  "odds": "+475",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "away",
+                      "desktop",
+                      "bets",
+                      "espn-bet"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/f7090929-692a-4f49-86bd-6b85d6e1f40b&market_selection_id[0]=d1e50179-3032-44ba-9108-d1f1fe41103c&odds_numerator[0]=23&odds_denominator[0]=4",
+                    "text": "Away Bet",
+                    "shortText": "Away Bet",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401752794,
+                        "betSide": "away",
+                        "betType": "straight"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "odds": "+340"
+                }
+              }
+            },
+            "pointSpread": {
+              "displayName": "Spread",
+              "shortDisplayName": "Spread",
+              "home": {
+                "close": {
+                  "line": "-14.5",
+                  "odds": "-105",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "homeSpread",
+                      "desktop",
+                      "bets"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/f7090929-692a-4f49-86bd-6b85d6e1f40b&market_selection_id[0]=cba76984-bd7a-4912-a2dd-5c40654a0dfe&odds_numerator[0]=41&odds_denominator[0]=21",
+                    "text": "Home Point Spread",
+                    "shortText": "Home Point Spread",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401752794,
+                        "betSide": "none",
+                        "betType": "straight",
+                        "betDetails": "Spread:RUTG-14.5"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "line": "-10.5",
+                  "odds": "-115"
+                }
+              },
+              "away": {
+                "close": {
+                  "line": "+14.5",
+                  "odds": "-115",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "awaySpread",
+                      "desktop",
+                      "bets"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/f7090929-692a-4f49-86bd-6b85d6e1f40b&market_selection_id[0]=90109da6-8767-4af3-bfbd-e946f8fc83cc&odds_numerator[0]=43&odds_denominator[0]=23",
+                    "text": "Away Point Spread",
+                    "shortText": "Away Point Spread",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401752794,
+                        "betSide": "none",
+                        "betType": "straight",
+                        "betDetails": "Spread:OHIO+14.5"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "line": "+10.5",
+                  "odds": "-105"
+                }
+              }
+            },
+            "total": {
+              "displayName": "Total Points",
+              "shortDisplayName": "Total",
+              "over": {
+                "close": {
+                  "line": "o46.5",
+                  "odds": "-110",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "over",
+                      "desktop",
+                      "bets"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/f7090929-692a-4f49-86bd-6b85d6e1f40b&market_selection_id[0]=afb57be9-1413-4a45-bea7-b130e10e1220&odds_numerator[0]=21&odds_denominator[0]=11",
+                    "text": "Over Odds",
+                    "shortText": "Over Odds",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401752794,
+                        "betSide": "over",
+                        "betType": "straight",
+                        "betDetails": "Over:46.5"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "line": "o45.5",
+                  "odds": "-115"
+                }
+              },
+              "under": {
+                "close": {
+                  "line": "u46.5",
+                  "odds": "-110",
+                  "link": {
+                    "language": "en-US",
+                    "rel": [
+                      "under",
+                      "desktop",
+                      "bets"
+                    ],
+                    "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/f7090929-692a-4f49-86bd-6b85d6e1f40b&market_selection_id[0]=8072ab29-3370-41ed-bdd9-f1bfff2470a5&odds_numerator[0]=21&odds_denominator[0]=11",
+                    "text": "Under Odds",
+                    "shortText": "Under Odds",
+                    "isExternal": true,
+                    "isPremium": false,
+                    "tracking": {
+                      "campaign": "betting-integrations",
+                      "tags": {
+                        "league": "college-football",
+                        "sport": "football",
+                        "gameId": 401752794,
+                        "betSide": "under",
+                        "betType": "straight",
+                        "betDetails": "Under:46.5"
+                      }
+                    }
+                  }
+                },
+                "open": {
+                  "line": "u45.5",
+                  "odds": "-105"
+                }
+              }
+            },
+            "link": {
+              "language": "en-US",
+              "rel": [
+                "game",
+                "desktop",
+                "bets"
+              ],
+              "href": "https://espnbet.app.link/integrations?%243p=a_espn&clr=espnbettingintegration&$canonical_url=/sport/football/organization/united-states/competition/ncaaf/event/f7090929-692a-4f49-86bd-6b85d6e1f40b",
+              "text": "See More on ESPN BET Sportsbook",
+              "shortText": "Game",
+              "isExternal": true,
+              "isPremium": false,
+              "tracking": {
+                "campaign": "betting-integrations",
+                "tags": {
+                  "league": "college-football",
+                  "sport": "football",
+                  "gameId": 401752794,
+                  "betSide": "none",
+                  "betType": "straight"
+                }
+              }
+            },
+            "header": {
+              "logo": {
+                "dark": "https://a.espncdn.com/i/espnbet/dark/espn-bet-square-off.svg",
+                "light": "https://a.espncdn.com/i/espnbet/espn-bet-square-off.svg",
+                "exclusivesLogoDark": "https://a.espncdn.com/i/espnbet/espn-bet-square-mint.svg",
+                "exclusivesLogoLight": "https://a.espncdn.com/i/espnbet/espn-bet-square-mint.svg"
+              },
+              "text": "ESPN Bet Sportsbook"
+            }
+          }
+        ],
+        "highlights": []
+      }
+    ],
+    "links": [
+      {
+        "language": "en-US",
+        "rel": [
+          "summary",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/college-football/game/_/gameId/401752794/ohio-rutgers",
+        "text": "Gamecast",
+        "shortText": "Gamecast",
+        "isExternal": false,
+        "isPremium": false
+      }
+    ],
+    "weather": {
+      "displayValue": "Partly sunny",
+      "temperature": 81,
+      "highTemperature": 81,
+      "conditionId": "3",
+      "link": {
+        "language": "en-US",
+        "rel": [
+          "08854"
+        ],
+        "href": "http://www.accuweather.com/en/us/shi-stadium-nj/08817/hourly-weather-forecast/53608_poi?day=11&hbhhour=18&lang=en-us",
+        "text": "Weather",
+        "shortText": "Weather",
+        "isExternal": true,
+        "isPremium": false
+      }
+    },
+    "status": {
+      "clock": 0.0,
+      "displayClock": "0:00",
+      "period": 0,
+      "type": {
+        "id": "1",
+        "name": "STATUS_SCHEDULED",
+        "state": "pre",
+        "completed": false,
+        "description": "Scheduled",
+        "detail": "Thu, August 28th at 6:00 PM EDT",
+        "shortDetail": "8/28 - 6:00 PM EDT"
+      }
+    }
+  },
+  {
+    "id": "401762790",
+    "uid": "s:20~l:23~e:401762790",
+    "date": "2025-08-28T22:00Z",
+    "name": "Lafayette Leopards at Bowling Green Falcons",
+    "shortName": "LAF @ BGSU",
+    "season": {
+      "year": 2025,
+      "type": 2,
+      "slug": "regular-season"
+    },
+    "week": {
+      "number": 1
+    },
+    "competitions": [
+      {
+        "id": "401762790",
+        "uid": "s:20~l:23~e:401762790~c:401762790",
+        "date": "2025-08-28T22:00Z",
+        "attendance": 0,
+        "type": {
+          "id": "1",
+          "abbreviation": "STD"
+        },
+        "timeValid": true,
+        "dateValid": false,
+        "neutralSite": false,
+        "conferenceCompetition": false,
+        "playByPlayAvailable": false,
+        "recent": false,
+        "venue": {
+          "id": "3700",
+          "fullName": "Doyt L. Perry Stadium",
+          "address": {
+            "city": "Bowling Green",
+            "state": "OH",
+            "country": "USA"
+          },
+          "indoor": false
+        },
+        "competitors": [
+          {
+            "id": "189",
+            "uid": "s:20~l:23~t:189",
+            "type": "team",
+            "order": 0,
+            "homeAway": "home",
+            "team": {
+              "id": "189",
+              "uid": "s:20~l:23~t:189",
+              "location": "Bowling Green",
+              "name": "Falcons",
+              "abbreviation": "BGSU",
+              "displayName": "Bowling Green Falcons",
+              "shortDisplayName": "Bowling Green",
+              "color": "2b1000",
+              "alternateColor": "492000",
+              "isActive": true,
+              "venue": {
+                "id": "3700"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "clubhouse",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/189/bowling-green-falcons",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "clubhouse",
+                    "mobile",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/189/bowling-green-falcons",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "roster",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/roster/_/id/189",
+                  "text": "Roster",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "stats",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/stats/_/id/189",
+                  "text": "Statistics",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "schedule",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/schedule/_/id/189",
+                  "text": "Schedule",
+                  "isExternal": false,
+                  "isPremium": false
+                }
+              ],
+              "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/189.png",
+              "conferenceId": "15"
+            },
+            "score": "0",
+            "curatedRank": {
+              "current": 99
+            },
+            "statistics": [],
+            "records": [
+              {
+                "name": "overall",
+                "abbreviation": "overall",
+                "type": "total",
+                "summary": "0-0"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "Home",
+                "type": "homerecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "Away",
+                "abbreviation": "Away",
+                "type": "awayrecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "vs. Conf.",
+                "abbreviation": "CONF",
+                "type": "vsconf",
+                "summary": "0-0"
+              }
+            ]
+          },
+          {
+            "id": "322",
+            "uid": "s:20~l:23~t:322",
+            "type": "team",
+            "order": 1,
+            "homeAway": "away",
+            "team": {
+              "id": "322",
+              "uid": "s:20~l:23~t:322",
+              "location": "Lafayette",
+              "name": "Leopards",
+              "abbreviation": "LAF",
+              "displayName": "Lafayette Leopards",
+              "shortDisplayName": "Lafayette",
+              "color": "790000",
+              "alternateColor": "a59474",
+              "isActive": true,
+              "venue": {
+                "id": "3721"
+              },
+              "links": [
+                {
+                  "rel": [
+                    "clubhouse",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/322/lafayette-leopards",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "clubhouse",
+                    "mobile",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/_/id/322/lafayette-leopards",
+                  "text": "Clubhouse",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "roster",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/roster/_/id/322",
+                  "text": "Roster",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "stats",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/stats/_/id/322",
+                  "text": "Statistics",
+                  "isExternal": false,
+                  "isPremium": false
+                },
+                {
+                  "rel": [
+                    "schedule",
+                    "desktop",
+                    "team"
+                  ],
+                  "href": "https://www.espn.com/college-football/team/schedule/_/id/322",
+                  "text": "Schedule",
+                  "isExternal": false,
+                  "isPremium": false
+                }
+              ],
+              "logo": "https://a.espncdn.com/i/teamlogos/ncaa/500/322.png",
+              "conferenceId": "27"
+            },
+            "score": "0",
+            "curatedRank": {
+              "current": 99
+            },
+            "statistics": [],
+            "records": [
+              {
+                "name": "overall",
+                "abbreviation": "overall",
+                "type": "total",
+                "summary": "0-0"
+              },
+              {
+                "name": "Home",
+                "abbreviation": "Home",
+                "type": "homerecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "Away",
+                "abbreviation": "Away",
+                "type": "awayrecord",
+                "summary": "0-0"
+              },
+              {
+                "name": "vs. Conf.",
+                "abbreviation": "CONF",
+                "type": "vsconf",
+                "summary": "0-0"
+              }
+            ]
+          }
+        ],
+        "notes": [],
+        "status": {
+          "clock": 0.0,
+          "displayClock": "0:00",
+          "period": 0,
+          "type": {
+            "id": "1",
+            "name": "STATUS_SCHEDULED",
+            "state": "pre",
+            "completed": false,
+            "description": "Scheduled",
+            "detail": "Thu, August 28th at 6:00 PM EDT",
+            "shortDetail": "8/28 - 6:00 PM EDT"
+          }
+        },
+        "broadcasts": [
+          {
+            "market": "national",
+            "names": [
+              "ESPN+"
+            ]
+          }
+        ],
+        "format": {
+          "regulation": {
+            "periods": 4
+          }
+        },
+        "tickets": [
+          {
+            "summary": "Tickets as low as $16",
+            "numberAvailable": 396,
+            "links": [
+              {
+                "href": "https://www.vividseats.com/bowling-green-falcons-football-tickets-doyt-perry-stadium-8-30-2025--sports-ncaa-football/production/5416725?wsUser=717"
+              },
+              {
+                "href": "https://www.vividseats.com/venues/doyt-perry-stadium-tickets.html?wsUser=717"
+              }
+            ]
+          }
+        ],
+        "startDate": "2025-08-28T22:00Z",
+        "broadcast": "ESPN+",
+        "geoBroadcasts": [
+          {
+            "type": {
+              "id": "4",
+              "shortName": "Streaming"
+            },
+            "market": {
+              "id": "1",
+              "type": "National"
+            },
+            "media": {
+              "shortName": "ESPN+",
+              "logo": "https://a.espncdn.com/guid/322a7e47-3cdb-3b5c-ab1b-678e1f2c27e5/logos/default.png",
+              "darkLogo": "https://a.espncdn.com/guid/322a7e47-3cdb-3b5c-ab1b-678e1f2c27e5/logos/default-dark.png"
+            },
+            "lang": "en",
+            "region": "us"
+          }
+        ],
+        "highlights": []
+      }
+    ],
+    "links": [
+      {
+        "language": "en-US",
+        "rel": [
+          "summary",
+          "desktop",
+          "event"
+        ],
+        "href": "https://www.espn.com/college-football/game/_/gameId/401762790/lafayette-bowling-green",
+        "text": "Gamecast",
+        "shortText": "Gamecast",
+        "isExternal": false,
+        "isPremium": false
+      }
+    ],
+    "weather": {
+      "displayValue": "Cloudy",
+      "temperature": 80,
+      "highTemperature": 80,
+      "conditionId": "7",
+      "link": {
+        "language": "en-US",
+        "rel": [
+          "43403"
+        ],
+        "href": "http://www.accuweather.com/en/us/doyt-l-perry-stadium-oh/43402/hourly-weather-forecast/53617_poi?day=11&hbhhour=18&lang=en-us",
+        "text": "Weather",
+        "shortText": "Weather",
+        "isExternal": true,
+        "isPremium": false
+      }
+    },
+    "status": {
+      "clock": 0.0,
+      "displayClock": "0:00",
+      "period": 0,
+      "type": {
+        "id": "1",
+        "name": "STATUS_SCHEDULED",
+        "state": "pre",
+        "completed": false,
+        "description": "Scheduled",
+        "detail": "Thu, August 28th at 6:00 PM EDT",
+        "shortDetail": "8/28 - 6:00 PM EDT"
+      }
+    }
+  }
+]
