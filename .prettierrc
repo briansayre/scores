@@ -1,0 +1,6 @@
+{
+    "tabWidth": 4,
+    "useTabs": false,
+    "semicolons": true,
+    "printWidth": 140
+}
