@@ -1,4 +1,5 @@
 import React from 'react';
+import './MainBar.css';
 import { GameFilters, LeagueType, SecondaryFilterType } from '../../types';
 import { TieredFilter } from './TieredFilter';
 
@@ -21,7 +22,6 @@ export const MainBar: React.FC<MainBarProps> = ({
     <>
       <div className="main-bar">
         <div className="main-bar-content">
-          {/* First Row: Filter Dropdowns */}
           <div className="main-bar-row main-bar-filters">
             <TieredFilter
               league={filters.league}
@@ -31,9 +31,7 @@ export const MainBar: React.FC<MainBarProps> = ({
             />
           </div>
 
-          {/* Second Row: Search and Settings */}
           <div className="main-bar-row main-bar-controls">
-            {/* Search Bar */}
             <div className="search-container">
               <input
                 type="text"
@@ -44,7 +42,6 @@ export const MainBar: React.FC<MainBarProps> = ({
               />
             </div>
 
-            {/* Settings Button */}
             <button 
               className="action-btn settings-btn"
               onClick={onSettingsClick}

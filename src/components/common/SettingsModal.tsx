@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import './SettingsModal.css';
 import { Game, ViewType } from '../../types';
 import { isTestingMode, toggleTestingMode } from '../../config/testingMode';
 

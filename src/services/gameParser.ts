@@ -1,4 +1,4 @@
-import { Game, Team, ESPNEvent, ESPNCompetition, ESPNCompetitor } from '../types';
+import { Game, Team, ESPNEvent, ESPNCompetition, ESPNCompetitor, GameLeaders, PlayerStat } from '../types';
 
 export class GameParser {
   static parseGame(event: ESPNEvent, isNfl: boolean): Game | null {
@@ -27,12 +27,12 @@ export class GameParser {
           isRedZone: this.parseIsRedZone(comp),
           distance: this.parseDistance(comp)
         },
+        leaders: this.parseLeaders(comp),
         away: this.parseTeam(1, comp),
         home: this.parseTeam(0, comp),
         live: ''
       };
 
-      // Format date and time strings
       game.dateString = this.formatDateString(game.date);
       game.timeString = this.formatTimeString(game.date);
       game.topHeader = this.formatTopHeader(game);
@@ -195,6 +195,49 @@ export class GameParser {
   private static numToQuart(num: number): string {
     const quarters = ['', '1st', '2nd', '3rd', '4th'];
     return quarters[num] || `${num}th`;
+  }
+
+  private static parseLeaders(comp: ESPNCompetition): GameLeaders | undefined {
+    const leaders = (comp as any).leaders;
+    if (!leaders || !Array.isArray(leaders)) return undefined;
+
+    const gameLeaders: GameLeaders = {};
+
+    for (const leader of leaders) {
+      if (leader.name === 'passingYards' && leader.leaders?.[0]) {
+        gameLeaders.passingYards = this.parsePlayerStat(leader.leaders[0]);
+      } else if (leader.name === 'rushingYards' && leader.leaders?.[0]) {
+        gameLeaders.rushingYards = this.parsePlayerStat(leader.leaders[0]);
+      } else if (leader.name === 'receivingYards' && leader.leaders?.[0]) {
+        gameLeaders.receivingYards = this.parsePlayerStat(leader.leaders[0]);
+      }
+    }
+
+    return Object.keys(gameLeaders).length > 0 ? gameLeaders : undefined;
+  }
+
+  private static parsePlayerStat(leader: any): PlayerStat {
+    return {
+      displayValue: leader.displayValue || '',
+      value: leader.value || 0,
+      athlete: {
+        id: leader.athlete?.id || '',
+        fullName: leader.athlete?.fullName || '',
+        displayName: leader.athlete?.displayName || '',
+        shortName: leader.athlete?.shortName || '',
+        headshot: leader.athlete?.headshot || '',
+        jersey: leader.athlete?.jersey || '',
+        position: {
+          abbreviation: leader.athlete?.position?.abbreviation || ''
+        },
+        team: {
+          id: leader.athlete?.team?.id || ''
+        }
+      },
+      team: {
+        id: leader.team?.id || ''
+      }
+    };
   }
 
 }

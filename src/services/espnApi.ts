@@ -38,7 +38,6 @@ export class ESPNApiService {
 
   async fetchNFLGames(): Promise<ESPNEvent[]> {
     if (isTestingMode()) {
-      // Simulate network delay for realistic testing
       await new Promise(resolve => setTimeout(resolve, 200));
       return [...mockNFLGames];
     }
@@ -60,7 +59,6 @@ export class ESPNApiService {
     if (isTestingMode()) {
       // Simulate network delay
       await new Promise(resolve => setTimeout(resolve, 150));
-      // Return first mock game or null if not found
       return mockExtraGames.find(game => game.id === gameId) || mockNCAAGames[0] || null;
     }
 
@@ -83,7 +81,6 @@ export class ESPNApiService {
     if (isTestingMode()) {
       // Simulate network delay
       await new Promise(resolve => setTimeout(resolve, 300));
-      // Return mock extra games for any team IDs requested
       return [...mockExtraGames];
     }
 
@@ -96,12 +93,11 @@ export class ESPNApiService {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data = await response.json();
-        // Return current week's games for this team
         return data.events?.filter((event: ESPNEvent) => {
           const eventDate = new Date(event.competitions?.[0]?.date || '');
           const now = new Date();
           const daysDiff = Math.abs(now.getTime() - eventDate.getTime()) / (1000 * 3600 * 24);
-          return daysDiff <= 7; // Games within a week
+          return daysDiff <= 7;
         }) || [];
       } catch (error) {
         console.error(`Error fetching team ${teamId} games:`, error);

@@ -1,0 +1,21 @@
+/* Footer Styles */
+.footer {
+  margin: 40px auto 24px auto;
+  padding: 20px 0;
+  border-top: 1px solid #404040;
+  max-width: 1000px;
+}
+
+.footer-content {
+  text-align: center;
+}
+
+.game-count {
+  color: #999999;
+  font-size: 14px;
+}
+
+.failed-count {
+  color: #ef4444;
+  font-weight: 500;
+}

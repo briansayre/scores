@@ -12,16 +12,8 @@ interface GameListProps {
 export const GameList: React.FC<GameListProps> = ({ games, loading, viewType }) => {
   if (loading && games.length === 0) {
     return (
-      <div className="loading-message" style={{ textAlign: 'center' }}>
+      <div className="game-count" style={{ textAlign: 'center' }}>
         <p>Loading games...</p>
-      </div>
-    );
-  }
-
-  if (games.length === 0) {
-    return (
-      <div className="no-games-message" style={{ textAlign: 'center' }}>
-        <p>No games found matching your filters.</p>
       </div>
     );
   }

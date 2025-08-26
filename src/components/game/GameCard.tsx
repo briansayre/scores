@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
+import './GameCard.css';
 import { Game } from '../../types';
 import { FieldPosition } from './FieldPosition';
+import { PlayerStats } from './PlayerStats';
 
 interface GameCardProps {
   game: Game;
 }
 
 export const GameCard: React.FC<GameCardProps> = ({ game }) => {
-  /**
-   * Get CSS class based on game state
-   */
+  const [isExpanded, setIsExpanded] = useState(false);
   const getGameStatusClass = (): string => {
     switch (game.live) {
       case 'live': return 'live';
@@ -18,13 +18,9 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
     }
   };
 
-  /**
-   * Check if game has 2 minutes or less remaining (critical time)
-   */
   const isCriticalTime = (): boolean => {
     if (game.live !== 'live' || !game.info) return false;
     
-    // Parse the game info which is in format like "4th 1:45" or "2nd 0:30"
     const timeMatch = game.info.match(/(\d+)(?:st|nd|rd|th)\s+(\d+):(\d+)/);
     if (!timeMatch) return false;
     
@@ -32,17 +28,12 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
     const minutes = parseInt(timeMatch[2]);
     const seconds = parseInt(timeMatch[3]);
     
-    // Only check 4th quarter or overtime periods (5th+)
     if (quarter < 4) return false;
     
-    // Critical if 2 minutes or less remaining
     const totalSeconds = minutes * 60 + seconds;
-    return totalSeconds <= 120; // 2 minutes = 120 seconds
+    return totalSeconds <= 120;
   };
 
-  /**
-   * Determine which team has possession for football icon display
-   */
   const getPossessionTeam = (): 'home' | 'away' | null => {
     if (game.live !== 'live' || !game.situation?.possession) return null;
     
@@ -51,16 +42,10 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
     return null;
   };
 
-  /**
-   * Format score display - show dash for upcoming games
-   */
   const formatScore = (score: number): string => {
     return game.live === 'upcoming' ? '-' : score.toString();
   };
 
-  /**
-   * Get venue/last play text with down & distance prepended for live games
-   */
   const getInfoText = (): string => {
     if (game.live === 'live') {
       const downAndDist = game.situation?.downDistanceText ? `${game.situation.downDistanceText} - ` : '';
@@ -69,17 +54,25 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
     return game.venue;
   };
 
-  /**
-   * Determine if text should scroll based on length
-   */
   const shouldScroll = (): boolean => {
     return getInfoText().length > 50;
   };
 
   const possessionTeam = getPossessionTeam();
 
+  const handleCardClick = () => {
+    if (game.leaders && (game.leaders.passingYards || game.leaders.rushingYards || game.leaders.receivingYards)) {
+      setIsExpanded(!isExpanded);
+    }
+  };
+
+  const hasStats = game.leaders && (game.leaders.passingYards || game.leaders.rushingYards || game.leaders.receivingYards);
+
   return (
-    <div className={`game-card default ${getGameStatusClass()}`}>
+    <div 
+      className={`game-card ${getGameStatusClass()} ${isCriticalTime() ? 'critical-time' : ''} ${isExpanded ? 'expanded' : ''} ${hasStats ? 'clickable' : ''}`}
+      onClick={handleCardClick}
+    >
       <div className="game-header">
         <div className="game-time-info">
           <span className="game-date">{game.dateString}</span>
@@ -138,6 +131,10 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
 
       <FieldPosition game={game} />
 
+      <div className={`game-stats ${isExpanded ? 'expanded' : ''}`}>
+        {isExpanded && <PlayerStats leaders={game.leaders} />}
+      </div>
+
       <div className="game-footer">
         <div className="venue-channel-row">
           <span className={`venue ${shouldScroll() ? 'scrolling' : ''}`}>
@@ -147,7 +144,21 @@ export const GameCard: React.FC<GameCardProps> = ({ game }) => {
               getInfoText()
             )}
           </span>
-          {game.channel && <span className="channel">{game.channel}</span>}
+          <div className="channel-link-row">
+            {game.channel && <span className="channel">{game.channel}</span>}
+            {game.link && (
+              <a 
+                href={game.link} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="espn-link"
+                onClick={(e) => e.stopPropagation()}
+                title="View on ESPN"
+              >
+                ↗
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </div>

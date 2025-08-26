@@ -11,6 +11,34 @@ export interface Team {
   img: string;
 }
 
+export interface PlayerStat {
+  displayValue: string;
+  value: number;
+  athlete: {
+    id: string;
+    fullName: string;
+    displayName: string;
+    shortName: string;
+    headshot: string;
+    jersey: string;
+    position: {
+      abbreviation: string;
+    };
+    team: {
+      id: string;
+    };
+  };
+  team: {
+    id: string;
+  };
+}
+
+export interface GameLeaders {
+  passingYards?: PlayerStat;
+  rushingYards?: PlayerStat;
+  receivingYards?: PlayerStat;
+}
+
 export interface Game {
   id: string;
   state: string;
@@ -33,6 +61,7 @@ export interface Game {
     possession?: string;
     isRedZone?: boolean;
   };
+  leaders?: GameLeaders;
   away: Team;
   home: Team;
   live: string;
@@ -114,7 +143,7 @@ export interface ESPNCompetitor {
 export type ViewType = 'default' | 'compact' | 'detailed';
 export type TabType = 'ncaa' | 'nfl' | 'both' | 'favorites';
 export type LeagueType = 'ncaa' | 'nfl' | 'both';
-export type SecondaryFilterType = 'all' | 'favorites' | 'live' | 'future'| 'ranked' | 
+export type SecondaryFilterType = 'all' | 'favorites' | 'live' | 'future' | 'ranked' | 
   'sec' | 'big10' | 'acc' | 'big12' | 'pac12' | 
   'afc_east' | 'afc_north' | 'afc_south' | 'afc_west' |
   'nfc_east' | 'nfc_north' | 'nfc_south' | 'nfc_west' | 'redzone';
