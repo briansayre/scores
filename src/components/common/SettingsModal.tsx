@@ -134,7 +134,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   <div className="view-option-content">
                     <span className="view-option-title">Default View</span>
                     <span className="view-option-description">
-                      Detailed cards with full game information, field position, and stats
+                      Detailed cards with full game information, field position, and stats.
                     </span>
                   </div>
                 </label>
@@ -152,7 +152,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                   <div className="view-option-content">
                     <span className="view-option-title">Compact View</span>
                     <span className="view-option-description">
-                      Condensed cards showing only essential info - 4 games per row
+                      Condensed cards showing only essential info.
                     </span>
                   </div>
                 </label>

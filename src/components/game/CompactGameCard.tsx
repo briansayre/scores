@@ -1,4 +1,5 @@
 import React from 'react';
+import './CompactGameCard.css';
 import { Game } from '../../types';
 
 interface CompactGameCardProps {
@@ -6,20 +7,22 @@ interface CompactGameCardProps {
 }
 
 export const CompactGameCard: React.FC<CompactGameCardProps> = ({ game }) => {
-  const formatTime = (timeString: string) => {
-    if (!timeString) return '';
-    // Remove seconds if present (e.g., "7:30:00 PM" -> "7:30 PM")
-    return timeString.replace(/:00\s/, ' ');
+  const isPre = game.state === 'pre';
+  const isLive = game.state === 'in';
+  const isFinal = game.state === 'post';
+
+  const formatScore = (score: number): string => {
+    return score === 0 && isPre ? '-' : score.toString();
   };
 
-  const formatScore = (score: number) => {
-    return score > 0 ? score.toString() : '-';
+  const formatTime = (timeString: string): string => {
+    return timeString || '';
   };
 
   const getGameStatus = () => {
     if (game.state === 'pre') {
       // For future games, show date first, then time
-      return `${game.dateString} • ${formatTime(game.timeString)}`;
+      return game.odds;
     } else if (game.state === 'in') {
       return game.info || 'Live';
     } else {
@@ -27,11 +30,18 @@ export const CompactGameCard: React.FC<CompactGameCardProps> = ({ game }) => {
     }
   };
 
-  const isLive = game.state === 'in';
-  const isPre = game.state === 'pre';
+  const handleCardClick = () => {
+    if (game.link) {
+      window.open(game.link, '_blank');
+    }
+  };
 
   return (
-    <div className={`compact-game-card ${isLive ? 'live' : ''}`}>
+    <div 
+      className={`compact-game-card ${isLive ? 'live' : ''}`}
+      onClick={handleCardClick}
+      style={{ cursor: 'pointer' }}
+    >
       {/* Game Status/Time */}
       <div className={`compact-status ${isLive ? 'live' : isPre ? 'pre' : 'final'}`}>
         {getGameStatus()}
@@ -46,13 +56,11 @@ export const CompactGameCard: React.FC<CompactGameCardProps> = ({ game }) => {
             alt={game.away.name}
             className="compact-team-logo"
           />
+          <span className="compact-team-abbreviation">{game.away.abbreviation}</span>
           <div className="compact-team-info">
-            {/* <span className="compact-team-name">{game.away.name}</span> */}
             <span className="compact-score">{formatScore(game.away.score)}</span>
           </div>
         </div>
-
-
 
         {/* Home Team */}
         <div className="compact-team">
@@ -61,27 +69,17 @@ export const CompactGameCard: React.FC<CompactGameCardProps> = ({ game }) => {
             alt={game.home.name}
             className="compact-team-logo"
           />
+          <span className="compact-team-abbreviation">{game.home.abbreviation}</span>
           <div className="compact-team-info">
-            {/* <span className="compact-team-name">{game.home.name}</span> */}
             <span className="compact-score">{formatScore(game.home.score)}</span>
           </div>
         </div>
       </div>
 
-      {/* Date - only show for live/final games since pre-games show it in status */}
-      {!isPre && (
-        <div className="compact-date">
-          {game.dateString}
-        </div>
-      )}
-
-      {/* Live Indicator */}
-      {isLive && (
-        <div className="compact-live-indicator">
-          <span className="live-dot"></span>
-          LIVE
-        </div>
-      )}
+      <div className="compact-date">
+        {game.dateString} {game.timeString}
+      </div>
+      
     </div>
   );
 };

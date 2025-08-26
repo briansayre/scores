@@ -2,6 +2,7 @@ export interface Team {
   id: string;
   name: string;
   searchName: string;
+  abbreviation: string;
   score: number;
   record: string;
   rank: string;
@@ -123,6 +124,7 @@ export interface ESPNCompetitor {
     id: string;
     displayName: string;
     shortDisplayName: string;
+    abbreviation: string;
     color: string;
     alternateColor: string;
     logo: string;

@@ -81,48 +81,6 @@ body {
     padding: 0 12px;
   }
 
-  .main-bar {
-    margin: 12px auto;
-    padding: 12px 0;
-  }
-
-  .main-bar-content {
-    flex-direction: column;
-    gap: 12px;
-    align-items: stretch;
-  }
-
-  .main-bar-row {
-    justify-content: center;
-  }
-
-  .main-bar-controls {
-    justify-content: space-between;
-  }
-
-  .search-container {
-    max-width: none;
-    flex: 1;
-  }
-
-  .tiered-filter {
-    width: 100%;
-  }
-
-  .league-dropdown,
-  .secondary-dropdown {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .dropdown-trigger {
-    min-width: 0;
-  }
-
-  .dropdown-text {
-    font-size: 13px;
-  }
-
   .game-card {
     padding: 16px;
   }
@@ -135,15 +93,7 @@ body {
     width: 40px;
     height: 40px;
   }
-
-  .team-score {
-    font-size: 20px;
-  }
-
-  .game-footer {
-    padding-top: 8px;
-  }
-
+  
   .modal-content {
     margin: 10px;
     max-height: calc(100vh - 20px);

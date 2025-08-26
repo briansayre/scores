@@ -129,6 +129,7 @@ export class GameParser {
       id: rawTeam.id,
       name: rawTeam.team.shortDisplayName,
       searchName: rawTeam.team.displayName.toLowerCase().replace(/\s/g, ''),
+      abbreviation: rawTeam.team.abbreviation || '',
       score: Number(rawTeam.score) || 0,
       record: this.parseRecord(rawTeam),
       rank: this.parseRank(rawTeam),
