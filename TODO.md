@@ -1,3 +1,3 @@
 # TODO
 - Add "redzone"
-- clean up compact games
+- maintain filters between refresh
