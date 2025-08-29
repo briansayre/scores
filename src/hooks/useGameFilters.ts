@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Game, GameFilters, LeagueType, SecondaryFilterType } from '../types';
 import { getNflDivision } from '../constants/nflDivisions';
+import { useLocalStorage } from './useLocalStorage';
 
 interface UseGameFiltersReturn {
   filters: GameFilters;
@@ -18,7 +19,7 @@ const defaultFilters: GameFilters = {
 };
 
 export const useGameFilters = (games: Game[], favoriteTeams: string[] = []): UseGameFiltersReturn => {
-  const [filters, setFilters] = useState<GameFilters>(defaultFilters);
+  const [filters, setFilters] = useLocalStorage<GameFilters>('gameFilters', defaultFilters);
 
   const filteredGames = useMemo(() => {
     let filtered = [...games];
