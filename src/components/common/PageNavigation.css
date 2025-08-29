@@ -1,0 +1,88 @@
+.page-navigation {
+  background: #1f1f1f;
+  border-bottom: 1px solid #404040;
+  padding: 16px;
+  margin: 16px auto;
+  border-radius: 12px;
+  max-width: 1000px;
+}
+
+.page-nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.site-title {
+  font-size: 20px;
+  font-weight: 900;
+  color: #3b82f6;
+  letter-spacing: -1px;
+  font-style: italic;
+  font-family: 'Arial Black', Arial, sans-serif;
+  text-transform: uppercase;
+}
+
+.page-nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.page-nav-button {
+  background: transparent;
+  border: none;
+  padding: 6px 0;
+  color: #999;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.page-nav-button:hover {
+  color: #e5e5e5;
+}
+
+.page-nav-button.active {
+  color: #3b82f6;
+}
+
+.page-nav-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: #3b82f6;
+  border-radius: 50%;
+}
+
+@media (max-width: 768px) {
+  .page-navigation {
+    margin: 8px auto;
+    padding: 16px 0;
+  }
+  
+  .page-nav-container {
+    padding: 0 12px;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .site-title {
+    font-size: 20px;
+  }
+  
+  .page-nav-buttons {
+    gap: 24px;
+  }
+  
+  .page-nav-button {
+    font-size: 14px;
+  }
+}

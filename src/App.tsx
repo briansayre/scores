@@ -1,64 +1,34 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './App.css';
-import { useGameData } from './hooks/useGameData';
-import { useGameFilters } from './hooks/useGameFilters';
-import { useLocalStorage, useScrollPosition } from './hooks/useLocalStorage';
-import { ViewType } from './types';
-import { GameList } from './components/game/GameList';
-import { MainBar } from './components/common/MainBar';
-import { Footer } from './components/common/Footer';
-import { SettingsModal } from './components/common/SettingsModal';
+import { useLocalStorage } from './hooks/useLocalStorage';
+import { PageType } from './types';
+import { PageNavigation } from './components/common/PageNavigation';
+import { ScoresPage, TeamsPage, NewsPage } from './pages';
 
 function App() {
-  const [viewType, setViewType] = useLocalStorage<ViewType>('viewType', 'default');
-  const [favoriteTeams, setFavoriteTeams] = useLocalStorage<string[]>('favoriteTeams', []);
-  
-  const { games, loading, gamesFailed } = useGameData();
-  
-  const {
-    filters,
-    filteredGames,
-    setLeague,
-    setSecondaryFilter,
-    setSearch
-  } = useGameFilters(games, favoriteTeams);
+  const [currentPage, setCurrentPage] = useLocalStorage<PageType>('currentPage', 'scores');
 
-  const [showSettings, setShowSettings] = useState(false);
-
-  // Enable scroll position persistence after games have loaded
-  useScrollPosition(!loading);
+  const renderCurrentPage = () => {
+    switch (currentPage) {
+      case 'scores':
+        return <ScoresPage />;
+      case 'teams':
+        return <TeamsPage />;
+      case 'news':
+        return <NewsPage />;
+      default:
+        return <ScoresPage />;
+    }
+  };
 
   return (
     <div className="App">
-      <MainBar
-        filters={filters}
-        onLeagueChange={setLeague}
-        onSecondaryFilterChange={setSecondaryFilter}
-        onSearchChange={setSearch}
-        onSettingsClick={() => setShowSettings(true)}
+      <PageNavigation 
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
       />
-
-      <GameList 
-        games={filteredGames}
-        loading={loading}
-        viewType={viewType}
-      />
-
-      <Footer
-        gameCount={filteredGames.length}
-        totalGames={games.length}
-        gamesFailed={gamesFailed}
-      />
-
-      <SettingsModal
-        isOpen={showSettings}
-        onClose={() => setShowSettings(false)}
-        games={games}
-        favoriteTeams={favoriteTeams}
-        onFavoriteTeamsChange={setFavoriteTeams}
-        viewType={viewType}
-        onViewTypeChange={setViewType}
-      />
+      
+      {renderCurrentPage()}
     </div>
   );
 }

@@ -150,6 +150,8 @@ export type SecondaryFilterType = 'all' | 'favorites' | 'live' | 'future' | 'ran
   'afc_east' | 'afc_north' | 'afc_south' | 'afc_west' |
   'nfc_east' | 'nfc_north' | 'nfc_south' | 'nfc_west' | 'redzone';
 
+export type PageType = 'scores' | 'teams' | 'news';
+
 export interface GameFilters {
   league: LeagueType;
   secondaryFilter: SecondaryFilterType;
