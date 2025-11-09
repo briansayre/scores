@@ -15,8 +15,7 @@ export const UNIVERSAL_FILTER_OPTIONS: FilterOption[] = [
   { value: 'all', label: 'All Games' },
   { value: 'favorites', label: 'Favorites' },
   { value: 'live', label: 'Live Games' },
-  { value: 'future', label: 'Future Games' },
-  { value: 'redzone', label: 'Redzone' }
+  { value: 'future', label: 'Future Games' }
 ];
 
 export const COLLEGE_SPECIFIC_FILTERS: FilterOption[] = [
@@ -24,7 +23,6 @@ export const COLLEGE_SPECIFIC_FILTERS: FilterOption[] = [
   { value: 'acc', label: 'ACC' },
   { value: 'big10', label: 'Big Ten' },
   { value: 'big12', label: 'Big 12' },
-  { value: 'pac12', label: 'Pac-12' },
   { value: 'sec', label: 'SEC' }
 ];
 

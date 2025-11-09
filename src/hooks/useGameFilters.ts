@@ -1,7 +1,13 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Game, GameFilters, LeagueType, SecondaryFilterType } from '../types';
 import { getNflDivision } from '../constants/nflDivisions';
 import { useLocalStorage } from './useLocalStorage';
+
+interface LeagueFilters {
+  ncaa: SecondaryFilterType;
+  nfl: SecondaryFilterType;
+  both: SecondaryFilterType;
+}
 
 interface UseGameFiltersReturn {
   filters: GameFilters;
@@ -19,10 +25,22 @@ const defaultFilters: GameFilters = {
 };
 
 export const useGameFilters = (games: Game[], favoriteTeams: string[] = []): UseGameFiltersReturn => {
+  // Track the last used filter for each league
+  const [leagueFilters, setLeagueFilters] = useLocalStorage<LeagueFilters>('leagueFilters', {
+    ncaa: 'all',
+    nfl: 'all',
+    both: 'all'
+  });
+  
   const [filters, setFilters] = useLocalStorage<GameFilters>('gameFilters', defaultFilters);
 
   const filteredGames = useMemo(() => {
     let filtered = [...games];
+    
+    // Ensure filters is defined
+    if (!filters) {
+      return filtered;
+    }
 
     // Filter by league (first tier)
     if (filters.league === 'ncaa') {
@@ -85,37 +103,67 @@ export const useGameFilters = (games: Game[], favoriteTeams: string[] = []): Use
           )
         );
         break;
-      
-      case 'redzone':
-        // Note: This would require playoff status in the game object
-        // For now, we'll keep all games as playoff data isn't available
-        break;
-      
       case 'all':
       default:
         break;
     }
 
     // Filter by search
-    if (filters.search.trim()) {
+    if (filters.search && filters.search.trim()) {
       const searchTerm = filters.search.toLowerCase().replace(/\s/g, '');
       filtered = filtered.filter(game => 
-        game.away.searchName.includes(searchTerm) || 
-        game.home.searchName.includes(searchTerm) ||
-        game.away.name.toLowerCase().includes(searchTerm) ||
-        game.home.name.toLowerCase().includes(searchTerm)
+        (game.away.searchName && game.away.searchName.includes(searchTerm)) || 
+        (game.home.searchName && game.home.searchName.includes(searchTerm)) ||
+        (game.away.name && game.away.name.toLowerCase().includes(searchTerm)) ||
+        (game.home.name && game.home.name.toLowerCase().includes(searchTerm))
       );
     }
 
     return filtered;
   }, [games, filters, favoriteTeams]);
 
-  const setLeague = (league: LeagueType) => {
-    setFilters(prev => ({ ...prev, league, tab: league }));
+  const setLeague = (newLeague: LeagueType) => {
+    setFilters(prev => {
+      // 1. First, get the last used filter for the new league
+      const lastUsedFilter = leagueFilters[newLeague] || 'all';
+      
+      // 2. Determine the new secondary filter
+      let newSecondaryFilter: SecondaryFilterType;
+      
+      if (prev.league === newLeague) {
+        // If not actually changing leagues, keep current filter
+        newSecondaryFilter = prev.secondaryFilter;
+      } else {
+        // Otherwise use the last used filter for the new league
+        newSecondaryFilter = lastUsedFilter;
+      }
+      
+      // 3. Save the current filter for the current league
+      setLeagueFilters(prevFilters => ({
+        ...prevFilters,
+        [prev.league]: prev.secondaryFilter,
+        [newLeague]: newSecondaryFilter
+      }));
+      
+      // 4. Return the new filter state
+      return {
+        ...prev,
+        league: newLeague,
+        secondaryFilter: newSecondaryFilter
+      };
+    });
   };
 
   const setSecondaryFilter = (secondaryFilter: SecondaryFilterType) => {
-    setFilters(prev => ({ ...prev, secondaryFilter }));
+    setFilters(prev => {
+      // Save this filter as the last used for the current league
+      setLeagueFilters(prevFilters => ({
+        ...prevFilters,
+        [prev.league]: secondaryFilter
+      }));
+      
+      return { ...prev, secondaryFilter };
+    });
   };
 
   const setSearch = (search: string) => {

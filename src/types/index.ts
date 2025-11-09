@@ -143,12 +143,11 @@ export interface ESPNCompetitor {
 }
 
 export type ViewType = 'default' | 'compact' | 'detailed';
-export type TabType = 'ncaa' | 'nfl' | 'both' | 'favorites';
 export type LeagueType = 'ncaa' | 'nfl' | 'both';
 export type SecondaryFilterType = 'all' | 'favorites' | 'live' | 'future' | 'ranked' | 
   'sec' | 'big10' | 'acc' | 'big12' | 'pac12' | 
   'afc_east' | 'afc_north' | 'afc_south' | 'afc_west' |
-  'nfc_east' | 'nfc_north' | 'nfc_south' | 'nfc_west' | 'redzone';
+  'nfc_east' | 'nfc_north' | 'nfc_south' | 'nfc_west';
 
 export interface GameFilters {
   league: LeagueType;
