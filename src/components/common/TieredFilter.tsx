@@ -21,15 +21,6 @@ export const TieredFilter: React.FC<TieredFilterProps> = ({
   const handleLeagueChange = (value: string) => {
     const newLeague = value as LeagueType;
     onLeagueChange(newLeague);
-    
-    const newSecondaryOptions = getSecondaryFilterOptions(newLeague);
-    const isCurrentFilterAvailable = newSecondaryOptions.some(
-      option => option.value === secondaryFilter
-    );
-    
-    if (!isCurrentFilterAvailable) {
-      onSecondaryFilterChange('all');
-    }
   };
 
   const handleSecondaryFilterChange = (value: string) => {

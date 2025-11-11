@@ -26,93 +26,127 @@ const defaultFilters: GameFilters = {
 
 export const useGameFilters = (games: Game[], favoriteTeams: string[] = []): UseGameFiltersReturn => {
   // Track the last used filter for each league
-  const [leagueFilters, setLeagueFilters] = useLocalStorage<LeagueFilters>('leagueFilters', {
+  const [_leagueFilters, setLeagueFilters] = useLocalStorage<LeagueFilters>('leagueFilters', {
     ncaa: 'all',
     nfl: 'all',
     both: 'all'
   });
-  
+
   const [filters, setFilters] = useLocalStorage<GameFilters>('gameFilters', defaultFilters);
+
+  // Helper function to check if a filter is valid for the current league
+  const isValidFilterForLeague = (filter: string, league: LeagueType): boolean => {
+    // Universal filters are always valid
+    const universalFilters = ['all', 'favorites', 'live', 'future'];
+    if (universalFilters.includes(filter)) return true;
+    
+    // Check NCAA-specific filters
+    if (league === 'ncaa') {
+      const ncaaFilters = ['ranked', 'acc', 'big10', 'big12', 'sec'];
+      return ncaaFilters.includes(filter);
+    }
+    
+    // Check NFL-specific filters
+    if (league === 'nfl') {
+      const nflFilters = [
+        'afc_east', 'afc_north', 'afc_south', 'afc_west',
+        'nfc_east', 'nfc_north', 'nfc_south', 'nfc_west'
+      ];
+      return nflFilters.includes(filter);
+    }
+    
+    // For 'both' league, only universal filters are valid
+    return universalFilters.includes(filter);
+  };
 
   const filteredGames = useMemo(() => {
     let filtered = [...games];
-    
+
     // Ensure filters is defined
     if (!filters) {
       return filtered;
     }
 
+    // Get the current league and filter
+    const currentLeague = filters.league;
+    const currentFilter = filters.secondaryFilter;
+
+    // If the current filter isn't valid for the current league, don't apply any secondary filtering
+    const shouldApplyFilter = isValidFilterForLeague(currentFilter, currentLeague);
+    
     // Filter by league (first tier)
-    if (filters.league === 'ncaa') {
+    if (currentLeague === 'ncaa') {
       filtered = filtered.filter(game => !game.isNfl);
-    } else if (filters.league === 'nfl') {
+    } else if (currentLeague === 'nfl') {
       filtered = filtered.filter(game => game.isNfl);
     }
 
-    // Filter by secondary filter (second tier)
-    switch (filters.secondaryFilter) {
-      case 'favorites':
-        filtered = filtered.filter(game => {
-          const homeCompositeId = `${game.isNfl ? 'NFL' : 'NCAA'}:${game.home.id}`;
-          const awayCompositeId = `${game.isNfl ? 'NFL' : 'NCAA'}:${game.away.id}`;
-          return favoriteTeams.includes(homeCompositeId) || favoriteTeams.includes(awayCompositeId);
-        });
-        break;
-      
-      case 'live':
-        filtered = filtered.filter(game => game.live === 'live');
-        break;
-      
-      case 'future':
-        filtered = filtered.filter(game => game.live === 'upcoming');
-        break;
-      
-      case 'ranked':
-        filtered = filtered.filter(game => 
-          !game.isNfl && (game.away.rank || game.home.rank)
-        );
-        break;
-      
-      // Conference filters for college
-      case 'sec':
-      case 'big10':
-      case 'acc':
-      case 'big12':
-      case 'pac12':
-        filtered = filtered.filter(game => 
-          !game.isNfl && (
-            game.home.conference === filters.secondaryFilter || 
-            game.away.conference === filters.secondaryFilter
-          )
-        );
-        break;
-      
-      // Division filters for NFL
-      case 'afc_east':
-      case 'afc_north':
-      case 'afc_south':
-      case 'afc_west':
-      case 'nfc_east':
-      case 'nfc_north':
-      case 'nfc_south':
-      case 'nfc_west':
-        filtered = filtered.filter(game => 
-          game.isNfl && (
-            getNflDivision(game.home.id) === filters.secondaryFilter || 
-            getNflDivision(game.away.id) === filters.secondaryFilter
-          )
-        );
-        break;
-      case 'all':
-      default:
-        break;
+    // Only apply secondary filter if it's valid for the current league
+    if (shouldApplyFilter) {
+      switch (currentFilter) {
+        case 'favorites':
+          filtered = filtered.filter(game => {
+            const homeCompositeId = `${game.isNfl ? 'NFL' : 'NCAA'}:${game.home.id}`;
+            const awayCompositeId = `${game.isNfl ? 'NFL' : 'NCAA'}:${game.away.id}`;
+            return favoriteTeams.includes(homeCompositeId) || favoriteTeams.includes(awayCompositeId);
+          });
+          break;
+
+        case 'live':
+          filtered = filtered.filter(game => game.live === 'live');
+          break;
+
+        case 'future':
+          filtered = filtered.filter(game => game.live === 'upcoming');
+          break;
+
+        case 'ranked':
+          filtered = filtered.filter(game =>
+            !game.isNfl && (game.away.rank || game.home.rank)
+          );
+          break;
+
+        // Conference filters for college
+        case 'sec':
+        case 'big10':
+        case 'acc':
+        case 'big12':
+        case 'pac12':
+          filtered = filtered.filter(game =>
+            !game.isNfl && (
+              game.home.conference === currentFilter ||
+              game.away.conference === currentFilter
+            )
+          );
+          break;
+
+        // Division filters for NFL
+        case 'afc_east':
+        case 'afc_north':
+        case 'afc_south':
+        case 'afc_west':
+        case 'nfc_east':
+        case 'nfc_north':
+        case 'nfc_south':
+        case 'nfc_west':
+          filtered = filtered.filter(game =>
+            game.isNfl && (
+              getNflDivision(game.home.id) === currentFilter ||
+              getNflDivision(game.away.id) === currentFilter
+            )
+          );
+          break;
+        case 'all':
+        default:
+          break;
+      }
     }
 
     // Filter by search
     if (filters.search && filters.search.trim()) {
       const searchTerm = filters.search.toLowerCase().replace(/\s/g, '');
-      filtered = filtered.filter(game => 
-        (game.away.searchName && game.away.searchName.includes(searchTerm)) || 
+      filtered = filtered.filter(game =>
+        (game.away.searchName && game.away.searchName.includes(searchTerm)) ||
         (game.home.searchName && game.home.searchName.includes(searchTerm)) ||
         (game.away.name && game.away.name.toLowerCase().includes(searchTerm)) ||
         (game.home.name && game.home.name.toLowerCase().includes(searchTerm))
@@ -123,46 +157,42 @@ export const useGameFilters = (games: Game[], favoriteTeams: string[] = []): Use
   }, [games, filters, favoriteTeams]);
 
   const setLeague = (newLeague: LeagueType) => {
-    setFilters(prev => {
-      // 1. First, get the last used filter for the new league
-      const lastUsedFilter = leagueFilters[newLeague] || 'all';
-      
-      // 2. Determine the new secondary filter
-      let newSecondaryFilter: SecondaryFilterType;
-      
-      if (prev.league === newLeague) {
-        // If not actually changing leagues, keep current filter
-        newSecondaryFilter = prev.secondaryFilter;
-      } else {
-        // Otherwise use the last used filter for the new league
-        newSecondaryFilter = lastUsedFilter;
-      }
-      
-      // 3. Save the current filter for the current league
-      setLeagueFilters(prevFilters => ({
-        ...prevFilters,
-        [prev.league]: prev.secondaryFilter,
-        [newLeague]: newSecondaryFilter
-      }));
-      
-      // 4. Return the new filter state
-      return {
-        ...prev,
-        league: newLeague,
-        secondaryFilter: newSecondaryFilter
-      };
+    // First, save the current filter for the current league
+    const currentLeague = filters.league;
+    const currentFilter = filters.secondaryFilter;
+    
+    const updatedLeagueFilters = {
+      ..._leagueFilters,
+      [currentLeague]: currentFilter
+    };
+    
+    // Update the league filters storage
+    setLeagueFilters(updatedLeagueFilters);
+    
+    // Get the last used filter for the new league
+    const lastUsedFilter = updatedLeagueFilters[newLeague] || 'all';
+    
+    // Update the filters with the new league and its last used filter
+    setFilters({
+      ...filters,
+      league: newLeague,
+      secondaryFilter: lastUsedFilter
     });
   };
-
   const setSecondaryFilter = (secondaryFilter: SecondaryFilterType) => {
-    setFilters(prev => {
-      // Save this filter as the last used for the current league
-      setLeagueFilters(prevFilters => ({
-        ...prevFilters,
-        [prev.league]: secondaryFilter
-      }));
-      
-      return { ...prev, secondaryFilter };
+    // Save this filter as the last used for the current league
+    const updatedLeagueFilters = {
+      ..._leagueFilters,
+      [filters.league]: secondaryFilter
+    };
+    
+    // Update the league filters storage
+    setLeagueFilters(updatedLeagueFilters);
+    
+    // Update the current filters
+    setFilters({
+      ...filters,
+      secondaryFilter
     });
   };
 
