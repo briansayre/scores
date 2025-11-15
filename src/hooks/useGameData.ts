@@ -51,19 +51,19 @@ export const useGameData = (
         }
       });
 
-      // Parse extra games
-      extraGames.forEach(event => {
-        const game = GameParser.parseGame(event, false);
-        if (game) {
-          // Check if game already exists to avoid duplicates
-          const exists = parsedGames.some(existingGame => existingGame.id === game.id);
-          if (!exists) {
-            parsedGames.push(game);
-          }
-        } else {
-          failedCount++;
-        }
-      });
+      // // Parse extra games
+      // extraGames.forEach(event => {
+      //   const game = GameParser.parseGame(event, false);
+      //   if (game) {
+      //     // Check if game already exists to avoid duplicates
+      //     const exists = parsedGames.some(existingGame => existingGame.id === game.id);
+      //     if (!exists) {
+      //       parsedGames.push(game);
+      //     }
+      //   } else {
+      //     failedCount++;
+      //   }
+      // });
 
       // Sort games by date
       parsedGames.sort((a, b) => a.date.getTime() - b.date.getTime());
